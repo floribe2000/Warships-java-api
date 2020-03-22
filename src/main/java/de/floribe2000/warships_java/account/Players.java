@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class Players implements RequestAction<Players> {
 
     private String status;
