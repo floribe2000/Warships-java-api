@@ -1,0 +1,8 @@
+/target/
+/bin/
+/out/
+/.idea/
+*.db
+*.iml
+/src/test/
+*.keep
