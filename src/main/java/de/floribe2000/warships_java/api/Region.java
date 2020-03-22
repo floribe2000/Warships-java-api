@@ -1,4 +1,4 @@
-package api;
+package de.floribe2000.warships_java.api;
 
 public enum Region {
 
