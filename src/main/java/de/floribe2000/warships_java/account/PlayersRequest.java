@@ -9,11 +9,10 @@ import lombok.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 public class PlayersRequest implements RequestAction<Players>, AccountRequest {
 
     @NonNull
@@ -22,16 +21,16 @@ public class PlayersRequest implements RequestAction<Players>, AccountRequest {
     @NonNull
     private String searchText;
 
-    private Set<ResponseField> fields = null;
+    private Set<ResponseField> fields;
 
-    @NonNull
-    public PlayersRequest setResponseField(ResponseField... fields) {
-        if (this.fields == null) {
-            this.fields = new HashSet<>();
-        }
-        this.fields.addAll(Arrays.asList(fields));
-        return this;
-    }
+//    @NonNull
+//    public PlayersRequest setResponseField(ResponseField... fields) {
+//        if (this.fields == null) {
+//            this.fields = new HashSet<>();
+//        }
+//        this.fields.addAll(Arrays.asList(fields));
+//        return this;
+//    }
 
     //TODO
     @Override
@@ -59,6 +58,16 @@ public class PlayersRequest implements RequestAction<Players>, AccountRequest {
         @Override
         public String retrieveKey() {
             return key;
+        }
+    }
+
+    public static class PlayersRequestBuilder {
+        public PlayersRequestBuilder addField(ResponseField field) {
+            if (fields == null) {
+                fields = new HashSet<>();
+            }
+            fields.add(field);
+            return this;
         }
     }
 

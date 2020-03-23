@@ -4,10 +4,12 @@ import de.floribe2000.warships_java.api.Region;
 
 import java.util.List;
 
+@Deprecated
 public final class AccountRequestBuilder {
 
     public static PlayersRequest playersRequest(Region region, String searchText) {
-        return new PlayersRequest(region, searchText);
+        //return new PlayersRequest(region, searchText);
+        return null;
     }
 
     public static PlayersPersonalDataFullRequest playersPersonalDataFullRequest(Region region, String accountId) {
