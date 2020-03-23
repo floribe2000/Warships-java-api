@@ -61,7 +61,7 @@ public class PlayersRequest implements RequestAction<Players> {
     }
 
     @AllArgsConstructor
-    enum ResponseField {
+    public enum ResponseField {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
 
