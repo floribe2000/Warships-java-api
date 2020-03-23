@@ -1,0 +1,46 @@
+Ziel: modular zusammensetzbare API-Requests
+
+1. API-Instanz bauen
+* ApiBuilder.createInstance(String applicationId): Api
+--> erzeugt eine API-Instanz mit der Application-ID vom WG-Development-Portal
+--> Theoretisch nur einmal notwending, kann als globale Instanz überall verwendet werden, da Application-ID sich nicht im Betrieb ändert
+
+2. Request bauen und Request ausführen
+* Beispiel player stats overall (implizit RANDOM)
+* Api.ofRegion(Region.EU).ofPlayer(accountId).fetch(): PlayersPersonalData
+--> https://api.worldofwarships.eu/wows/account/info/?application_id=####&account_id=####
+
+* Beispiel player stats COOP
+* Api.ofRegion(Region.EU).ofPlayer(accountId).ofGameMode(GameMode.COOP).fetch(): PlayersPersonalData
+--> https://api.worldofwarships.eu/wows/account/info/?application_id=####&account_id=####&fields=-statistics.pvp&extra=statistics.pve#
+--> implizierter GameMode RANDOM/pvp per fields exkludieren
+
+* Beispiel player stats kombiniert
+* Api.ofRegion(Region.EU).ofPlayer(accountId).ofGameModes(GameMode.COOP, GameMode.RANDOM).fetch(): PlayersPersonalData
+--> https://api.worldofwarships.eu/wows/account/info/?application_id=####&account_id=####&extra=statistics.pve
+--> implizierter GameMode RANDOM/pvp ist automatisch im Request enthalten
+
+* Beispiel ship stats overall (implizit RANDOM)
+* Api.ofRegion(Region.EU).ofPlayer(accountId).ofShips(shipId1, shipId2).fetch(): PlayersShipStats
+--> https://api.worldofwarships.eu/wows/ships/stats/?application_id=####&account_id=####&ship_id=####+####
+--> mehrere Schiffe können kombiniert werden, indem man ihre IDs mit + verkettet angibt
+
+
+
+ofRegion(Region region) bestimmt benutze BaseURL
+--> darf nur einmal im Request benutzt werden, alles andere wäre inkonsistent
+--> ggf zwingend als erster Teil eines Requests?
+
+ofPlayer(long accountId) bestimmt Parameter account_id=####
+--> keine Requests mit mehr als einem Spieler erlaubt, zumindest nicht in players stats und ship stats
+
+ofShip(long shipId) bestimmt Paramter ship_id=####
+--> denkbar wäre auch ofShips(long.. shipIds) oder eine mehrmalige Benutzung von ofShip(long shipId) führt automatisch zu einem verketteten Request (interne Speicherung als LinkedList)
+--> Ships als Enum wäre wahrscheinlich zu viel des Guten, aber auch benutzerfreundlicher, da man nicht selbst die IDs holen muss
+
+ofGameMode(GameMode mode) bestimmt Parameter extra=####
+--> Achtung, in player stats heißt es "statistics.rank_solo", in ship stats nur "rank_solo"
+--> Achtung, RANDOM/pvp overall ist implizit, wenn also dieser GameMode nicht explizit angegeben ist muss "&fields=-statistics.pvp" bzw "&fields=-pvp" angehängt werden, da der Request sonst nicht angefragte Daten enthält
+--> denkbar wäre auch ofGameModes(GameMode.. modes), siehe ofShips(long.. shipIds)
+
+--> Pfad (wows/ships/stats/ bzw wows/account/info) muss erschlossen werden, je nach dem welche Parameter vorhanden sind
