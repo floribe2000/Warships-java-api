@@ -74,7 +74,6 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
 
     @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
-    public enum ExtraField {
         PVP("statistics.pvp"), // as standard in each stats related request, unless you exclude it via "&fields=-statistics.pvp"
         PVP_SOLO("statistics.pvp_solo"),
         PVP_DIV2("statistics.pvp_div2"),
