@@ -1,28 +1,38 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPersonalDataFull>, AccountRequest {
 
     @NonNull
     private Region region;
 
     @NonNull
-    private String accountId;
+    private Set<String> accountId;
 
     private Set<ExtraField> extraFields = null;
+
+    PlayersPersonalDataFullRequest(Region region, Set<String> accountId) {
+        this.region = region;
+        if (accountId.size() <= 100) {
+            this.accountId = accountId;
+        } else {
+            throw new IllegalArgumentException("The list of account ids must not contain more than 100 IDs");
+        }
+    }
+
+    PlayersPersonalDataFullRequest(Region region, String accountId) {
+        this.region = region;
+        this.accountId = new HashSet<>();
+        this.accountId.add(accountId);
+    }
 
     public PlayersPersonalDataFullRequest addExtraField(ExtraField... fields) {
         if (extraFields == null) {
@@ -32,12 +42,27 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
         return this;
     }
 
+    public PlayersPersonalDataFullRequest addAccountId(String accountId) {
+        if (this.accountId.size() < 100) {
+            this.accountId.add(accountId);
+        } else {
+            //TODO Logging
+        }
+        return this;
+    }
+
     @Override
     public PlayersPersonalDataFull fetch() {
         String path = "/wows/account/info/";
+        StringBuilder accounts = new StringBuilder();
+        String prefix = "";
+        for (String str : accountId) {
+            accounts.append(prefix).append(str);
+            prefix = ",";
+        }
         PlayersPersonalDataFull result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam()
-                + "&account_id=" + accountId + buildFieldString("extra", extraFields)).openStream()))) {
+                + "&account_id=" + accounts.toString() + buildFieldString("extra", extraFields)).openStream()))) {
             result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
         } catch (Exception e) {
             //TODO exception handling
