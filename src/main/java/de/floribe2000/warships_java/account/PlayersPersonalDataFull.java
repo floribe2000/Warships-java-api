@@ -65,11 +65,13 @@ public class PlayersPersonalDataFull {
 
             private ModeStats pve_div2 = null;
 
-            private ModeStats pve_dib3 = null;
+            private ModeStats pve_div3 = null;
 
             private ModeStats rank_solo = null;
 
             private ModeStats rank_div2 = null;
+
+            private ModeStats rank_div3 = null;
 
             /**
              * The player's pvp statistics

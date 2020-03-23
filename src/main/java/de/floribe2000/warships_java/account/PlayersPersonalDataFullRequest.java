@@ -1,8 +1,7 @@
 package de.floribe2000.warships_java.account;
 
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.api.RequestAction;
+import de.floribe2000.warships_java.api.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor
-public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPersonalDataFull> {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPersonalDataFull>, AccountRequest {
 
     @NonNull
     private Region region;
@@ -36,21 +35,12 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
     @Override
     public PlayersPersonalDataFull fetch() {
         String path = "/wows/account/info/";
-        StringBuilder url = new StringBuilder(region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&account_id=" + accountId);
-        if (extraFields != null && extraFields.size() > 0) {
-            url.append("&extra=");
-            String prefix = "";
-            for (ExtraField field : extraFields) {
-                url.append(prefix);
-                url.append(field.key);
-                prefix = ",";
-            }
-        }
         PlayersPersonalDataFull result;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url.toString()).openStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam()
+                + "&account_id=" + accountId + buildFieldString("extra", extraFields)).openStream()))) {
             result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
         } catch (Exception e) {
-            //TODO
+            //TODO exception handling
             e.printStackTrace();
             throw new IllegalStateException("Error while processing request");
         }
@@ -58,7 +48,7 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
     }
 
     @AllArgsConstructor
-    public enum ExtraField {
+    public enum ExtraField implements IResponseFields {
         PVP_DIV2("statistics.pvp_div2"),
         PVP_DIV3("statistics.pvp_div3"),
         PVE("statistics.pve"),
@@ -69,6 +59,11 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
         RANK_DIV3("statistics.rank_div3");
 
         private String key;
+
+        @Override
+        public String retrieveKey() {
+            return key;
+        }
     }
 
 

@@ -1,12 +1,10 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.ApiBuilder;
+import de.floribe2000.warships_java.api.IResponseFields;
 import de.floribe2000.warships_java.api.Region;
 import de.floribe2000.warships_java.api.RequestAction;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,8 +13,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor
-public class PlayersRequest implements RequestAction<Players> {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class PlayersRequest implements RequestAction<Players>, AccountRequest {
 
     @NonNull
     private Region region;
@@ -39,17 +37,7 @@ public class PlayersRequest implements RequestAction<Players> {
     @Override
     public Players fetch() {
         String path = "/wows/account/list/";
-        StringBuilder fieldStr = new StringBuilder();
-        if (fields != null && fields.size() > 0) {
-            fieldStr.append("&fields=");
-            String prefix = "";
-            for (ResponseField field : fields) {
-                fieldStr.append(prefix);
-                fieldStr.append(field.getName());
-                prefix = ",";
-            }
-        }
-        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&search=" + searchText + fieldStr.toString();
+        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&search=" + searchText + buildFieldString("fields", fields);
         Players result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, Players.class);
@@ -61,13 +49,17 @@ public class PlayersRequest implements RequestAction<Players> {
     }
 
     @AllArgsConstructor
-    public enum ResponseField {
+    public enum ResponseField implements IResponseFields {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
 
         @NonNull
-        @Getter
-        private String name;
+        private String key;
+
+        @Override
+        public String retrieveKey() {
+            return key;
+        }
     }
 
 }

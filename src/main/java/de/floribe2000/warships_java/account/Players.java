@@ -34,7 +34,7 @@ public class Players {
      * A class that represents a single player element from the api response.
      */
     @Getter
-    public class PlayerElement {
+    public static class PlayerElement {
         /**
          * The nickname of the player
          */
