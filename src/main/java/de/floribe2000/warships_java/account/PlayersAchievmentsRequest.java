@@ -4,15 +4,29 @@ import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
 import de.floribe2000.warships_java.api.RequestAction;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class PlayersAchievmentsRequest implements RequestAction<PlayersAchievments>, AccountRequest {
+/**
+ * A class to create and execute requests to retrieve details about players' achievements.
+ * <p>Up to 100 players can be added to the request, the result of the request can be retrieved as an instance of {@link PlayersAchievments}.</p>
+ *
+ * @author floribe2000
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class PlayersAchievmentsRequest implements RequestAction<PlayersAchievments>, AccountRequest<PlayersAchievmentsRequest> {
+
+    /**
+     * A Logger instance used to log events of this class
+     */
+    private final Logger LOG = LoggerFactory.getLogger(getClass().getSimpleName());
 
     /**
      * The server region for this request
@@ -24,21 +38,76 @@ public class PlayersAchievmentsRequest implements RequestAction<PlayersAchievmen
      * The account id of the player
      */
     @NonNull
-    private List<String> accountId;
+    private Set<Integer> accountIds = new HashSet<>();
 
-    PlayersAchievmentsRequest(Region region, String accountId) {
-        this.region = region;
-        this.accountId = new ArrayList<>();
-        this.accountId.add(accountId);
+    /**
+     * Creates a new empty request of this class.
+     *
+     * @return an instance of this class
+     */
+    public static PlayersAchievmentsRequest createRequest() {
+        return new PlayersAchievmentsRequest();
     }
 
     @Override
+    public PlayersAchievmentsRequest region(Region region) {
+        this.region = region;
+        return this;
+    }
+
+    /**
+     * Sets the list of account ids.
+     * <p>Warning: the existing ids are replaced!</p>
+     *
+     * @param accountIds the ids that should be added
+     * @return the instance of this request
+     * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
+     */
+    public PlayersAchievmentsRequest accountIds(Collection<Integer> accountIds) {
+        if (accountIds.size() > 100) {
+            throw new IllegalArgumentException("The size of the provided collection of ids exceeds the limit of 100 ids");
+        }
+        this.accountIds = new HashSet<>(accountIds);
+        return this;
+    }
+
+    /**
+     * Adds an account id to the list of account ids.
+     * <p>Existing ids won't be changed!
+     * If the limit is reached, the id won't be added to the request and a logging call is triggered.</p>
+     *
+     * @param id the id to add
+     * @return the instance of this request
+     */
+    public PlayersAchievmentsRequest accountId(int id) {
+        if (accountIds.size() < 100) {
+            accountIds.add(id);
+        } else {
+            LOG.warn("Skipping account id addition. Reason: Limit reached (Limit: 100)");
+        }
+        return this;
+    }
+
+    /**
+     * Executes a request and returns the result of the request.
+     * <p>All requests are executed synchronous on this thread. It is safe to execute this in a new thread if it is required to be run asynchronous.</p>
+     *
+     * @return an instance of {@link PlayersAchievments} that contains all requested player data. If the request fails, an empty instance is returned.
+     * @throws IllegalArgumentException <ul>
+     *                                  <li>If this method is called and region is null.</li>
+     *                                  <li>If this method is called and accountIds is empty.</li>
+     *                                  </ul>
+     */
+    @Override
     public PlayersAchievments fetch() {
+        if (region == null || accountIds.size() == 0) {
+            throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
+        }
         String path = "/wows/account/achievements/";
         StringBuilder ids = new StringBuilder();
         String prefix = "";
-        for (String str : accountId) {
-            ids.append(prefix).append(str);
+        for (int id : accountIds) {
+            ids.append(prefix).append(id);
             prefix = ",";
         }
         String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&account_id=" + ids.toString();
@@ -46,9 +115,8 @@ public class PlayersAchievmentsRequest implements RequestAction<PlayersAchievmen
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersAchievments.class);
         } catch (Exception e) {
-            //TODO exception handling
-            e.printStackTrace();
-            result = null;
+            LOG.error("An exception occured", e);
+            result = new PlayersAchievments();
         }
         return result;
     }
