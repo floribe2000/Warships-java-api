@@ -74,14 +74,21 @@ public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPers
 
     @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
+    public enum ExtraField {
+        PVP("statistics.pvp"), // as standard in each stats related request, unless you exclude it via "&fields=-statistics.pvp"
+        PVP_SOLO("statistics.pvp_solo"),
         PVP_DIV2("statistics.pvp_div2"),
         PVP_DIV3("statistics.pvp_div3"),
         PVE("statistics.pve"),
+        PVE_SOLO("statistics.pve_solo"),
         PVE_DIV2("statistics.pve_div2"),
         PVE_DIV3("statistics.pve_div3"),
         RANK_SOLO("statistics.rank_solo"),
         RANK_DIV2("statistics.rank_div2"),
-        RANK_DIV3("statistics.rank_div3");
+        RANK_DIV3("statistics.rank_div3"),
+        OPER_SOLO("statistics.oper_solo"),
+        OPER_DIV("statistics.oper_div"),
+        OPER_DIV_HARD("statistics.oper_div_hard");
 
         private String key;
 
