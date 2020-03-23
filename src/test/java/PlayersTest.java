@@ -14,9 +14,8 @@ public class PlayersTest {
     public void testPlayersRequest() {
         //TODO
         ApiBuilder.createInstance(apiKey, true);
-        PlayersRequest request = PlayersRequest.builder().region(Region.EU).searchText("floribe").build();
+        PlayersRequest request = PlayersRequest.createRequest().region(Region.EU).searchText("floribe");
         System.out.println(request.fetch());
-        System.out.println(request.toBuilder().region(Region.NA).build().fetch());
         //System.out.println(AccountRequestBuilder.playersRequest(Region.EU, "floribe").fetch());
 
     }
