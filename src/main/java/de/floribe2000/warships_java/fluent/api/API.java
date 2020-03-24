@@ -7,7 +7,7 @@ public class API {
 	/**
 	 * Non-static applicationId to support parallel requests using multiple applicationIds
 	 */
-	String applicationId;
+	protected String applicationId;
 
 	public API(String applicationId) {
 		super();

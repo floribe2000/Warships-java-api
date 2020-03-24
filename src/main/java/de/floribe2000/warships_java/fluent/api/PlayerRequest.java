@@ -4,6 +4,7 @@ import de.floribe2000.warships_java.fluent.api.selectors.ExtraSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.FieldsSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.GameModeSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.LanguageSelectable;
+import de.floribe2000.warships_java.fluent.api.selectors.PlayerSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.ShipSelectable;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 public class PlayerRequest implements Request, LanguageSelectable<PlayerRequest>,
 	FieldsSelectable<PlayerRequest>, ExtraSelectable<PlayerRequest>,
 	GameModeSelectable<PlayerRequest>, ShipSelectable<PlayersShipsRequest>,
-	Queryable<String> {
+	PlayerSelectable<PlayerRequest>, Queryable<String> {
 
 	protected BaseRequest request;
 	protected long accountId;
@@ -26,6 +27,12 @@ public class PlayerRequest implements Request, LanguageSelectable<PlayerRequest>
 	protected PlayerRequest(BaseRequest request, long accountId) {
 		this.request = request;
 		this.accountId = accountId;
+	}
+
+	@Override
+	public PlayerRequest ofPlayer(long accountId) {
+		this.accountId = accountId;
+		return this;
 	}
 
 	@Override

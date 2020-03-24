@@ -9,8 +9,9 @@ import org.junit.Test;
 
 public class TestExperimentalFluentAPI {
 
-	private static final String APPLICATION_ID = "INSERT YOUR ID";
+	private static final String APPLICATION_ID = "USEYOUROWNID";
 	private static final long ACCOUNT_ID = 540241530L;
+	private static final long OTHER_ACCOUNT_ID = 537376379L;
 	private static final long SHIP_ID = 3762239184L;
 	private static API api;
 
@@ -89,6 +90,29 @@ public class TestExperimentalFluentAPI {
 		playersShipsRequest = playersShipsStats.query();
 		System.out.println(playersShipsRequest);
 		input = new URL(playersShipsRequest).openStream();
+		while ((i = input.read()) != -1) {
+			System.out.print((char) i);
+		}
+		System.out.println();
+	}
+
+	@Test
+	public void testSwappingAccountId() throws IOException {
+		System.out.println("Testing swapping accountId");
+		PlayerRequest stats = api.ofRegion(Region.EU).ofPlayer(ACCOUNT_ID);
+		String request = stats.query();
+		System.out.println(request);
+		InputStream input = new URL(request).openStream();
+		int i;
+		while ((i = input.read()) != -1) {
+			System.out.print((char) i);
+		}
+		System.out.println();
+
+		stats = stats.ofPlayer(OTHER_ACCOUNT_ID);
+		request = stats.query();
+		System.out.println(request);
+		input = new URL(request).openStream();
 		while ((i = input.read()) != -1) {
 			System.out.print((char) i);
 		}

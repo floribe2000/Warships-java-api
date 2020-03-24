@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.fluent.api.selectors.ExtraSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.FieldsSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.GameModeSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.LanguageSelectable;
+import de.floribe2000.warships_java.fluent.api.selectors.PlayerSelectable;
 import de.floribe2000.warships_java.fluent.api.selectors.ShipSelectable;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 public class PlayersShipsRequest implements Request, LanguageSelectable<PlayersShipsRequest>,
 	FieldsSelectable<PlayersShipsRequest>, ExtraSelectable<PlayersShipsRequest>,
 	GameModeSelectable<PlayersShipsRequest>, ShipSelectable<PlayersShipsRequest>,
-	ClearableShipSelectable<PlayerRequest>, Queryable<String> {
+	ClearableShipSelectable<PlayerRequest>, PlayerSelectable<PlayersShipsRequest>,
+	Queryable<String> {
 
 	protected Set<Long> shipIds = new HashSet<>();
 	protected PlayerRequest parent;
@@ -33,6 +35,12 @@ public class PlayersShipsRequest implements Request, LanguageSelectable<PlayersS
 	protected PlayersShipsRequest(PlayerRequest parent, Collection<Long> shipIds) {
 		this.shipIds.addAll(shipIds);
 		this.parent = parent;
+	}
+
+	@Override
+	public PlayersShipsRequest ofPlayer(long accountId) {
+		parent.accountId = accountId;
+		return this;
 	}
 
 	@Override
