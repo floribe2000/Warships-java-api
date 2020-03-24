@@ -1,12 +1,15 @@
 package de.floribe2000.warships_java.account;
 
-import de.floribe2000.warships_java.api.IRequestAction;
-import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.api.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +18,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStatisticsByDate>, IAccountRequest<PlayerStatisticsByDateRequest> {
@@ -33,9 +37,16 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
      */
     private Region region = null;
 
+    /**
+     * The language for the api response
+     */
+    private Language language = null;
+
     private int accountId = 0;
 
     private List<String> dates = new ArrayList<>();
+
+    private ExtraField extra = null;
 
     public PlayerStatisticsByDateRequest createRequest() {
         return new PlayerStatisticsByDateRequest();
@@ -44,6 +55,12 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
     @Override
     public PlayerStatisticsByDateRequest region(Region region) {
         this.region = region;
+        return this;
+    }
+
+    @Override
+    public PlayerStatisticsByDateRequest language(Language language) {
+        this.language = language;
         return this;
     }
 
@@ -90,13 +107,27 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
         return this;
     }
 
+    public PlayerStatisticsByDateRequest extra(ExtraField extra) {
+        this.extra = extra;
+        return this;
+    }
+
     @Override
     public PlayersStatisticsByDate fetch() {
         if (region == null || accountId == 0) {
             throw new IllegalArgumentException("Region must not be null and accountId has to be defined.");
         }
         String path = "/wows/account/statsbydate/";
-        return null;
+        String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
+        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates;
+        PlayersStatisticsByDate result;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+            result = GSON.fromJson(reader, PlayersStatisticsByDate.class);
+        } catch (Exception e) {
+            LOG.error("Exception", e);
+            result = new PlayersStatisticsByDate();
+        }
+        return result;
     }
 
     private static boolean validateDate(String date) {
@@ -123,6 +154,18 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
             return true;
         } catch (ParseException e) {
             return false;
+        }
+    }
+
+    @AllArgsConstructor
+    public enum ExtraField implements IResponseFields {
+        PVE("pve");
+
+        private String key;
+
+        @Override
+        public String retrieveKey() {
+            return key;
         }
     }
 }

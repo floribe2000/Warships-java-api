@@ -39,7 +39,7 @@ public class PlayersStatisticsByDate implements IApiResponse {
 
             private int damage_dealt = 0;
 
-            private int battle_type = 0;
+            private String battle_type = null;
 
             private String date = null;
 

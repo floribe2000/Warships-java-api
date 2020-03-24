@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A class to create and execute requests to retrieve personal data for one or more players from the api.
@@ -36,6 +37,11 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
     private Region region = null;
 
     /**
+     * The language for the api response
+     */
+    private Language language = null;
+
+    /**
      * A set of accound ids for the request.
      */
     private Set<Integer> accountIds = new HashSet<>();
@@ -57,6 +63,12 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
     @Override
     public PlayersPersonalDataFullRequest region(Region region) {
         this.region = region;
+        return this;
+    }
+
+    @Override
+    public PlayersPersonalDataFullRequest language(Language language) {
+        this.language = language;
         return this;
     }
 
@@ -136,18 +148,13 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
             throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
         }
         String path = "/wows/account/info/";
-        StringBuilder accounts = new StringBuilder();
-        String prefix = "";
-        for (int id : accountIds) {
-            accounts.append(prefix).append(id);
-            prefix = ",";
-        }
+        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
         PlayersPersonalDataFull result;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam()
-                + "&account_id=" + accounts.toString() + buildFieldString("extra", extraFields)).openStream()))) {
+        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
         } catch (IOException e) {
-            LOG.error("An IOException occured", e);
+            LOG.error("An IOException occurred", e);
             result = new PlayersPersonalDataFull();
         } catch (Exception e2) {
             LOG.error("Unexpected exception detected.", e2);

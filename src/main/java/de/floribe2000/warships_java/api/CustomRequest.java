@@ -24,6 +24,8 @@ public class CustomRequest implements IRequest<CustomRequest> {
 
     private Region region = null;
 
+    private Language language = null;
+
     private String path = null;
 
     private Map<String, Set<CustomField>> fields = new HashMap<>();
@@ -31,6 +33,12 @@ public class CustomRequest implements IRequest<CustomRequest> {
     @Override
     public CustomRequest region(Region region) {
         return null;
+    }
+
+    @Override
+    public CustomRequest language(Language language) {
+        this.language = language;
+        return this;
     }
 
     public CustomRequest addField(CustomField... fields) {

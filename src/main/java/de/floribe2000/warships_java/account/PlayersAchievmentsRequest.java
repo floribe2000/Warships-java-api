@@ -1,8 +1,6 @@
 package de.floribe2000.warships_java.account;
 
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.api.IRequestAction;
+import de.floribe2000.warships_java.api.*;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A class to create and execute requests to retrieve details about players' achievements.
@@ -35,6 +35,11 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
     private Region region;
 
     /**
+     * The language for the api response
+     */
+    private Language language = null;
+
+    /**
      * The account id of the player
      */
     @NonNull
@@ -52,6 +57,12 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
     @Override
     public PlayersAchievmentsRequest region(Region region) {
         this.region = region;
+        return this;
+    }
+
+    @Override
+    public PlayersAchievmentsRequest language(Language language) {
+        this.language = language;
         return this;
     }
 
@@ -104,13 +115,14 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
             throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
         }
         String path = "/wows/account/achievements/";
-        StringBuilder ids = new StringBuilder();
-        String prefix = "";
-        for (int id : accountIds) {
-            ids.append(prefix).append(id);
-            prefix = ",";
-        }
-        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&account_id=" + ids.toString();
+//        StringBuilder ids = new StringBuilder();
+//        String prefix = "";
+//        for (int id : accountIds) {
+//            ids.append(prefix).append(id);
+//            prefix = ",";
+//        }
+        String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + ids;
         PlayersAchievments result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersAchievments.class);

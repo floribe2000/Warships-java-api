@@ -34,6 +34,11 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
     private Region region = null;
 
     /**
+     * The language for the api response
+     */
+    private Language language = null;
+
+    /**
      * The search text for this request
      */
     private String searchText = null;
@@ -55,6 +60,12 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
     @Override
     public PlayersRequest region(Region region) {
         this.region = region;
+        return this;
+    }
+
+    @Override
+    public PlayersRequest language(Language language) {
+
         return this;
     }
 
@@ -113,7 +124,7 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
             throw new IllegalArgumentException("You can't use this method before setting all parameters");
         }
         String path = "/wows/account/list/";
-        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + "&search=" + searchText + buildFieldString("fields", fields);
+        String url = baseUrl(region, path, language) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
         Players result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, Players.class);

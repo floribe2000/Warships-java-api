@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.account;
 
+import de.floribe2000.warships_java.api.IApiResponse;
 import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.common.Meta;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.Map;
  * <p>To use the achievment names in your program, use the {@link PlayersAchievmentsRequest.AchievmentElement AchievmentElement enum}.</p>
  */
 @Getter
-public class PlayersAchievments {
+public class PlayersAchievments implements IApiResponse {
 
     /**
      * The api response status
