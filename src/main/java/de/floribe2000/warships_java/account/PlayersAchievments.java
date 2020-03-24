@@ -48,7 +48,6 @@ public class PlayersAchievments {
          */
         private Progress progress = null;
 
-        //TODO add documentation
         @Getter
         public static class Battle {
 

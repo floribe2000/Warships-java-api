@@ -1,8 +1,12 @@
 package de.floribe2000.warships_java.api;
 
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ApiBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger("ApiBuilder");
 
     /**
      * The current game version for this library
@@ -30,7 +34,7 @@ public class ApiBuilder {
             try {
                 return createInstance(apiKey);
             } catch (Exception e) {
-                //TODO
+                LOG.warn("api key was already set. Ignoring exception", e);
                 return instance;
             }
         } else {
