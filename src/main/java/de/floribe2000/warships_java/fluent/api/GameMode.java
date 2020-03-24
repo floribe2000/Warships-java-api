@@ -23,11 +23,11 @@ public enum GameMode {
 //	RANKED(RANKED_SOLO, RANKED_DIV2, RANKED_DIV3),
 //	OPERATIONS(OPERATIONS_SOLO, OPERATIONS_DIV, OPERATIONS_DIV_HARD);
 
-	private String _requestName;
+	private String requestName;
 //	private Set<GameMode> _merged;
 
 	GameMode(String requestName) {
-		_requestName = requestName;
+		this.requestName = requestName;
 	}
 
 //	GameMode(GameMode... merged) {
@@ -36,7 +36,7 @@ public enum GameMode {
 //	}
 
 	public String getRequestName() {
-		return _requestName;
+		return requestName;
 	}
 
 //	public Set<GameMode> getMerged() {

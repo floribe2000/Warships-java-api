@@ -9,8 +9,9 @@ import org.junit.Test;
 
 public class TestExperimentalFluentAPI {
 
-	private static final String APPLICATION_ID = "2a2db958e4a88d09e0de942d93fbb4d9";
+	private static final String APPLICATION_ID = "INSERT YOUR ID";
 	private static final long ACCOUNT_ID = 540241530L;
+	private static final long SHIP_ID = 3762239184L;
 	private static API api;
 
 	@BeforeClass
@@ -55,6 +56,39 @@ public class TestExperimentalFluentAPI {
 		System.out.println(request);
 		InputStream input = new URL(request).openStream();
 		int i;
+		while ((i = input.read()) != -1) {
+			System.out.print((char) i);
+		}
+		System.out.println();
+	}
+
+	@Test
+	public void testShipsStats() throws IOException {
+		System.out.println("Testing ships stats");
+		BaseRequest eu = api.ofRegion(Region.EU);
+		PlayerRequest playerStats = eu.ofPlayer(ACCOUNT_ID).ofGameModes(GameMode.RANDOM);
+		String playerRequest = playerStats.query();
+		System.out.println(playerRequest);
+		InputStream input = new URL(playerRequest).openStream();
+		int i;
+		while ((i = input.read()) != -1) {
+			System.out.print((char) i);
+		}
+		System.out.println();
+
+		PlayersShipsRequest playersShipsStats = playerStats.ofShip(SHIP_ID);
+		String playersShipsRequest = playersShipsStats.query();
+		System.out.println(playersShipsRequest);
+		input = new URL(playersShipsRequest).openStream();
+		while ((i = input.read()) != -1) {
+			System.out.print((char) i);
+		}
+		System.out.println();
+
+		playersShipsStats = playersShipsStats.clearGameModes().ofGameMode(GameMode.COOP);
+		playersShipsRequest = playersShipsStats.query();
+		System.out.println(playersShipsRequest);
+		input = new URL(playersShipsRequest).openStream();
 		while ((i = input.read()) != -1) {
 			System.out.print((char) i);
 		}
