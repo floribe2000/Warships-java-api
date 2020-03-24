@@ -69,7 +69,7 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
      *
      * @return a new instance of this class
      */
-    public PlayerStatisticsByDateRequest createRequest() {
+    public static PlayerStatisticsByDateRequest createRequest() {
         return new PlayerStatisticsByDateRequest();
     }
 
@@ -194,7 +194,9 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
         }
         String path = "/wows/account/statsbydate/";
         String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates;
+        String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
+        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
+        LOG.debug("Request url: " + url);
         PlayersStatisticsByDate result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersStatisticsByDate.class);

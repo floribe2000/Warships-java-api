@@ -1,3 +1,4 @@
+import de.floribe2000.warships_java.account.PlayerStatisticsByDateRequest;
 import de.floribe2000.warships_java.account.PlayersAchievmentsRequest;
 import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.account.PlayersRequest;
@@ -7,7 +8,7 @@ import org.junit.Test;
 
 public class PlayersTest {
 
-    private String apiKey = "";
+    private String apiKey = "7b87415fc5e325f60f442aa98aa70d91";
 
     @Test
     public void testPlayersRequest() {
@@ -33,6 +34,14 @@ public class PlayersTest {
         ApiBuilder.createInstance(apiKey, true);
         System.out.println(PlayersAchievmentsRequest.createRequest().region(Region.EU).accountId(537376379).fetch());
         System.out.println(PlayersAchievmentsRequest.AchievmentElement.retrieveElement("Solo Warrior"));
+    }
+
+    @Test
+    public void testPlayersStatisticsByDate() {
+        ApiBuilder.createInstance(apiKey, true);
+        System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch());
+        System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
+                .extra(PlayerStatisticsByDateRequest.ExtraField.PVE).fetch());
     }
 
 }
