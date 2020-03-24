@@ -2,6 +2,8 @@ package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.api.Region;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStatisticsByDate>, IAccountRequest<PlayerStatisticsByDateRequest> {
 
     /**
@@ -33,6 +36,10 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
     private int accountId = 0;
 
     private List<String> dates = new ArrayList<>();
+
+    public PlayerStatisticsByDateRequest createRequest() {
+        return new PlayerStatisticsByDateRequest();
+    }
 
     @Override
     public PlayerStatisticsByDateRequest region(Region region) {
