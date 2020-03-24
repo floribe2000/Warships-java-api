@@ -9,7 +9,12 @@ public enum FieldType {
     FIELDS("fields"),
     EXTRA("extra"),
     ACCOUNT_ID("account_id"),
-    DATES("dates");
+    DATES("dates"),
+    PAGE("page_no"),
+    SHIP_ID("ship_id"),
+    SHIP_CLASS("type"),
+    NATION("nation"),
+    LIMIT("limit");
 
     private String key;
 
