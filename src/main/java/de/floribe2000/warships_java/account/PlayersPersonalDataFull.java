@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.account;
 
+import de.floribe2000.warships_java.api.IApiResponse;
 import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.common.Meta;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Contains all available fields for player and player pvp stats.
  */
 @Getter
-public class PlayersPersonalDataFull {
+public class PlayersPersonalDataFull implements IApiResponse {
 
     /**
      * The response status from the api
