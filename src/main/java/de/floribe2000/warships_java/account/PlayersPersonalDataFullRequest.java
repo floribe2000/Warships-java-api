@@ -23,7 +23,7 @@ import java.util.*;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersPersonalDataFullRequest implements RequestAction<PlayersPersonalDataFull>, AccountRequest<PlayersPersonalDataFullRequest> {
+public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPersonalDataFull>, IAccountRequest<PlayersPersonalDataFullRequest> {
 
     /**
      * A Logger instance used to log events of this class

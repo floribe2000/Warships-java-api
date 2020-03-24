@@ -21,7 +21,7 @@ import java.util.Set;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersRequest implements RequestAction<Players>, AccountRequest<PlayersRequest> {
+public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<PlayersRequest> {
 
     /**
      * A Logger instance used to log events of this class

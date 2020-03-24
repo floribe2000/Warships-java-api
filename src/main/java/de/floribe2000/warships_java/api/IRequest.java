@@ -9,7 +9,7 @@ import java.util.Set;
  * @param <R> the request type of the implementation of this interface
  * @author floribe2000
  */
-public interface Request<R> {
+public interface IRequest<R> {
 
     /**
      * A default method that allows to create a string that can be added to the url for an api request from a set of fields.

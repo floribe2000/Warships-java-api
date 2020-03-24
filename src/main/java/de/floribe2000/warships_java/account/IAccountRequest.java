@@ -1,6 +1,6 @@
 package de.floribe2000.warships_java.account;
 
-import de.floribe2000.warships_java.api.Request;
+import de.floribe2000.warships_java.api.IRequest;
 
 /**
  * An interface only to determine the type of a request.
@@ -10,5 +10,5 @@ import de.floribe2000.warships_java.api.Request;
  * @param <R> the request type of the implementation of this interface
  * @author floribe2000
  */
-public interface AccountRequest<R> extends Request<R> {
+public interface IAccountRequest<R> extends IRequest<R> {
 }

@@ -1,6 +1,6 @@
 package de.floribe2000.warships_java.account;
 
-import de.floribe2000.warships_java.api.RequestAction;
+import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.common.Meta;
 import lombok.Getter;
 
@@ -241,6 +241,6 @@ public class PlayersPersonalDataFull {
 
     @Override
     public String toString() {
-        return RequestAction.GSON.toJson(this);
+        return IRequestAction.GSON.toJson(this);
     }
 }

@@ -2,7 +2,7 @@ package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.api.RequestAction;
+import de.floribe2000.warships_java.api.IRequestAction;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.Set;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersAchievmentsRequest implements RequestAction<PlayersAchievments>, AccountRequest<PlayersAchievmentsRequest> {
+public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievments>, IAccountRequest<PlayersAchievmentsRequest> {
 
     /**
      * A Logger instance used to log events of this class
