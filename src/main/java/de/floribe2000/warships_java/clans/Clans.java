@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.clans;
 
 import de.floribe2000.warships_java.api.IApiResponse;
+import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.common.Meta;
 import lombok.Getter;
 
@@ -27,5 +28,10 @@ public class Clans implements IApiResponse {
         private String tag = null;
 
         private String name = null;
+    }
+
+    @Override
+    public String toString() {
+        return IRequestAction.GSON.toJson(this);
     }
 }
