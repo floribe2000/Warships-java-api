@@ -1,5 +1,7 @@
 package de.floribe2000.warships_java.api;
 
+import lombok.NonNull;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,7 @@ public interface IRequest<R> {
      * @param language the response language
      * @return a string that contains the expandable request url
      */
-    default String baseUrl(Region region, String path, Language language) {
+    default String baseUrl(@NonNull Region region, @NonNull String path, Language language) {
         return region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + createLanguageField(language);
     }
 

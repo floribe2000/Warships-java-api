@@ -14,7 +14,8 @@ public enum FieldType {
     SHIP_ID("ship_id"),
     SHIP_CLASS("type"),
     NATION("nation"),
-    LIMIT("limit");
+    LIMIT("limit"),
+    SEARCH("search");
 
     private String key;
 
