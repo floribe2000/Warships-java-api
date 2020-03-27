@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,15 +116,10 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
             throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
         }
         String path = "/wows/account/achievements/";
-//        StringBuilder ids = new StringBuilder();
-//        String prefix = "";
-//        for (int id : accountIds) {
-//            ids.append(prefix).append(id);
-//            prefix = ",";
-//        }
         String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + ids;
         PlayersAchievments result;
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersAchievments.class);
         } catch (Exception e) {

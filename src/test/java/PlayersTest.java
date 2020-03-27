@@ -4,6 +4,7 @@ import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.account.PlayersRequest;
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -52,9 +53,11 @@ public class PlayersTest {
     public void testRateLimiter() {
         int accountId = 537376379;
         ApiBuilder.createInstance(apiKey);
+        SimpleRateLimiter.enable();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
-        ExecutorService service = Executors.newFixedThreadPool(40);
-        for (int i = 0; i < 30; i++) {
+        ExecutorService service = Executors.newCachedThreadPool();
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 40; i++) {
             service.execute(() -> System.out.println(request.fetch()));
         }
         service.shutdown();
@@ -63,6 +66,7 @@ public class PlayersTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println((double) (System.currentTimeMillis() - start) / 1000);
     }
 
 }

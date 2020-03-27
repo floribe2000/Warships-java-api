@@ -4,6 +4,7 @@ import de.floribe2000.warships_java.api.FieldType;
 import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.api.Language;
 import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -110,6 +111,7 @@ public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRe
         String path = "/wows/clans/list/";
         String url = baseUrl(region, path, language) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
         Clans result;
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, Clans.class);
         } catch (Exception e) {

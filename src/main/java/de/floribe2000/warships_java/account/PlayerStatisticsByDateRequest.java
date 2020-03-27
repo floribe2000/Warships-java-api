@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -196,8 +197,8 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
         String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
         String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
-        LOG.debug("Request url: " + url);
         PlayersStatisticsByDate result;
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersStatisticsByDate.class);
         } catch (Exception e) {

@@ -152,8 +152,7 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
         String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
         PlayersPersonalDataFull result;
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
-        //TODO reimplement rate limiter
-        //SimpleRateLimiter.waitForPermit();
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
         } catch (IOException e) {
