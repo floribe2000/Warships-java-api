@@ -4,15 +4,23 @@ import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.account.PlayersRequest;
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
-import org.junit.Test;
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import org.junit.Test;
 
 public class PlayersTest {
 
+    private final Properties PROPERTIES = new Properties();
     private String apiKey = "";
+
+    public PlayersTest() throws IOException {
+        PROPERTIES.load(new FileInputStream("Warships.properties"));
+        apiKey = PROPERTIES.getProperty("APIKEY");
+    }
 
     @Test
     public void testPlayersRequest() {
