@@ -6,6 +6,10 @@ import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
 import org.junit.Test;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class PlayersTest {
 
     private String apiKey = "";
@@ -46,7 +50,19 @@ public class PlayersTest {
 
     @Test
     public void testRateLimiter() {
-
+        int accountId = 537376379;
+        ApiBuilder.createInstance(apiKey);
+        PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
+        ExecutorService service = Executors.newFixedThreadPool(40);
+        for (int i = 0; i < 30; i++) {
+            service.execute(() -> System.out.println(request.fetch()));
+        }
+        service.shutdown();
+        try {
+            service.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
