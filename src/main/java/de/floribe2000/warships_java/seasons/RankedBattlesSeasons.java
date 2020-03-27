@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.seasons;
 
 import de.floribe2000.warships_java.api.IApiResponse;
+import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.common.Meta;
 import java.util.List;
 import java.util.Map;
@@ -104,5 +105,10 @@ public class RankedBattlesSeasons implements IApiResponse {
 			 */
 			private String background;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return IRequestAction.GSON.toJson(this);
 	}
 }
