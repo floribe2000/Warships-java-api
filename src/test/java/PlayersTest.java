@@ -4,7 +4,6 @@ import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.account.PlayersRequest;
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -28,7 +27,7 @@ public class PlayersTest {
     @Test
     public void testPlayerPersonalDataRequest() {
         //TODO
-        ApiBuilder.createInstance(apiKey, true);
+        ApiBuilder.createInstance(apiKey);
         System.out.println(PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(537376379)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.PVE)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.RANK_SOLO).fetch());
@@ -36,14 +35,14 @@ public class PlayersTest {
 
     @Test
     public void testPlayersAchievments() {
-        ApiBuilder.createInstance(apiKey, true);
+        ApiBuilder.createInstance(apiKey);
         System.out.println(PlayersAchievmentsRequest.createRequest().region(Region.EU).accountId(537376379).fetch());
         System.out.println(PlayersAchievmentsRequest.AchievmentElement.retrieveElement("Solo Warrior"));
     }
 
     @Test
     public void testPlayersStatisticsByDate() {
-        ApiBuilder.createInstance(apiKey, true);
+        ApiBuilder.createInstance(apiKey);
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch());
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
                 .extra(PlayerStatisticsByDateRequest.ExtraField.PVE).fetch());
@@ -53,7 +52,6 @@ public class PlayersTest {
     public void testRateLimiter() {
         int accountId = 537376379;
         ApiBuilder.createInstance(apiKey);
-        SimpleRateLimiter.enable();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
         ExecutorService service = Executors.newCachedThreadPool();
         long start = System.currentTimeMillis();
