@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class PlayersTest {
 
-    private String apiKey = "7b87415fc5e325f60f442aa98aa70d91";
+    private String apiKey = "";
 
     @Test
     public void testPlayersRequest() {
@@ -42,6 +42,11 @@ public class PlayersTest {
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch());
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
                 .extra(PlayerStatisticsByDateRequest.ExtraField.PVE).fetch());
+    }
+
+    @Test
+    public void testRateLimiter() {
+
     }
 
 }

@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.clans;
 
 import de.floribe2000.warships_java.api.*;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -130,6 +131,7 @@ public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanReq
         String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
         String url = baseUrl(region, path, language) + FieldType.CLAN + clans + extra;
         ClanDetails result;
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, ClanDetails.class);
         } catch (Exception e) {

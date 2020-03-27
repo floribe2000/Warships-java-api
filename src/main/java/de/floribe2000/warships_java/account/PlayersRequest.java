@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
+import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,6 +127,7 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
         String path = "/wows/account/list/";
         String url = baseUrl(region, path, language) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
         Players result;
+        SimpleRateLimiter.waitForPermit();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, Players.class);
         } catch (Exception e) {
