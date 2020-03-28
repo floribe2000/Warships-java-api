@@ -9,11 +9,22 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Region {
 
-  RU("https://api.worldofwarships.ru"),
-  EU("https://api.worldofwarships.eu"),
-  NA("https://api.worldofwarships.com"),
-  ASIA("https://api.worldofwarships.asia");
+    RU("https://api.worldofwarships.ru", "ru"),
+    EU("https://api.worldofwarships.eu", "eu"),
+    NA("https://api.worldofwarships.com", "com"),
+    ASIA("https://api.worldofwarships.asia", "asia");
 
-  @Getter
-  private String baseURL;
+    @Getter
+    private String baseURL;
+
+    @Getter
+    private String code;
+
+    public static Region parseRegion(String region) {
+        try {
+            return Region.valueOf(region.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }
