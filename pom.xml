@@ -58,7 +58,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <sourcepath>${project.build.directory}/delombok</sourcepath>
-                    <source>${jvm.version}</source>
+                    <source>9</source>
                 </configuration>
                 <executions>
                     <execution>
