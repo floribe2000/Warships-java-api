@@ -78,10 +78,6 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <additionalOptions>
-                        <additionalOption>-views -all</additionalOption>
-                    </additionalOptions>
-                    <useStandardDocletOptions>true</useStandardDocletOptions>
                     <sourcepath>${project.build.directory}/delombok</sourcepath>
                 </configuration>
             </plugin>
