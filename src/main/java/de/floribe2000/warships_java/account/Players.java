@@ -2,7 +2,7 @@ package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.IApiResponse;
 import de.floribe2000.warships_java.api.IRequestAction;
-import de.floribe2000.warships_java.common.Meta;
+import de.floribe2000.warships_java.api.Meta;
 import lombok.Getter;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package de.floribe2000.warships_java.encyclopedia;
 
-import de.floribe2000.warships_java.common.Meta;
+import de.floribe2000.warships_java.api.Meta;
 import lombok.Getter;
 
 import java.util.Map;

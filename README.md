@@ -1,3 +1,5 @@
+[![Build Status](https://ci.floribe2000.de/job/Warships-Java-Api/badge/icon)](https://ci.floribe2000.de/job/Warships-Java-Api/)
+
 # Warships-java-api
 A java interface to access the official World of Warships API
 

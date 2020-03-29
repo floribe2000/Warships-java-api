@@ -1,4 +1,4 @@
-package de.floribe2000.warships_java.common;
+package de.floribe2000.warships_java.api;
 
 import lombok.Getter;
 

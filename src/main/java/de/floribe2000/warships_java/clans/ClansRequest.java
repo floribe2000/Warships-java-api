@@ -1,9 +1,6 @@
 package de.floribe2000.warships_java.clans;
 
-import de.floribe2000.warships_java.api.FieldType;
-import de.floribe2000.warships_java.api.IRequestAction;
-import de.floribe2000.warships_java.api.Language;
-import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.api.*;
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,7 @@ import java.net.URL;
 /**
  * A class to create and execute requests to retrieve a list of clans based on their name or tag.
  * <p>Up to 100 clans can be retrieved in one request, if there are more matches you have to execute the request multiple times while increasing the page number.
- * Details about the total amount of hits can be retrieved by analyzing the {@link de.floribe2000.warships_java.common.Meta Meta} object of the api response
+ * Details about the total amount of hits can be retrieved by analyzing the {@link Meta Meta} object of the api response
  * returned by {@link #fetch()}.</p>
  *
  * @author floribe2000
