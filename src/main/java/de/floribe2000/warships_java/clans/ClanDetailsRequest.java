@@ -52,6 +52,15 @@ public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanReq
      */
     private boolean extra = false;
 
+    /**
+     * Creates a new empty request of this class.
+     *
+     * @return an instance of this class
+     */
+    public static ClanDetailsRequest createRequest() {
+        return new ClanDetailsRequest();
+    }
+
     @Override
     public ClanDetailsRequest region(Region region) {
         this.region = region;

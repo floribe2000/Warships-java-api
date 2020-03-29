@@ -47,6 +47,15 @@ public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRe
      */
     private int page = 1;
 
+    /**
+     * Creates a new empty request of this class.
+     *
+     * @return an instance of this class
+     */
+    public static ClansRequest createRequest() {
+        return new ClansRequest();
+    }
+
     @Override
     public ClansRequest region(Region region) {
         this.region = region;
