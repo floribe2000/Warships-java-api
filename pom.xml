@@ -81,7 +81,7 @@
                     <!--<javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>-->
                     <sourcepath>${project.build.directory}/delombok</sourcepath>
                     <source>${jvm.version}</source>
-                    <doclint>none</doclint>
+                    <doclint>all,-syntax,-html</doclint>
                 </configuration>
             </plugin>
         </plugins>
