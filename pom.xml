@@ -80,7 +80,7 @@
                 <configuration>
                     <!--<javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>-->
                     <sourcepath>${project.build.directory}/delombok</sourcepath>
-                    <source>9</source>
+                    <source>${jvm.version}</source>
                 </configuration>
             </plugin>
         </plugins>
