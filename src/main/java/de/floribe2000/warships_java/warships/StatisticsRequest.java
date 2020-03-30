@@ -1,16 +1,12 @@
 package de.floribe2000.warships_java.warships;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -185,16 +181,16 @@ public class StatisticsRequest implements IRequestAction<Statistics>, IRequest<S
         String path = "/wows/ships/stats/";
         String extra = buildFieldString(FieldType.EXTRA, extraFields);
         String ships = shipIds.size() == 0 ? "" : FieldType.SHIP_ID + shipIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language) + extra + ships;
-        Statistics result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, Statistics.class);
-        } catch (Exception e) {
-            LOG.error("An exception occured", e);
-            result = new Statistics();
-        }
-        return result;
+        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + extra + ships;
+        //Statistics result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, Statistics.class);
+//        } catch (Exception e) {
+//            LOG.error("An exception occured", e);
+//            result = new Statistics();
+//        }
+        return connect(url, Statistics.class);
     }
 
     @AllArgsConstructor

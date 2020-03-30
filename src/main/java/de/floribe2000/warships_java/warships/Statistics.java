@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.warships;
 
 import de.floribe2000.warships_java.api.IApiResponse;
+import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.api.Meta;
 import lombok.Getter;
 
@@ -174,5 +175,15 @@ public class Statistics implements IApiResponse {
 
         private long ship_id = 0;
 
+        @Override
+        public String toString() {
+            return IRequestAction.GSON.toJson(this);
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return IRequestAction.GSON.toJson(this);
     }
 }

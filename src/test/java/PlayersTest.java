@@ -4,12 +4,15 @@ import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.account.PlayersRequest;
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import de.floribe2000.warships_java.warships.StatisticsRequest;
 import org.junit.Test;
 
 public class PlayersTest {
@@ -54,6 +57,12 @@ public class PlayersTest {
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch());
         System.out.println(PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
                 .extra(PlayerStatisticsByDateRequest.ExtraField.PVE).fetch());
+    }
+
+    @Test
+    public void testPlayersWarshipsStatistics() {
+        ApiBuilder.createInstance(apiKey);
+        System.out.println(StatisticsRequest.createRequest().region(Region.EU).accountId(537376379).addExtraField(StatisticsRequest.ExtraField.PVE).fetch());
     }
 
     @Test
