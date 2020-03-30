@@ -116,14 +116,14 @@ public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRe
         }
         String path = "/wows/clans/list/";
         String url = baseUrl(region, path, language) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
-        Clans result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, Clans.class);
-        } catch (Exception e) {
-            LOG.error("An exception occured", e);
-            result = new Clans();
-        }
-        return result;
+//        Clans result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, Clans.class);
+//        } catch (Exception e) {
+//            LOG.error("An exception occured", e);
+//            result = new Clans();
+//        }
+        return connect(url, Clans.class);
     }
 }

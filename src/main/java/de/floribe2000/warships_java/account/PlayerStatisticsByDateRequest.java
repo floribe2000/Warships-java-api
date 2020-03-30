@@ -197,15 +197,15 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
         String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
         String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
-        PlayersStatisticsByDate result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, PlayersStatisticsByDate.class);
-        } catch (Exception e) {
-            LOG.error("Exception", e);
-            result = new PlayersStatisticsByDate();
-        }
-        return result;
+//        PlayersStatisticsByDate result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, PlayersStatisticsByDate.class);
+//        } catch (Exception e) {
+//            LOG.error("Exception", e);
+//            result = new PlayersStatisticsByDate();
+//        }
+        return connect(url, PlayersStatisticsByDate.class);
     }
 
     /**

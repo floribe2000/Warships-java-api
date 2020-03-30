@@ -152,17 +152,17 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
         String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
         PlayersPersonalDataFull result;
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
-        } catch (IOException e) {
-            LOG.error("An IOException occurred", e);
-            result = new PlayersPersonalDataFull();
-        } catch (Exception e2) {
-            LOG.error("Unexpected exception detected.", e2);
-            throw new IllegalStateException("Error while processing request");
-        }
-        return result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
+//        } catch (IOException e) {
+//            LOG.error("An IOException occurred", e);
+//            result = new PlayersPersonalDataFull();
+//        } catch (Exception e2) {
+//            LOG.error("Unexpected exception detected.", e2);
+//            throw new IllegalStateException("Error while processing request");
+//        }
+        return connect(url, PlayersPersonalDataFull.class);
     }
 
     /**

@@ -126,15 +126,15 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
         }
         String path = "/wows/account/list/";
         String url = baseUrl(region, path, language) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
-        Players result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, Players.class);
-        } catch (Exception e) {
-            LOG.error("An exception occured", e);
-            result = new Players();
-        }
-        return result;
+//        Players result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, Players.class);
+//        } catch (Exception e) {
+//            LOG.error("An exception occured", e);
+//            result = new Players();
+//        }
+        return connect(url, Players.class);
     }
 
     /**

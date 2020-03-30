@@ -139,15 +139,15 @@ public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanReq
         String clans = clanIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
         String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
         String url = baseUrl(region, path, language) + FieldType.CLAN + clans + extra;
-        ClanDetails result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, ClanDetails.class);
-        } catch (Exception e) {
-            LOG.error("An exception occured", e);
-            result = new ClanDetails();
-        }
-        return result;
+//        ClanDetails result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, ClanDetails.class);
+//        } catch (Exception e) {
+//            LOG.error("An exception occured", e);
+//            result = new ClanDetails();
+//        }
+        return connect(url, ClanDetails.class);
     }
 
     /**

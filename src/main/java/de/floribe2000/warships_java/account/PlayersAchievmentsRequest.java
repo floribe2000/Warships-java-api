@@ -118,15 +118,15 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
         String path = "/wows/account/achievements/";
         String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
         String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + ids;
-        PlayersAchievments result;
-        SimpleRateLimiter.waitForPermit();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, PlayersAchievments.class);
-        } catch (Exception e) {
-            LOG.error("An exception occured", e);
-            result = new PlayersAchievments();
-        }
-        return result;
+//        PlayersAchievments result;
+//        SimpleRateLimiter.waitForPermit();
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+//            result = GSON.fromJson(reader, PlayersAchievments.class);
+//        } catch (Exception e) {
+//            LOG.error("An exception occured", e);
+//            result = new PlayersAchievments();
+//        }
+        return connect(url, PlayersAchievments.class);
     }
 
     /**
