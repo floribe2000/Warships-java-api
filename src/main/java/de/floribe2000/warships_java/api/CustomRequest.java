@@ -55,7 +55,7 @@ public class CustomRequest implements IRequest<CustomRequest> {
     }
 
     public Object fetch(Object pojo) {
-        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + processFields();
+        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam(null) + processFields();
         Object result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, pojo.getClass());

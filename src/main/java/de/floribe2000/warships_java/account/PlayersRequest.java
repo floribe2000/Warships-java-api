@@ -22,7 +22,7 @@ import java.util.Set;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<PlayersRequest> {
+public class PlayersRequest extends AbstractRequest<PlayersRequest> implements IRequestAction<Players> {
 
     /**
      * A Logger instance used to log events of this class
@@ -66,7 +66,13 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
 
     @Override
     public PlayersRequest language(Language language) {
+        this.language = language;
+        return this;
+    }
 
+    @Override
+    public PlayersRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
         return this;
     }
 
@@ -134,7 +140,7 @@ public class PlayersRequest implements IRequestAction<Players>, IAccountRequest<
 //            LOG.error("An exception occured", e);
 //            result = new Players();
 //        }
-        return connect(url, Players.class);
+        return connect(url, Players.class, getLimiter());
     }
 
     /**

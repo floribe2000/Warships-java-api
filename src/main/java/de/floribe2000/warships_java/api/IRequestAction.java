@@ -28,14 +28,14 @@ public interface IRequestAction<T extends IApiResponse> {
 
     /**
      * Creates a url connection to the provided api and returns a object containing the received data.
-     * <p>This method uses rate limiting but does not override the rate limit settings defined by {@link ApiBuilder#createInstance(String, boolean, boolean)}!</p>
+     * <p>This method uses rate limiting but does not override the rate limit settings defined by {@link ApiBuilder#createInstance(String, boolean)}!</p>
      *
      * @param url    the url for the request
      * @param tClass the class of the api return object
      * @return an object of the given type containing the received data.
      */
-    default T connect(String url, Class<T> tClass) {
-        SimpleRateLimiter.waitForPermit();
+    default T connect(String url, Class<T> tClass, SimpleRateLimiter limiter) {
+        SimpleRateLimiter.waitForPermit(limiter);
         T result;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             result = GSON.fromJson(reader, tClass);

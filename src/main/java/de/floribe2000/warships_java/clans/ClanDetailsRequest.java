@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanRequest<ClanDetailsRequest> {
+public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> implements IRequestAction<ClanDetails> {
 
     /**
      * A Logger instance used to log events of this class
@@ -70,6 +70,12 @@ public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanReq
     @Override
     public ClanDetailsRequest language(Language language) {
         this.language = language;
+        return this;
+    }
+
+    @Override
+    public ClanDetailsRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
         return this;
     }
 
@@ -147,7 +153,7 @@ public class ClanDetailsRequest implements IRequestAction<ClanDetails>, IClanReq
 //            LOG.error("An exception occured", e);
 //            result = new ClanDetails();
 //        }
-        return connect(url, ClanDetails.class);
+        return connect(url, ClanDetails.class, getLimiter());
     }
 
     /**

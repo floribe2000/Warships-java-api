@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPersonalDataFull>, IAccountRequest<PlayersPersonalDataFullRequest> {
+public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPersonalDataFullRequest> implements IRequestAction<PlayersPersonalDataFull> {
 
     /**
      * A Logger instance used to log events of this class
@@ -162,7 +162,13 @@ public class PlayersPersonalDataFullRequest implements IRequestAction<PlayersPer
 //            LOG.error("Unexpected exception detected.", e2);
 //            throw new IllegalStateException("Error while processing request");
 //        }
-        return connect(url, PlayersPersonalDataFull.class);
+        return connect(url, PlayersPersonalDataFull.class, getLimiter());
+    }
+
+    @Override
+    public PlayersPersonalDataFullRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
+        return this;
     }
 
     /**

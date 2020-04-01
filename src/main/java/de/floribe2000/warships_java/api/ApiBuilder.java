@@ -1,9 +1,13 @@
 package de.floribe2000.warships_java.api;
 
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Provides a basic connector to the api.
@@ -11,12 +15,21 @@ import org.slf4j.LoggerFactory;
  *
  * @author floribe2000
  */
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiBuilder {
 
     /**
      * A logger to log events about this class
      */
     private static final Logger LOG = LoggerFactory.getLogger("ApiBuilder");
+
+    private static int lastNum = 0;
+
+    @Getter
+    private final SimpleRateLimiter rateLimiter;
+
+    @Getter
+    private final String instanceName;
 
     /**
      * The current game version for this library
@@ -25,16 +38,17 @@ public class ApiBuilder {
     private static final VersionDetails currentVersion = new VersionDetails(0, 9, 2);
 
     /**
-     * The instance of the ApiBuiler
+     * The instances of the ApiBuilder
      */
-    @Getter
-    private static ApiBuilder instance = new ApiBuilder();
+    private static Map<String, ApiBuilder> instances = Collections.synchronizedMap(new HashMap<>());
+
+    private static String primaryInstance = null;
 
     /**
      * The api key that is used to connect to the wargaming api
      */
     @Getter
-    private String apiKey = null;
+    private final String apiKey;
 
     /**
      * Creates an ApiBuilder instance to be used for api requests.
@@ -42,50 +56,64 @@ public class ApiBuilder {
      * @param apiKey the api key to use when connecting to the wargaming api
      */
     public static void createInstance(String apiKey) {
-        createInstance(apiKey, true, true);
+        createInstance(apiKey, true);
     }
 
     /**
      * Creates an ApiBuilder instance to be used for api requests.
      *
-     * @param apiKey      the api key to use when connecting to the wargaming api
-     * @param ignoreError a boolean to determine if an existing instance might be used
+     * @param apiKey the api key to use when connecting to the wargaming api
      */
-    public static void createInstance(String apiKey, boolean ignoreError) {
-        createInstance(apiKey, ignoreError, true);
+    public static void createInstance(String apiKey, String apiId) {
+        createInstance(apiKey, true, apiId);
     }
 
     /**
      * Creates an ApiBuilder instance to be used for api requests.
      *
      * @param apiKey           the api key to use when connecting to the wargaming api
-     * @param ignoreError      a boolean to determine if an existing instance might be used
      * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
      * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
      */
-    public static void createInstance(String apiKey, boolean ignoreError, boolean rateLimitEnabled) {
-        if (rateLimitEnabled) {
-            SimpleRateLimiter.enable();
-        }
-        try {
-            if (instance.getApiKey() == null) {
-                instance.apiKey = apiKey;
-            } else {
-                throw new IllegalStateException("You can't set your api key more than once.");
-            }
-        } catch (Exception e) {
-            if (ignoreError) {
-                LOG.warn("api key was already set. Ignoring exception", e);
-            } else {
-                throw new IllegalStateException(e.getMessage());
-            }
-        }
+    public static void createInstance(String apiKey, boolean rateLimitEnabled) {
+        String apiId = "API_" + lastNum++;
+        createInstance(apiKey, rateLimitEnabled, apiId);
     }
 
-    public static String getApiKeyAsParam() {
-        if (instance.getApiKey() == null) {
-            throw new IllegalStateException("The api key must not be null");
+    /**
+     * Creates an ApiBuilder instance to be used for api requests.
+     *
+     * @param apiKey           the api key to use when connecting to the wargaming api
+     * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
+     * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
+     */
+    public static ApiBuilder createInstance(String apiKey, boolean rateLimitEnabled, String instanceName) {
+        if (instances.get(instanceName) != null) {
+            return instances.get(instanceName);
         }
-        return "?application_id=" + instance.getApiKey();
+        ApiBuilder instance = new ApiBuilder(new SimpleRateLimiter(rateLimitEnabled), instanceName, apiKey);
+        instances.put(instanceName, instance);
+        if (primaryInstance == null) {
+            primaryInstance = instanceName;
+        }
+        return instance;
+    }
+
+    public String getApiKeyAsParam() {
+        return "?application_id=" + apiKey;
+    }
+
+    public static String getApiKeyAsParam(String instanceName) {
+        if (instanceName == null) {
+            instanceName = primaryInstance;
+        }
+        return instances.get(instanceName).getApiKeyAsParam();
+    }
+
+    public static ApiBuilder getInstanceWithName(String instanceName) {
+        if (instanceName == null) {
+            instanceName = primaryInstance;
+        }
+        return instances.get(instanceName);
     }
 }

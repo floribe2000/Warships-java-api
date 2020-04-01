@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievments>, IAccountRequest<PlayersAchievmentsRequest> {
+public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievmentsRequest> implements IRequestAction<PlayersAchievments> {
 
     /**
      * A Logger instance used to log events of this class
@@ -126,7 +126,13 @@ public class PlayersAchievmentsRequest implements IRequestAction<PlayersAchievme
 //            LOG.error("An exception occured", e);
 //            result = new PlayersAchievments();
 //        }
-        return connect(url, PlayersAchievments.class);
+        return connect(url, PlayersAchievments.class, getLimiter());
+    }
+
+    @Override
+    public PlayersAchievmentsRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
+        return this;
     }
 
     /**

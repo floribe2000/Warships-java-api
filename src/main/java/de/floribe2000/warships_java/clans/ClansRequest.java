@@ -20,7 +20,7 @@ import java.net.URL;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRequest> {
+public class ClansRequest extends AbstractRequest<ClansRequest> implements IRequestAction<Clans> {
 
     /**
      * A Logger instance used to log events of this class
@@ -65,6 +65,12 @@ public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRe
     @Override
     public ClansRequest language(Language language) {
         this.language = language;
+        return this;
+    }
+
+    @Override
+    public ClansRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
         return this;
     }
 
@@ -124,6 +130,6 @@ public class ClansRequest implements IRequestAction<Clans>, IClanRequest<ClansRe
 //            LOG.error("An exception occured", e);
 //            result = new Clans();
 //        }
-        return connect(url, Clans.class);
+        return connect(url, Clans.class, getLimiter());
     }
 }

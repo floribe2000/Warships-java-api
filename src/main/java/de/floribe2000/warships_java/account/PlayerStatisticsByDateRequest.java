@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStatisticsByDate>, IAccountRequest<PlayerStatisticsByDateRequest> {
+public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatisticsByDateRequest> implements IRequestAction<PlayersStatisticsByDate> {
 
     /**
      * A Logger instance used to log events of this class
@@ -83,6 +83,12 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
     @Override
     public PlayerStatisticsByDateRequest language(Language language) {
         this.language = language;
+        return this;
+    }
+
+    @Override
+    public PlayerStatisticsByDateRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
         return this;
     }
 
@@ -205,7 +211,7 @@ public class PlayerStatisticsByDateRequest implements IRequestAction<PlayersStat
 //            LOG.error("Exception", e);
 //            result = new PlayersStatisticsByDate();
 //        }
-        return connect(url, PlayersStatisticsByDate.class);
+        return connect(url, PlayersStatisticsByDate.class, getLimiter());
     }
 
     /**

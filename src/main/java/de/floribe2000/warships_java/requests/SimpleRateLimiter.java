@@ -17,18 +17,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SimpleRateLimiter {
 
-    private static ApiType type = ApiType.CLIENT;
+    private ApiType type = ApiType.CLIENT;
 
-    private static Semaphore semaphore = new Semaphore(type.getRateLimit());
+    private Semaphore semaphore = new Semaphore(type.getRateLimit());
 
-    private static AtomicBoolean enabled = new AtomicBoolean(false);
+    private AtomicBoolean enabled = new AtomicBoolean(false);
 
-    private static Timer timer = new Timer();
+    private Timer timer = new Timer();
+
+    public SimpleRateLimiter(boolean enabled) {
+        this.enabled.set(enabled);
+    }
 
     /**
      * Waits for a permit to execute the request.
      */
-    public static void waitForPermit() {
+    public void waitForPermit() {
         if (!enabled.get()) {
             return;
         }
@@ -40,10 +44,17 @@ public class SimpleRateLimiter {
         }
     }
 
+    public static void waitForPermit(SimpleRateLimiter limiter) {
+        if (limiter == null) {
+            return;
+        }
+        limiter.waitForPermit();
+    }
+
     /**
      * Schedules the release task for a previous acquire task.
      */
-    private static void scheduleDelete() {
+    private void scheduleDelete() {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -57,14 +68,14 @@ public class SimpleRateLimiter {
      *
      * @return true if enabled, false if not
      */
-    public static boolean isEnabled() {
+    public boolean isEnabled() {
         return enabled.get();
     }
 
     /**
      * Enables the rate limiter.
      */
-    public static void enable() {
+    public void enable() {
         enabled.set(true);
     }
 
@@ -74,7 +85,7 @@ public class SimpleRateLimiter {
      *
      * @return true if disabling was successful, false if not
      */
-    public static boolean disable() {
+    public boolean disable() {
         if (semaphore.getQueueLength() < 1) {
             enabled.set(false);
             return true;
@@ -90,11 +101,11 @@ public class SimpleRateLimiter {
      * @param type the ApiType to set
      * @return true if the change was successful, false if not
      */
-    public static boolean setClientType(@NonNull ApiType type) {
+    public boolean setClientType(@NonNull ApiType type) {
         if (enabled.get()) {
             return false;
         } else {
-            SimpleRateLimiter.type = type;
+            this.type = type;
             semaphore = new Semaphore(type.getRateLimit());
             return true;
         }

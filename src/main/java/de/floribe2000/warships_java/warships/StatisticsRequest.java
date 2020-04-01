@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class StatisticsRequest implements IRequestAction<Statistics>, IRequest<StatisticsRequest> {
+public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implements IRequestAction<Statistics> {
 
     /**
      * A Logger instance used to log events of this class
@@ -67,6 +67,12 @@ public class StatisticsRequest implements IRequestAction<Statistics>, IRequest<S
     @Override
     public StatisticsRequest language(Language language) {
         this.language = language;
+        return this;
+    }
+
+    @Override
+    public StatisticsRequest apiBuilder(String instanceName) {
+        setInstance(instanceName);
         return this;
     }
 
@@ -190,7 +196,7 @@ public class StatisticsRequest implements IRequestAction<Statistics>, IRequest<S
 //            LOG.error("An exception occured", e);
 //            result = new Statistics();
 //        }
-        return connect(url, Statistics.class);
+        return connect(url, Statistics.class, getLimiter());
     }
 
     @AllArgsConstructor

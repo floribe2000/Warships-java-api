@@ -27,7 +27,24 @@ public interface IRequest<R> {
      * @return a string that contains the expandable request url
      */
     default String baseUrl(@NonNull Region region, @NonNull String path, Language language) {
-        return region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam() + createLanguageField(language);
+        return baseUrl(region, path, language, null);
+    }
+
+    /**
+     * A default method to create the basic url for a request with mandatory fields as application id and request language.
+     * <p>This method returns a raw request url, the {@link IRequestAction#fetch()} method has to make sure to append other fields
+     * like account ids or search strings as well as optional parameters.</p>
+     * <p>All parameters that have to be added can be added to this string by using a '&' char followed by the field name and the field values.
+     * This is done automatically for already implemented fields.</p>
+     *
+     * @param region       the region for the request
+     * @param path         the path for the request
+     * @param language     the response language
+     * @param instanceName the identifier of the api instance, null for default instance
+     * @return a string that contains the expandable request url
+     */
+    default String baseUrl(@NonNull Region region, @NonNull String path, Language language, String instanceName) {
+        return region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam(instanceName) + createLanguageField(language);
     }
 
     /**
