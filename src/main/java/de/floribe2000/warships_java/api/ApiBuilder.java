@@ -116,4 +116,8 @@ public class ApiBuilder {
         }
         return instances.get(instanceName);
     }
+
+    public static int getInstanceSize() {
+        return instances.size();
+    }
 }

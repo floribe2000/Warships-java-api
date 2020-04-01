@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.floribe2000.warships_java.warships.Statistics;
 import de.floribe2000.warships_java.warships.StatisticsRequest;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 public class PlayersTest {
@@ -96,6 +97,11 @@ public class PlayersTest {
             e.printStackTrace();
         }
         System.out.println((double) (System.currentTimeMillis() - start) / 1000);
+    }
+
+    @Test
+    public void testInstanceCount() {
+        assert ApiBuilder.getInstanceSize() == 1;
     }
 
 }
