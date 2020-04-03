@@ -28,9 +28,9 @@ public class RankedBattlesSeasons implements IApiResponse {
 	private Meta meta;
 
 	/**
-	 * List containing request objects
+	 * Map containing request objects
 	 */
-	private List<SeasonElement> data;
+	private Map<Integer, SeasonElement> data;
 
 	/**
 	 * A class representing a single season returned by the api
