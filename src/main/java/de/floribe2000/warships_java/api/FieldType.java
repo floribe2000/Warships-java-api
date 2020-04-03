@@ -16,7 +16,8 @@ public enum FieldType {
     NATION("nation"),
     LIMIT("limit"),
     SEARCH("search"),
-    CLAN("clan_id");
+    CLAN("clan_id"),
+    SEASON_ID("season_id");
 
     private String key;
 
