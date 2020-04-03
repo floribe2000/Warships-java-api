@@ -1,5 +1,5 @@
 ---
-name: floribe2000
+name: Bug report
 about: A template for a bug report
 title: "[Bug] "
 labels: bug
