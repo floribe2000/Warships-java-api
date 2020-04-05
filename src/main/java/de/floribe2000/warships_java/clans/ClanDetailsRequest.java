@@ -1,16 +1,12 @@
 package de.floribe2000.warships_java.clans;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -144,7 +140,7 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
         String path = "/wows/clans/info/";
         String clans = clanIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
         String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
-        String url = baseUrl(region, path, language) + FieldType.CLAN + clans + extra;
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.CLAN + clans + extra;
 //        ClanDetails result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {

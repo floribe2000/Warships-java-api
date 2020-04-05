@@ -1,14 +1,10 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -131,7 +127,7 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
             throw new IllegalArgumentException("You can't use this method before setting all parameters");
         }
         String path = "/wows/account/list/";
-        String url = baseUrl(region, path, language) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
+        String url = baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
 //        Players result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {

@@ -1,17 +1,12 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -151,7 +146,7 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
         String path = "/wows/account/info/";
         String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
         PlayersPersonalDataFull result;
-        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
 //            result = GSON.fromJson(reader, PlayersPersonalDataFull.class);

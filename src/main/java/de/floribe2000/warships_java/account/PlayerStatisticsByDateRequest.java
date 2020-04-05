@@ -1,17 +1,12 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -202,7 +197,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
         String path = "/wows/account/statsbydate/";
         String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
         String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
-        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
 //        PlayersStatisticsByDate result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {

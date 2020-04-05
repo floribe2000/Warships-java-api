@@ -89,7 +89,7 @@ public class RankedBattlesSeasonsRequest extends
 		}
 		String path = "/wows/seasons/info/";
 		String seasons = seasonIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(", "));
-		String url = baseUrl(region, path, language) + FieldType.SEASON_ID + seasons;
+		String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEASON_ID + seasons;
 
 		return connect(url, RankedBattlesSeasons.class, getLimiter());
 	}

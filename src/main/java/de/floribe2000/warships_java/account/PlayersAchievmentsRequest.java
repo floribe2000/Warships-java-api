@@ -1,14 +1,10 @@
 package de.floribe2000.warships_java.account;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -117,7 +113,7 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
         }
         String path = "/wows/account/achievements/";
         String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + ids;
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + ids;
 //        PlayersAchievments result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {

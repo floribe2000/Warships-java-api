@@ -25,6 +25,7 @@ public interface IRequest<R> {
      * @param path     the path for the request
      * @param language the response language
      * @return a string that contains the expandable request url
+     * @deprecated This method is deprecated. Use {@link #baseUrl(Region, String, Language, String)} instead to be able to use more than one api key for your application.
      */
     @Deprecated
     default String baseUrl(@NonNull Region region, @NonNull String path, Language language) {

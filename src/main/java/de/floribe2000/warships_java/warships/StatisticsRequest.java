@@ -187,7 +187,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
         String path = "/wows/ships/stats/";
         String extra = buildFieldString(FieldType.EXTRA, extraFields);
         String ships = shipIds.size() == 0 ? "" : FieldType.SHIP_ID + shipIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language) + FieldType.ACCOUNT_ID + accountId + extra + ships;
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + extra + ships;
         //Statistics result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
