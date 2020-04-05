@@ -19,4 +19,12 @@ public abstract class AbstractRequest<R> implements IRequest<R> {
             return instance.getRateLimiter();
         }
     }
+
+    protected final String getInstanceName() {
+        if (instance != null) {
+            return instance.getInstanceName();
+        } else {
+            return null;
+        }
+    }
 }

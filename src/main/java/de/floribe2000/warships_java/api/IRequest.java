@@ -26,6 +26,7 @@ public interface IRequest<R> {
      * @param language the response language
      * @return a string that contains the expandable request url
      */
+    @Deprecated
     default String baseUrl(@NonNull Region region, @NonNull String path, Language language) {
         return baseUrl(region, path, language, null);
     }
