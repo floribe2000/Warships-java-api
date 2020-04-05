@@ -1,15 +1,10 @@
 package de.floribe2000.warships_java.clans;
 
 import de.floribe2000.warships_java.api.*;
-import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 /**
  * A class to create and execute requests to retrieve a list of clans based on their name or tag.
@@ -121,7 +116,7 @@ public class ClansRequest extends AbstractRequest<ClansRequest> implements IRequ
             throw new IllegalArgumentException("Search text has to be at least 2 chars long and region must not be null");
         }
         String path = "/wows/clans/list/";
-        String url = baseUrl(region, path, language) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
+        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
 //        Clans result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
