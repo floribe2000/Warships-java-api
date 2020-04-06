@@ -41,7 +41,7 @@ public class RankedBattlesShipsStatistics implements IApiResponse {
 		/**
 		 * ship id
 		 */
-		private int ship_id;
+		private long ship_id;
 
 		/**
 		 * Map containing request objects
