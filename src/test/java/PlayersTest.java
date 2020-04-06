@@ -5,9 +5,6 @@ import de.floribe2000.warships_java.api.Region;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import de.floribe2000.warships_java.warships.Statistics;
 import de.floribe2000.warships_java.warships.StatisticsRequest;
@@ -66,28 +63,6 @@ public class PlayersTest {
         ApiBuilder.createInstance(apiKey, instanceName);
         Statistics result = StatisticsRequest.createRequest().region(Region.EU).accountId(537376379).addExtraField(StatisticsRequest.ExtraField.PVE).fetch();
         assert result.getStatus().equals("ok") : result;
-    }
-
-    @Test
-    public void testRateLimiter() {
-        int accountId = 537376379;
-        ApiBuilder.createInstance(apiKey, instanceName);
-        PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
-        ExecutorService service = Executors.newCachedThreadPool();
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 40; i++) {
-            service.execute(() -> {
-                PlayersPersonalDataFull result = request.fetch();
-                assert result.getStatus().equals("ok") : result;
-            });
-        }
-        service.shutdown();
-        try {
-            service.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println((double) (System.currentTimeMillis() - start) / 1000);
     }
 
     @Test

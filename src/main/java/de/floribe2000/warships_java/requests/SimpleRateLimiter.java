@@ -11,7 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A rate limiter to avoid request limit errors while accessing the api.
- * <p>Limits the requests per second to 10 requests per 1.2 seconds.</p>
+ * <p>Limits the requests per second to 10 requests per 1.3 seconds.</p>
+ * <p>In theory a limit of 10 requests per seconds should be fine but this causes problems with the WG api.</p>
  *
  * <p>If disabled, you have to handle the rate limit on your own.</p>
  */
@@ -60,7 +61,7 @@ public class SimpleRateLimiter {
             public void run() {
                 semaphore.release();
             }
-        }, 1200);
+        }, 1300);
     }
 
     /**
