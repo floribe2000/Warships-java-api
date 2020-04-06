@@ -3,8 +3,6 @@ package de.floribe2000.warships_java.seasons;
 import de.floribe2000.warships_java.api.IApiResponse;
 import de.floribe2000.warships_java.api.IRequestAction;
 import de.floribe2000.warships_java.api.Meta;
-
-import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 

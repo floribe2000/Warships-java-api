@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.seasons.RankedBattlesSeasonsRequest;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SeasonsTest {
@@ -19,9 +20,13 @@ public class SeasonsTest {
 		apiKey = PROPERTIES.getProperty("APIKEY");
 	}
 
-	@Test
-	public void testSeasonsRequest() {
+	@Before
+	public void init() {
 		ApiBuilder.createInstance(apiKey, instanceName);
+	}
+
+	@Test
+	public void testSeasonsRequestS15EU() {
 		RankedBattlesSeasonsRequest request = RankedBattlesSeasonsRequest.createRequest().region(
 			Region.EU).addSeason(15);
 		RankedBattlesSeasons result = request.fetch();
