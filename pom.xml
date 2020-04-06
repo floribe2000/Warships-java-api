@@ -6,7 +6,7 @@
 
     <groupId>de.floribe2000</groupId>
     <artifactId>Warships-java-api</artifactId>
-    <version>0.2.4_alpha</version>
+    <version>0.2.5_alpha</version>
 
     <properties>
         <jvm.version>8</jvm.version>
