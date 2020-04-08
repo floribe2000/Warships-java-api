@@ -132,7 +132,7 @@ public class ApiBuilder {
         rateLimiter.close();
     }
 
-    public void shutdown() throws IOException {
+    public static void shutdown() throws IOException {
         instances.forEach((key, value) -> {
             try {
                 value.close();
