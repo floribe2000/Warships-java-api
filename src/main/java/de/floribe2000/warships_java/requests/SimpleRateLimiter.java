@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
@@ -16,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * <p>If disabled, you have to handle the rate limit on your own.</p>
  */
-public class SimpleRateLimiter {
+public class SimpleRateLimiter implements Closeable {
 
     private ApiType type = ApiType.CLIENT;
 
@@ -110,6 +112,17 @@ public class SimpleRateLimiter {
             semaphore = new Semaphore(type.getRateLimit());
             return true;
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        enabled.set(false);
+        try {
+            semaphore.acquire();
+        } catch (Exception e) {
+            //
+        }
+        timer.cancel();
     }
 
     @AllArgsConstructor

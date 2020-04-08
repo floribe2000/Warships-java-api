@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -119,5 +121,25 @@ public class ApiBuilder {
 
     public static int getInstanceSize() {
         return instances.size();
+    }
+
+    public static void closeInstance(String instanceName) throws IOException {
+        instances.get(instanceName).close();
+        instances.remove(instanceName);
+    }
+
+    private void close() throws IOException {
+        rateLimiter.close();
+    }
+
+    public void shutdown() throws IOException {
+        instances.forEach((key, value) -> {
+            try {
+                value.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        instances.clear();
     }
 }
