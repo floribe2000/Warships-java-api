@@ -13,7 +13,7 @@ public class Warships implements IApiResponse {
 
     private Meta meta = null;
 
-    private Map<String, ShipEntry> data = null;
+    private Map<Long, ShipEntry> data = null;
 
     @Getter
     public static class ShipEntry {
@@ -88,8 +88,7 @@ public class Warships implements IApiResponse {
             private String module_id_str = null;
         }
 
-        //TODO replace with enum
-        private String nation = null;
+        private Nation nation = null;
 
         private boolean is_premium = false;
 

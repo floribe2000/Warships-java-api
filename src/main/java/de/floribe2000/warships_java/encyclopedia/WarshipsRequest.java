@@ -55,6 +55,11 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
      */
     private Set<String> nations = new HashSet<>();
 
+    /**
+     * A set of ship types for the request
+     */
+    private Set<String> shipTypes = new HashSet<>();
+
     @Override
     public WarshipsRequest apiBuilder(String instanceName) {
         setInstance(instanceName);
@@ -144,13 +149,30 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
 
     /**
      * Adds one or more nations to the request.
-     * <p>Doesn't replace existing values!</p>
+     * <p>Does NOT replace existing values!</p>
      *
      * @param nations the nations to add
      * @return the instance of this request
      */
     public WarshipsRequest nation(String... nations) {
         this.nations.addAll(Arrays.asList(nations));
+        return this;
+    }
+
+    /**
+     * Adds one or more nations to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param nations the nations to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest nation(Nation... nations) {
+        this.nations.addAll(Arrays.stream(nations).map(Enum::toString).collect(Collectors.toList()));
+        return this;
+    }
+
+    public WarshipsRequest shipType(ShipType... types) {
+        this.shipTypes.addAll(Arrays.stream(types).map(Enum::name).collect(Collectors.toList()));
         return this;
     }
 

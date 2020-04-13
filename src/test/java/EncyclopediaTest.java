@@ -1,3 +1,7 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import de.floribe2000.warships_java.api.ApiBuilder;
 import de.floribe2000.warships_java.api.Region;
 import de.floribe2000.warships_java.encyclopedia.Warships;
@@ -26,9 +30,10 @@ public class EncyclopediaTest {
         int limit = 100;
         int page = 5;
         Warships warships = WarshipsRequest.createRequest().region(Region.EU).limit(limit).pageNo(page).fetch();
-        assert warships.getStatus().equals("ok") : warships;
-        assert warships.getMeta() != null : warships;
-        assert warships.getData() != null : warships;
-        assert warships.getData().size() == warships.getMeta().getCount() && warships.getData().size() <= limit : warships;
+        assertEquals("ok", warships.getStatus());
+        assertNotNull(warships.getMeta());
+        assertNotNull(warships.getData());
+        assertEquals(warships.getData().size(), warships.getMeta().getCount());
+        assertTrue(warships.getData().size() <= limit);
     }
 }
