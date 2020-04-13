@@ -6,7 +6,7 @@ import java.util.Map;
 import lombok.Getter;
 
 /**
- * A representation of the results provided by <a href="https://api.worldofwarships.eu/wows/seasons/accountinfo/>/wows/seasons/accountinfo/</a>
+ * A representation of the api result of ranked battles player statistics.
  * This class holds all data returned by this request to allow easy access to this information
  *
  * @author SirLefti
