@@ -23,6 +23,7 @@
             <url>https://maven.pkg.github.com/Warships-java/Warships-java-api</url>
         </repository>
     </distributionManagement>
+    <url>https://www.floribe2000.de</url>
 
     <build>
         <plugins>
@@ -101,9 +102,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
-                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                     <sourcepath>${project.build.directory}/delombok</sourcepath>
                     <source>${jvm.version}</source>
                     <doclint>all,-syntax,-html</doclint>
