@@ -84,20 +84,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int damage_to_buildings = 0;
 
-                private MainBattery main_battery = null;
-
-                @Getter
-                public static class MainBattery {
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private int hits = 0;
-
-                    private long max_frags_ship_id = 0;
-
-                    private int shots = 0;
-                }
+                private WeaponType main_battery = null;
 
                 private long max_ships_spotted_ship_id = 0;
 
@@ -109,20 +96,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int ships_spotted = 0;
 
-                private SecondaryBattery secondary_battery = null;
-
-                @Getter
-                public static class SecondaryBattery {
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private int hits = 0;
-
-                    private long max_frags_ship_id = 0;
-
-                    private int shots = 0;
-                }
+                private WeaponType secondary_battery = null;
 
                 private long max_frags_ship_id = 0;
 
@@ -164,50 +138,17 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int capture_points = 0;
 
-                private Ramming ramming = null;
-
-                @Getter
-                public static class Ramming {
-
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private long max_frags_ship_id = 0;
-                }
+                private WeaponTypeReduced ramming = null;
 
                 private int suppressions_count = 0;
 
                 private int max_suppressions_count = 0;
 
-                private Torpedoes torpedoes = null;
-
-                @Getter
-                public static class Torpedoes {
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private int hits = 0;
-
-                    private long max_frags_ship_id = 0;
-
-                    private int shots = 0;
-                }
+                private WeaponType torpedoes = null;
 
                 private long max_planes_killed_ship_id = 0;
 
-                private Aircraft aircraft = null;
-
-                @Getter
-                public static class Aircraft {
-
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private long max_frags_ship_id = 0;
-                }
+                private WeaponTypeReduced aircraft = null;
 
                 private int team_capture_points = 0;
 
@@ -232,6 +173,30 @@ public class PlayersPersonalDataFull implements IApiResponse {
                 private int team_dropped_capture_points = 0;
 
                 private int battles_since_512 = 0;
+
+                @Getter
+                public static class WeaponTypeReduced {
+
+                    private int max_frags_battle = 0;
+
+                    private int frags = 0;
+
+                    private long max_frags_ship_id = 0;
+                }
+
+                @Getter
+                public static class WeaponType {
+
+                    private int max_frags_battle = 0;
+
+                    private int frags = 0;
+
+                    private int hits = 0;
+
+                    private int shots = 0;
+
+                    private long max_frags_ship_id = 0;
+                }
             }
         }
 
