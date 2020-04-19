@@ -3,6 +3,7 @@ package de.floribe2000.warships_java.direct.account;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.Status;
 import lombok.Getter;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ public class PlayersAchievments implements IApiResponse {
     /**
      * The api response status
      */
-    private String status = "error";
+    private Status status = Status.ERROR;
 
     /**
      * The api meta information

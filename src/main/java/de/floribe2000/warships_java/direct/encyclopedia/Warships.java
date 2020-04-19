@@ -9,7 +9,7 @@ import java.util.Map;
 @Getter
 public class Warships implements IApiResponse {
 
-    private String status = "error";
+    private Status status = Status.ERROR;
 
     private Meta meta = null;
 

@@ -6,6 +6,7 @@ import de.floribe2000.warships_java.direct.api.Meta;
 
 import java.util.Map;
 
+import de.floribe2000.warships_java.direct.api.Status;
 import lombok.Getter;
 
 /**
@@ -20,7 +21,7 @@ public class RankedBattlesSeasons implements IApiResponse {
 	/**
 	 * Response status
 	 */
-	private String status;
+	private Status status;
 
 	/**
 	 * Response meta data

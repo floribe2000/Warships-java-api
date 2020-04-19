@@ -3,6 +3,7 @@ package de.floribe2000.warships_java.direct.warships;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.Status;
 import lombok.Getter;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 @Getter
 public class Statistics implements IApiResponse {
 
-    private String status = "error";
+    private Status status = Status.ERROR;
 
     private Meta meta = null;
 

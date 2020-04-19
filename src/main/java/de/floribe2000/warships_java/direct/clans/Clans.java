@@ -3,6 +3,7 @@ package de.floribe2000.warships_java.direct.clans;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.Status;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter
 public class Clans implements IApiResponse {
 
-    private String status = "error";
+    private Status status = Status.ERROR;
 
     private Meta meta = null;
 

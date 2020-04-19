@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.Status;
 import lombok.Getter;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 @Getter
 public class Achievments {
 
-    private String status = "error";
+    private Status status = Status.ERROR;
 
     private Meta meta = null;
 
