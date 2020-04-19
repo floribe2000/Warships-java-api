@@ -34,7 +34,7 @@ public class GeneralTest {
         for (int i = 0; i < requests; i++) {
             service.execute(() -> {
                 PlayersPersonalDataFull result = request.fetch();
-                assert result.getStatus().equals("ok") : result;
+                assert result.getStatus().get() : result;
             });
         }
         service.shutdown();
