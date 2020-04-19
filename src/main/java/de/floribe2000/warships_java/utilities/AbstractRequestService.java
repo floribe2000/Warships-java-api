@@ -29,4 +29,8 @@ public abstract class AbstractRequestService {
             }
         }));
     }
+
+    public static void reset() {
+        initialized.set(false);
+    }
 }

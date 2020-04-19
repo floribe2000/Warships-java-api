@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.api;
 
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
+import de.floribe2000.warships_java.utilities.AbstractRequestService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -140,5 +141,6 @@ public class ApiBuilder {
             }
         });
         instances.clear();
+        AbstractRequestService.reset();
     }
 }
