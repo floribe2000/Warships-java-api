@@ -1,12 +1,9 @@
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFull;
-import de.floribe2000.warships_java.direct.api.ApiBuilder;
 import de.floribe2000.warships_java.direct.api.Region;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
 import de.floribe2000.warships_java.utilities.EncyclopediaRequestService;
 import de.floribe2000.warships_java.utilities.PlayerRequestService;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -21,16 +18,6 @@ public class UtilityTest {
         Properties PROPERTIES = new Properties();
         PROPERTIES.load(new FileInputStream("Warships.properties"));
         apiKey = PROPERTIES.getProperty("APIKEY");
-    }
-
-    @BeforeClass
-    public static void prepareTests() throws IOException {
-        ApiBuilder.shutdown();
-    }
-
-    @AfterClass
-    public static void shutDownTests() throws IOException {
-        ApiBuilder.shutdown();
     }
 
     @Test

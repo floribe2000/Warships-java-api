@@ -65,9 +65,4 @@ public class PlayersTest {
         assert result.getStatus().get() : result;
     }
 
-    @Test
-    public void testInstanceCount() {
-        assert ApiBuilder.getInstanceSize() == 1 : ApiBuilder.getInstanceSize();
-    }
-
 }

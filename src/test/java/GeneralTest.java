@@ -25,6 +25,7 @@ public class GeneralTest {
 
     @Test
     public void testRateLimiter() {
+        int instanceSize = ApiBuilder.getInstanceSize();
         int accountId = 537376379;
         ApiBuilder.createInstance(apiKey, instanceName);
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
@@ -46,6 +47,6 @@ public class GeneralTest {
         double time = (double) (System.currentTimeMillis() - start) / 1000;
         assert time <= (((double) requests / 10) * 1.3) + 1 : time;
 
-        assert ApiBuilder.getInstanceSize() == 1 : ApiBuilder.getInstanceSize();
+        assert ApiBuilder.getInstanceSize() == instanceSize : ApiBuilder.getInstanceSize() + ", expected size of " + instanceSize;
     }
 }
