@@ -1,16 +1,18 @@
 import static org.junit.Assert.assertEquals;
 
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.seasons.RankedBattlesPlayerStatisticsRequest;
-import de.floribe2000.warships_java.seasons.RankedBattlesPlayersStatistics;
-import de.floribe2000.warships_java.seasons.RankedBattlesSeasons;
-import de.floribe2000.warships_java.seasons.RankedBattlesSeasonsRequest;
-import de.floribe2000.warships_java.seasons.RankedBattlesShipsStatistics;
-import de.floribe2000.warships_java.seasons.RankedBattlesShipsStatisticsRequest;
+import de.floribe2000.warships_java.direct.api.ApiBuilder;
+import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayerStatisticsRequest;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayersStatistics;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesSeasons;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesSeasonsRequest;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesShipsStatistics;
+import de.floribe2000.warships_java.direct.seasons.RankedBattlesShipsStatisticsRequest;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+
 import org.junit.Before;
 import org.junit.Test;
 

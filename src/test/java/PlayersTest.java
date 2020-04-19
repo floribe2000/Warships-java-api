@@ -1,13 +1,13 @@
-import de.floribe2000.warships_java.account.*;
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.direct.account.*;
+import de.floribe2000.warships_java.direct.api.ApiBuilder;
+import de.floribe2000.warships_java.direct.api.Region;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import de.floribe2000.warships_java.warships.Statistics;
-import de.floribe2000.warships_java.warships.StatisticsRequest;
+import de.floribe2000.warships_java.direct.warships.Statistics;
+import de.floribe2000.warships_java.direct.warships.StatisticsRequest;
 import org.junit.Test;
 
 public class PlayersTest {

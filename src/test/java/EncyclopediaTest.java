@@ -1,7 +1,7 @@
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
-import de.floribe2000.warships_java.encyclopedia.Warships;
-import de.floribe2000.warships_java.encyclopedia.WarshipsRequest;
+import de.floribe2000.warships_java.direct.api.ApiBuilder;
+import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.encyclopedia.Warships;
+import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
 import org.junit.Test;
 
 import java.io.FileInputStream;
