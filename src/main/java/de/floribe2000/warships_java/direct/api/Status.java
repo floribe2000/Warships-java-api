@@ -3,6 +3,12 @@ package de.floribe2000.warships_java.direct.api;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 
+/**
+ * An enum to indicate the response status of an api request.
+ *
+ * @author floribe2000
+ * @since 0.2.9
+ */
 @AllArgsConstructor
 public enum Status {
     @SerializedName("ok")
