@@ -1,7 +1,7 @@
-import de.floribe2000.warships_java.account.PlayersPersonalDataFull;
-import de.floribe2000.warships_java.account.PlayersPersonalDataFullRequest;
-import de.floribe2000.warships_java.api.ApiBuilder;
-import de.floribe2000.warships_java.api.Region;
+import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFull;
+import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullRequest;
+import de.floribe2000.warships_java.direct.api.ApiBuilder;
+import de.floribe2000.warships_java.direct.api.Region;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -25,6 +25,7 @@ public class GeneralTest {
 
     @Test
     public void testRateLimiter() {
+        int instanceSize = ApiBuilder.getInstanceSize();
         int accountId = 537376379;
         ApiBuilder.createInstance(apiKey, instanceName);
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
@@ -34,7 +35,7 @@ public class GeneralTest {
         for (int i = 0; i < requests; i++) {
             service.execute(() -> {
                 PlayersPersonalDataFull result = request.fetch();
-                assert result.getStatus().equals("ok") : result;
+                assert result.getStatus().get() : result;
             });
         }
         service.shutdown();
@@ -46,6 +47,6 @@ public class GeneralTest {
         double time = (double) (System.currentTimeMillis() - start) / 1000;
         assert time <= (((double) requests / 10) * 1.3) + 1 : time;
 
-        assert ApiBuilder.getInstanceSize() == 1 : ApiBuilder.getInstanceSize();
+        assert ApiBuilder.getInstanceSize() == instanceSize : ApiBuilder.getInstanceSize() + ", expected size of " + instanceSize;
     }
 }
