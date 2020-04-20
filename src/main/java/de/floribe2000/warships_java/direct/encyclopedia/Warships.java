@@ -1,10 +1,16 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
-import de.floribe2000.warships_java.direct.api.*;
-import lombok.Getter;
-
+import de.floribe2000.warships_java.direct.api.IApiResponse;
+import de.floribe2000.warships_java.direct.api.IRequestAction;
+import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.ModuleType;
+import de.floribe2000.warships_java.direct.api.Nation;
+import de.floribe2000.warships_java.direct.api.ShipType;
+import de.floribe2000.warships_java.direct.api.Status;
+import de.floribe2000.warships_java.direct.api.Tier;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public class Warships implements IApiResponse {
@@ -100,7 +106,7 @@ public class Warships implements IApiResponse {
 
         private List<Long> upgrades = null;
 
-        private int tier = 0;
+        private Tier tier = null;
 
         private Map<String, Integer> next_ships = null;
 

@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
+import de.floribe2000.warships_java.direct.api.Nation;
 import de.floribe2000.warships_java.direct.api.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -53,12 +54,22 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
     /**
      * A set of nations for the request
      */
-    private Set<String> nations = new HashSet<>();
+    private Set<Nation> nations = new HashSet<>();
 
     /**
      * A set of ship types for the request
      */
-    private Set<String> shipTypes = new HashSet<>();
+    private Set<ShipType> shipTypes = new HashSet<>();
+
+    /**
+     * A set of ship categories for the request
+     */
+    private Set<ShipCategory> shipCategories = new HashSet<>();
+
+    /**
+     * A set of ship tiers for the request
+     */
+    private Set<Tier> shipTiers = new HashSet<>();
 
     @Override
     public WarshipsRequest apiBuilder(String instanceName) {
@@ -154,25 +165,44 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
      * @param nations the nations to add
      * @return the instance of this request
      */
-    public WarshipsRequest nation(String... nations) {
+    public WarshipsRequest nation(Nation... nations) {
         this.nations.addAll(Arrays.asList(nations));
         return this;
     }
 
     /**
-     * Adds one or more nations to the request.
+     * Adds one or more ship types to the request.
      * <p>Does NOT replace existing values!</p>
      *
-     * @param nations the nations to add
+     * @param types the ship types to add
      * @return the instance of this request
      */
-    public WarshipsRequest nation(Nation... nations) {
-        this.nations.addAll(Arrays.stream(nations).map(Enum::toString).collect(Collectors.toList()));
+    public WarshipsRequest shipType(ShipType... types) {
+        this.shipTypes.addAll(Arrays.asList(types));
         return this;
     }
 
-    public WarshipsRequest shipType(ShipType... types) {
-        this.shipTypes.addAll(Arrays.stream(types).map(Enum::name).collect(Collectors.toList()));
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param tiers the ship tiers to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest tier(Tier... tiers) {
+        this.shipTiers.addAll(Arrays.asList(tiers));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship categories to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param categories the ship categories to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest category(ShipCategory... categories) {
+        this.shipCategories.addAll(Arrays.asList(categories));
         return this;
     }
 
@@ -189,10 +219,31 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
             throw new IllegalArgumentException("Region must not be null.");
         }
         String path = "/wows/encyclopedia/ships/";
-        String nations = this.nations.isEmpty() ? "" : FieldType.NATION + String.join(",", this.nations);
+        String nations = this.nations.isEmpty() ? "" : FieldType.NATION + this.nations.stream().map(Enum::toString).collect(Collectors.joining(","));
+        String types = this.shipTypes.isEmpty() ? "" : FieldType.SHIP_CLASS + this.shipTypes.stream().map(Enum::toString).collect(Collectors.joining(","));
         String ships = this.shipIds.isEmpty() ? "" : FieldType.SHIP_ID + shipIds.stream().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language, getInstanceName()) + ships + nations +
+        String url = baseUrl(region, path, language, getInstanceName()) + ships + nations + types +
                 FieldType.PAGE + pageNo + FieldType.LIMIT + limit;
-        return connect(url, Warships.class, getLimiter());
+        Warships response =  connect(url, Warships.class, getLimiter());
+
+        if (!shipTiers.isEmpty()) {
+            Set<Long> toDelete = response.getData().entrySet().stream()
+                .filter(entry -> !shipTiers.contains(entry.getValue().getTier()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+            toDelete.forEach(key -> response.getData().remove(key));
+        }
+
+        if (!shipCategories.isEmpty()) {
+            Set<Long> toDelete = response.getData().entrySet().stream()
+                .filter(entry -> shipCategories.contains(ShipCategory.PREMIUM) && !entry.getValue().is_premium()
+                    || shipCategories.contains(ShipCategory.SPECIAL) && !entry.getValue().is_special()
+                    || shipCategories.contains(ShipCategory.RESEARCH) && entry.getValue().is_premium() || entry.getValue().is_special())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+            toDelete.forEach(key -> response.getData().remove(key));
+        }
+
+        return response;
     }
 }

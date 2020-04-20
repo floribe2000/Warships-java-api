@@ -4,13 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 public enum ShipType {
     @SerializedName("AirCarrier")
-    AIRCRAFT_CARRIER,
+    AIRCRAFT_CARRIER("AirCarrier"),
     @SerializedName("Destroyer")
-    DESTROYER,
+    DESTROYER("Destroyer"),
     @SerializedName("Cruiser")
-    CRUISER,
+    CRUISER("Cruiser"),
     @SerializedName("Battleship")
-    BATTLESHIP,
+    BATTLESHIP("Battleship"),
     @SerializedName("Submarine")
-    SUBMARINE
+    SUBMARINE("Submarine");
+
+    ShipType(String typeName) {
+        this.typeName = typeName;
+    }
+
+    private String typeName;
+
+
+    @Override
+    public String toString() {
+        return this.typeName;
+    }
 }
