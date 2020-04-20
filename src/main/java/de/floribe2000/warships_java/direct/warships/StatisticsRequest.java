@@ -1,6 +1,9 @@
 package de.floribe2000.warships_java.direct.warships;
 
 import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.encyclopedia.Warships;
+import de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry;
+import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -48,6 +51,26 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
      * A set of up to 100 ship ids for this request
      */
     private Set<Long> shipIds = new HashSet<>();
+
+    /**
+     * A set of nations for the request
+     */
+    private Set<Nation> nations = new HashSet<>();
+
+    /**
+     * A set of ship types for the request
+     */
+    private Set<ShipType> shipTypes = new HashSet<>();
+
+    /**
+     * A set of ship categories for the request
+     */
+    private Set<ShipCategory> shipCategories = new HashSet<>();
+
+    /**
+     * A set of ship tiers for the request
+     */
+    private Set<Tier> shipTiers = new HashSet<>();
 
     /**
      * Creates a new empty request of this class.
@@ -166,6 +189,72 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     public StatisticsRequest removeShipId(long shipId) {
         this.shipIds.remove(shipId);
         return this;
+    }
+
+    /**
+     * Adds one or more nations to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param nations the nations to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest nation(Nation... nations) {
+        this.nations.addAll(Arrays.asList(nations));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship types to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param types the ship types to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest shipType(ShipType... types) {
+        this.shipTypes.addAll(Arrays.asList(types));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param tiers the ship tiers to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest tier(Tier... tiers) {
+        this.shipTiers.addAll(Arrays.asList(tiers));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship categories to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param categories the ship categories to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest category(ShipCategory... categories) {
+        this.shipCategories.addAll(Arrays.asList(categories));
+        return this;
+    }
+
+    private Set<Long> getShipIds(Set<Long> baseShipSet, Set<Nation> filterNation, Set<ShipType> filterShipType, Set<ShipCategory> filterShipCategory, Set<Tier> filterTier) {
+        WarshipsRequest request = WarshipsRequest.createRequest().region(region).nation(filterNation).shipType(filterShipType).shipCategory(filterShipCategory).tier(filterTier);
+        Warships response;
+        Set<Long> ships = new HashSet<>();
+
+        int pageNo = 1;
+        do {
+            response = request.pageNo(pageNo).fetch();
+            ships.addAll(response.getData().values().stream().map(ShipEntry::getShip_id).collect(Collectors.toSet()));
+            pageNo++;
+        } while (response.getMeta().getPage_total() >= pageNo);
+
+        if (baseShipSet != null && baseShipSet.size() > 0) {
+            ships.retainAll(baseShipSet);
+        }
+        return ships;
     }
 
     /**

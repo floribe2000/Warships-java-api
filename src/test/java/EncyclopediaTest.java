@@ -12,7 +12,6 @@ import de.floribe2000.warships_java.direct.api.Tier;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import org.junit.BeforeClass;
@@ -131,7 +130,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterTypeResearch() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).category(ShipCategory.RESEARCH);
+		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipCategory(ShipCategory.RESEARCH);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -145,7 +144,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterTypePremiumOrSpecial() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).category(ShipCategory.PREMIUM, ShipCategory.SPECIAL);
+		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipCategory(ShipCategory.PREMIUM, ShipCategory.SPECIAL);
 		Warships response;
 		int pageNo = 1;
 		do {

@@ -171,6 +171,18 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
     }
 
     /**
+     * Adds one or more nations to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param nations the nations to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest nation(Collection<Nation> nations) {
+        this.nations.addAll(nations);
+        return this;
+    }
+
+    /**
      * Adds one or more ship types to the request.
      * <p>Does NOT replace existing values!</p>
      *
@@ -179,6 +191,18 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
      */
     public WarshipsRequest shipType(ShipType... types) {
         this.shipTypes.addAll(Arrays.asList(types));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship types to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param types the ship types to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest shipType(Collection<ShipType> types) {
+        this.shipTypes.addAll(types);
         return this;
     }
 
@@ -195,14 +219,38 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
     }
 
     /**
+     * Adds one or more ship tiers to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param tiers the ship tiers to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest tier(Collection<Tier> tiers) {
+        this.shipTiers.addAll(tiers);
+        return this;
+    }
+
+    /**
      * Adds one or more ship categories to the request.
      * <p>Does NOT replace existing values!</p>
      *
      * @param categories the ship categories to add
      * @return the instance of this request
      */
-    public WarshipsRequest category(ShipCategory... categories) {
+    public WarshipsRequest shipCategory(ShipCategory... categories) {
         this.shipCategories.addAll(Arrays.asList(categories));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship categories to the request.
+     * <p>Does NOT replace existing values!</p>
+     *
+     * @param categories the ship categories to add
+     * @return the instance of this request
+     */
+    public WarshipsRequest shipCategory(Collection<ShipCategory> categories) {
+        this.shipCategories.addAll(categories);
         return this;
     }
 

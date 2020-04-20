@@ -16,7 +16,7 @@ public class Statistics implements IApiResponse {
 
     private Meta meta = null;
 
-    private Map<String, List<ShipEntry>> data = null;
+    private Map<Integer, List<ShipEntry>> data = null;
 
     @Getter
     public static class ShipEntry {
