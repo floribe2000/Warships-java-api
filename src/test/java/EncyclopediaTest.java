@@ -2,18 +2,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.Nation;
-import de.floribe2000.warships_java.direct.api.Region;
-import de.floribe2000.warships_java.direct.api.ShipCategory;
-import de.floribe2000.warships_java.direct.api.ShipType;
-import de.floribe2000.warships_java.direct.api.Status;
-import de.floribe2000.warships_java.direct.api.Tier;
+import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.encyclopedia.Consumables;
+import de.floribe2000.warships_java.direct.encyclopedia.ConsumablesRequest;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -154,5 +153,23 @@ public class EncyclopediaTest {
 			response.getData().values().forEach(entry -> assertTrue(entry.is_premium() || entry.is_special()));
 			pageNo++;
 		} while (response.getMeta().getPage_total() >= pageNo);
+	}
+
+	@Test
+	public void testConsumableRequest() {
+		ConsumablesRequest request = ConsumablesRequest.createRequest().region(Region.EU);
+		Consumables response = request.fetch();
+		assert response.getStatus().get() : response;
+	}
+
+	@Test
+	public void testConsumableRequestFlags() {
+		ConsumablesRequest request = ConsumablesRequest.createRequest().region(Region.EU).type(ConsumableType.FLAGS);
+		Consumables response = request.fetch();
+		assert response.getStatus().get() : response;
+		for (Map.Entry<String, Consumables.Consumable> entry : response.getData().entrySet()) {
+			assert entry.getValue().getType() == ConsumableType.FLAGS : entry.getValue();
+			assert entry.getKey().equals(String.valueOf(entry.getValue().getConsumable_id())) : entry;
+		}
 	}
 }
