@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.warships;
 
 import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;

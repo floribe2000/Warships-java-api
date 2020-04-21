@@ -6,7 +6,7 @@ import de.floribe2000.warships_java.direct.api.Meta;
 
 import java.util.Map;
 
-import de.floribe2000.warships_java.direct.api.Status;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
 
 /**

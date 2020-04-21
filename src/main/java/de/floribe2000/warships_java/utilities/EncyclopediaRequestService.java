@@ -1,6 +1,6 @@
 package de.floribe2000.warships_java.utilities;
 
-import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
 

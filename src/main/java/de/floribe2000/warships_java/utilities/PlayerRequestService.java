@@ -4,7 +4,7 @@ import de.floribe2000.warships_java.direct.account.Players;
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFull;
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.direct.account.PlayersRequest;
-import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 
 
 public class PlayerRequestService extends AbstractRequestService {

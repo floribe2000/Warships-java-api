@@ -1,5 +1,8 @@
 package de.floribe2000.warships_java.direct.api;
 
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 import lombok.NonNull;
 
 import java.util.Set;

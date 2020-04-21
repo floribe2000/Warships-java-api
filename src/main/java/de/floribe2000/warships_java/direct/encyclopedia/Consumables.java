@@ -1,6 +1,8 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
 import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ConsumableType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
 
 import java.util.Map;

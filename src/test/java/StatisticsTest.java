@@ -1,4 +1,4 @@
-import static de.floribe2000.warships_java.direct.api.Status.OK;
+import static de.floribe2000.warships_java.direct.api.typeDefinitions.Status.OK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -6,18 +6,20 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.Nation;
-import de.floribe2000.warships_java.direct.api.Region;
-import de.floribe2000.warships_java.direct.api.ShipCategory;
-import de.floribe2000.warships_java.direct.api.ShipType;
-import de.floribe2000.warships_java.direct.api.Tier;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Nation;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipCategory;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier;
 import de.floribe2000.warships_java.direct.warships.Statistics;
 import de.floribe2000.warships_java.direct.warships.Statistics.ShipEntry;
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 

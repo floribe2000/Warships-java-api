@@ -1,6 +1,6 @@
 import de.floribe2000.warships_java.direct.account.*;
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -3,13 +3,15 @@ package de.floribe2000.warships_java.direct.encyclopedia;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.ModuleType;
-import de.floribe2000.warships_java.direct.api.Nation;
-import de.floribe2000.warships_java.direct.api.ShipType;
-import de.floribe2000.warships_java.direct.api.Status;
-import de.floribe2000.warships_java.direct.api.Tier;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Nation;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier;
+
 import java.util.List;
 import java.util.Map;
+
 import lombok.Getter;
 
 @Getter

@@ -1,10 +1,10 @@
 package de.floribe2000.warships_java.direct.seasons;
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.FieldType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.Language;
-import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 
 import java.util.Collection;
 import java.util.HashSet;

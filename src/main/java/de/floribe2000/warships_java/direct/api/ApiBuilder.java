@@ -37,7 +37,7 @@ public class ApiBuilder {
      * The current game version for this library
      */
     @Getter
-    private static final VersionDetails currentVersion = new VersionDetails(0, 9, 2);
+    private static final VersionDetails currentVersion = new VersionDetails(0, 9, 3);
 
     /**
      * The instances of the ApiBuilder
@@ -132,7 +132,7 @@ public class ApiBuilder {
         rateLimiter.close();
     }
 
-    public static void shutdown() throws IOException {
+    public static void shutdown() {
         instances.forEach((key, value) -> {
             try {
                 value.close();

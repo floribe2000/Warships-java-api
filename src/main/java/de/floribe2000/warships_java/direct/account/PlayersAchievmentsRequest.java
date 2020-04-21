@@ -1,6 +1,9 @@
 package de.floribe2000.warships_java.direct.account;
 
 import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

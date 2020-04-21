@@ -1,6 +1,6 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
-import de.floribe2000.warships_java.direct.api.Nation;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
 import de.floribe2000.warships_java.direct.api.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

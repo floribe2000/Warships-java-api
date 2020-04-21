@@ -1,8 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.Region;
-import de.floribe2000.warships_java.direct.api.Status;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayerStatisticsRequest;
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayersStatistics;
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesSeasons;

@@ -1,7 +1,7 @@
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFull;
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.Region;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 import org.junit.Test;
 
 import java.io.FileInputStream;

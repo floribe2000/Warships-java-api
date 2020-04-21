@@ -3,6 +3,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
 import de.floribe2000.warships_java.direct.encyclopedia.Consumables;
 import de.floribe2000.warships_java.direct.encyclopedia.ConsumablesRequest;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
