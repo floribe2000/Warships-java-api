@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Region {
 
-    RU("https://api.worldofwarships.ru", "ru", 0),
+    RU("https://api.worldofwarships.ru", "ru", 1),
     EU("https://api.worldofwarships.eu", "eu", 500_000_000),
     NA("https://api.worldofwarships.com", "com", 1_000_000_000),
     ASIA("https://api.worldofwarships.asia", "asia", 2_000_000_000);
