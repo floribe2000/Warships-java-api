@@ -65,4 +65,19 @@ public class PlayersTest {
         assert result.getStatus().get() : result;
     }
 
+    @Test
+    public void testAsyncPlayersRequest() {
+        ApiBuilder.createInstance(apiKey, instanceName);
+        String name = "floribe2000";
+        PlayersRequest.createRequest().region(Region.EU).searchText(name).fetchAsync(result -> {
+            assert result.getStatus().get() : result;
+            assert result.getData().get(0).getNickname().equals(name) : result;
+        });
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

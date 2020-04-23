@@ -19,7 +19,10 @@ import static de.floribe2000.warships_java.direct.api.IRequestAction.GSON;
 /**
  * A class that allows custom requests.
  * There is no syntax checking, the user is responsible to make sure that his requests params are valid!
+ *
+ * @deprecated This class is deprecated. You should not use it anymore. Use the predefined request classes instead.
  */
+@Deprecated
 public class CustomRequest implements IRequest<CustomRequest> {
 
     private final Logger LOG = LoggerFactory.getLogger("CustomRequest");

@@ -7,6 +7,8 @@ import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 /**
  * An interface to mark all RequestActions.
@@ -24,7 +26,23 @@ public interface IRequestAction<T extends IApiResponse> {
      */
     Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
+    /**
+     * Executes the request.
+     *
+     * @return am instance of type {@link T}
+     */
     T fetch();
+
+    /**
+     * Executes an asynchronous request.
+     * <p>Avoid modifying the request before this request was completed!</p>
+     * <p>If you want to send multiple asynchronous requests with different data, create a copy of this request before executing it.</p>
+     *
+     * @param result a consumer for the result of the request
+     */
+    default void fetchAsync(Consumer<T> result) {
+        CompletableFuture.runAsync(() -> result.accept(fetch()));
+    }
 
     /**
      * Creates a url connection to the provided api and returns a object containing the received data.
