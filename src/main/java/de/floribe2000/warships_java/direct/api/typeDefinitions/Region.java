@@ -9,10 +9,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Region {
 
-    RU("https://api.worldofwarships.ru", "ru"),
-    EU("https://api.worldofwarships.eu", "eu"),
-    NA("https://api.worldofwarships.com", "com"),
-    ASIA("https://api.worldofwarships.asia", "asia");
+    RU("https://api.worldofwarships.ru", "ru", 0),
+    EU("https://api.worldofwarships.eu", "eu", 500_000_000),
+    NA("https://api.worldofwarships.com", "com", 1_000_000_000),
+    ASIA("https://api.worldofwarships.asia", "asia", 2_000_000_000);
 
     /**
      * The base url for this region
@@ -25,6 +25,12 @@ public enum Region {
      */
     @Getter
     private final String code;
+
+    /**
+     * The start of the id range of the region
+     */
+    @Getter
+    private final int start;
 
     /**
      * Parses the region from a string.
