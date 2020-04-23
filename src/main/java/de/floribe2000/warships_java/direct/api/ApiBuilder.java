@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.utilities.AbstractRequestService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,14 +26,6 @@ public class ApiBuilder {
      */
     private static final Logger LOG = LoggerFactory.getLogger("ApiBuilder");
 
-    private static int lastNum = 0;
-
-    @Getter
-    private final SimpleRateLimiter rateLimiter;
-
-    @Getter
-    private final String instanceName;
-
     /**
      * The current game version for this library
      */
@@ -40,11 +33,39 @@ public class ApiBuilder {
     private static final VersionDetails currentVersion = new VersionDetails(0, 9, 3);
 
     /**
+     * The last automatically assigned id for a new instance without specified identifier
+     */
+    private static int lastNum = 0;
+
+    /**
+     * The default api type for new api instances
+     */
+    @Getter
+    @Setter
+    private static SimpleRateLimiter.ApiType defaultType = SimpleRateLimiter.ApiType.CLIENT;
+
+    /**
      * The instances of the ApiBuilder
      */
-    private static Map<String, ApiBuilder> instances = Collections.synchronizedMap(new HashMap<>());
+    private static final Map<String, ApiBuilder> instances = Collections.synchronizedMap(new HashMap<>());
 
+    /**
+     * The unique identifier of the primary api instance
+     */
     private static String primaryInstance = null;
+
+
+    /**
+     * The rate limiter instance linked to this api builder instance
+     */
+    @Getter
+    private final SimpleRateLimiter rateLimiter;
+
+    /**
+     * The unique identifier of this instance
+     */
+    @Getter
+    private final String instanceName;
 
     /**
      * The api key that is used to connect to the wargaming api
@@ -85,26 +106,74 @@ public class ApiBuilder {
     /**
      * Creates an ApiBuilder instance to be used for api requests.
      *
+     * @param apiKey the api key to use when connecting to the wargaming api
+     * @param type   the {@link de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType ApiType} of the new instance (client or server)
+     * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
+     */
+    public static void createInstance(String apiKey, SimpleRateLimiter.ApiType type) {
+        String apiId = "API_" + lastNum++;
+        createInstance(apiKey, type, apiId);
+    }
+
+    /**
+     * Creates an ApiBuilder instance to be used for api requests.
+     *
+     * @param apiKey       the api key to use when connecting to the wargaming api
+     * @param type         the {@link de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType ApiType} of the new instance (client or server)
+     * @param instanceName the name of the instance to create
+     * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
+     */
+    public static void createInstance(String apiKey, SimpleRateLimiter.ApiType type, String instanceName) {
+        createInstance(apiKey, true, instanceName, type);
+    }
+
+    /**
+     * Creates an ApiBuilder instance to be used for api requests.
+     *
      * @param apiKey           the api key to use when connecting to the wargaming api
      * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
      * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
      */
-    public static ApiBuilder createInstance(String apiKey, boolean rateLimitEnabled, String instanceName) {
+    public static void createInstance(String apiKey, boolean rateLimitEnabled, String instanceName) {
+        createInstance(apiKey, rateLimitEnabled, instanceName, defaultType);
+    }
+
+    /**
+     * Creates an ApiBuilder instance to be used for api requests.
+     *
+     * @param apiKey           the api key to use when connecting to the wargaming api
+     * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
+     * @param instanceName     the name of the instance to create
+     * @param type             the {@link de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType ApiType} of the new instance (client or server)
+     * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
+     */
+    public static void createInstance(String apiKey, boolean rateLimitEnabled, String instanceName, SimpleRateLimiter.ApiType type) {
         if (instances.get(instanceName) != null) {
-            return instances.get(instanceName);
+            return;
         }
-        ApiBuilder instance = new ApiBuilder(new SimpleRateLimiter(rateLimitEnabled), instanceName, apiKey);
+        ApiBuilder instance = new ApiBuilder(new SimpleRateLimiter(rateLimitEnabled, type), instanceName, apiKey);
         instances.put(instanceName, instance);
         if (primaryInstance == null) {
             primaryInstance = instanceName;
         }
-        return instance;
     }
 
+    /**
+     * A method to get the api key of this instance as url parameter that can be used as first parameter of a request url
+     *
+     * @return the api key as first url parameter
+     */
     public String getApiKeyAsParam() {
         return "?application_id=" + apiKey;
     }
 
+    /**
+     * Returns the api key of an instance as url param.
+     *
+     * @param instanceName the instance for the request
+     * @return the api key of the instance
+     * @throws NullPointerException If there is no such instance, an exception is thrown.
+     */
     public static String getApiKeyAsParam(String instanceName) {
         if (instanceName == null) {
             instanceName = primaryInstance;
@@ -112,6 +181,12 @@ public class ApiBuilder {
         return instances.get(instanceName).getApiKeyAsParam();
     }
 
+    /**
+     * Returns an instance with the specified identifier
+     *
+     * @param instanceName the identifier of the requested instance
+     * @return the instance or null if there is no such instance
+     */
     public static ApiBuilder getInstanceWithName(String instanceName) {
         if (instanceName == null) {
             instanceName = primaryInstance;
@@ -119,25 +194,44 @@ public class ApiBuilder {
         return instances.get(instanceName);
     }
 
+    /**
+     * A method to get the current number of active instances
+     *
+     * @return the number of active instances as integer
+     */
     public static int getInstanceSize() {
         return instances.size();
     }
 
+    /**
+     * Closes the instance with the specified identifier
+     *
+     * @param instanceName the identifier of the instance that should be closed
+     * @throws IOException If an error occurs while closing the instance
+     */
     public static void closeInstance(String instanceName) throws IOException {
         instances.get(instanceName).close();
         instances.remove(instanceName);
     }
 
+    /**
+     * Closes the instance
+     *
+     * @throws IOException if an error occurs while closing the rate limiter
+     */
     private void close() throws IOException {
         rateLimiter.close();
     }
 
+    /**
+     * Initiates a shutdown of all instances. Tries to close all instances that are currently registered.
+     */
     public static void shutdown() {
         instances.forEach((key, value) -> {
             try {
                 value.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error while shutting down instance " + value.getInstanceName(), e);
             }
         });
         instances.clear();

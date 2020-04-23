@@ -27,4 +27,16 @@ public enum Region {
             return null;
         }
     }
+    
+    public static Region fromRange(int id) {
+        if (id >= 0 && id < 500_000_000) {
+            return RU;
+        } else if (id >= 500_000_000 && id < 1_000_000_000) {
+            return EU;
+        } else if (id >= 1_000_000_000 && id < 2_000_000_000) {
+            return NA;
+        } else {
+            return ASIA;
+        }
+    }
 }

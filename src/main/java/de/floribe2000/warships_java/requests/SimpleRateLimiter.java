@@ -20,15 +20,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SimpleRateLimiter implements Closeable {
 
-    private ApiType type = ApiType.CLIENT;
+    private ApiType type;
 
-    private Semaphore semaphore = new Semaphore(type.getRateLimit());
+    private Semaphore semaphore;
 
     private AtomicBoolean enabled = new AtomicBoolean(false);
 
     private Timer timer = new Timer();
 
-    public SimpleRateLimiter(boolean enabled) {
+    public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
+        this.type = type;
+        semaphore = new Semaphore(this.type.getRateLimit());
         this.enabled.set(enabled);
     }
 
