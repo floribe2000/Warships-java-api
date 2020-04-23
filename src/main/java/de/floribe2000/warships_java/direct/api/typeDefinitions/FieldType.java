@@ -3,6 +3,10 @@ package de.floribe2000.warships_java.direct.api.typeDefinitions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * All available field types.
+ * <p>Please note that not all field types are available for every request! For details see the documentation of the specific request.</p>
+ */
 @Getter
 @AllArgsConstructor
 public enum FieldType {
@@ -19,7 +23,10 @@ public enum FieldType {
     CLAN("clan_id"),
     SEASON_ID("season_id");
 
-    private String key;
+    /**
+     * The key that is used in urls
+     */
+    private final String key;
 
     @Override
     public String toString() {

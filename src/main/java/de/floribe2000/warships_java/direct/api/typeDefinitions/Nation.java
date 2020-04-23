@@ -2,6 +2,9 @@ package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * An enum containing all available nations of the game.
+ */
 public enum Nation {
 	@SerializedName("usa") USA,
 	@SerializedName("japan") JAPAN,

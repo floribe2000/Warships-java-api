@@ -16,6 +16,9 @@ public enum Language {
     POLISH("pl"),
     RUSSIAN("ru");
 
+    /**
+     * The language code of the language
+     */
     @Getter
     private String code;
 }

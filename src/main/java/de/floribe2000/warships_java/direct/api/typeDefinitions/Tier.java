@@ -6,6 +6,9 @@ import lombok.Getter;
 
 import java.util.Comparator;
 
+/**
+ * An enum that represents all available tiers in the game.
+ */
 @AllArgsConstructor
 public enum Tier implements Comparator<Tier> {
     @SerializedName("1") I(1),

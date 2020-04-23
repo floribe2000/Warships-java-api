@@ -173,6 +173,7 @@ public class ApiBuilder {
      * @param instanceName the instance for the request
      * @return the api key of the instance
      * @throws NullPointerException If there is no such instance, an exception is thrown.
+     * @see ApiBuilder#getApiKeyAsParam()
      */
     public static String getApiKeyAsParam(String instanceName) {
         if (instanceName == null) {

@@ -14,12 +14,24 @@ public enum Region {
     NA("https://api.worldofwarships.com", "com"),
     ASIA("https://api.worldofwarships.asia", "asia");
 
+    /**
+     * The base url for this region
+     */
     @Getter
-    private String baseURL;
+    private final String baseURL;
 
+    /**
+     * The domain for this region
+     */
     @Getter
-    private String code;
+    private final String code;
 
+    /**
+     * Parses the region from a string.
+     *
+     * @param region the string of the region
+     * @return the region for the string or null if there are no matches
+     */
     public static Region parseRegion(String region) {
         try {
             return Region.valueOf(region.trim().toUpperCase());
@@ -27,7 +39,13 @@ public enum Region {
             return null;
         }
     }
-    
+
+    /**
+     * A utility method to determine the api region based on the range of the provided id.
+     *
+     * @param id the id to check
+     * @return the region for the provided id
+     */
     public static Region fromRange(int id) {
         if (id >= 0 && id < 500_000_000) {
             return RU;
