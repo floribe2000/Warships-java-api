@@ -97,7 +97,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int ships_spotted = 0;
 
-                private WeaponType secondary_battery = null;
+                private WeaponType second_battery = null;
 
                 private long max_frags_ship_id = 0;
 
