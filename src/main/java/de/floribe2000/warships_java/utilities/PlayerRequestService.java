@@ -17,7 +17,7 @@ public class PlayerRequestService extends AbstractRequestService {
         if (players.getData().size() < 1) {
             throw new IllegalStateException("Empty api response for this request. No data found.");
         }
-        int id = players.getData().get(0).getAccount_id();
+        long id = players.getData().get(0).getAccount_id();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(region).addAccountId(id);
         PlayersPersonalDataFull playerData = request.fetch();
         if (!playerData.getStatus().get()) {

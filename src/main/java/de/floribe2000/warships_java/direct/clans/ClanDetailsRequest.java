@@ -44,7 +44,7 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
     /**
      * The set of clan ids for this request
      */
-    private Set<Integer> clanIds = new HashSet<>();
+    private Set<Long> clanIds = new HashSet<>();
 
     /**
      * The extra field for this request
@@ -102,7 +102,7 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
      *                                  <li>If the collection of clan ids contains more than 100 entries.</li>
      *                                  </ul>
      */
-    public ClanDetailsRequest clanIds(Collection<Integer> clanIds) {
+    public ClanDetailsRequest clanIds(Collection<Long> clanIds) {
         if (clanIds == null || clanIds.size() > 100 || clanIds.size() < 1) {
             throw new IllegalArgumentException("The collection must not be null and have between 1 and 100 entries");
         }
@@ -117,7 +117,7 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
      * @param clanId the clan id to add
      * @return the instance of this request
      */
-    public ClanDetailsRequest addClan(int clanId) {
+    public ClanDetailsRequest addClan(long clanId) {
         if (this.clanIds.size() < 100) {
             this.clanIds.add(clanId);
         }

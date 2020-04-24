@@ -43,7 +43,7 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
      * The account id of the player
      */
     @NonNull
-    private Set<Integer> accountIds = new HashSet<>();
+    private Set<Long> accountIds = new HashSet<>();
 
     /**
      * Creates a new empty request of this class.
@@ -74,7 +74,7 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
      * @return the instance of this request
      * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
      */
-    public PlayersAchievmentsRequest accountIds(Collection<Integer> accountIds) {
+    public PlayersAchievmentsRequest accountIds(Collection<Long> accountIds) {
         if (accountIds.size() > 100) {
             throw new IllegalArgumentException("The size of the provided collection of ids exceeds the limit of 100 ids");
         }
@@ -90,7 +90,7 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
      * @param id the id to add
      * @return the instance of this request
      */
-    public PlayersAchievmentsRequest accountId(int id) {
+    public PlayersAchievmentsRequest accountId(long id) {
         if (accountIds.size() < 100) {
             accountIds.add(id);
         } else {

@@ -51,7 +51,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
     /**
      * The account id for this request
      */
-    private int accountId = 0;
+    private long accountId = 0;
 
     /**
      * The list of dates for this request. A maximum of 10 dates is allowed.
@@ -96,7 +96,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * @param accountId the account id for the request
      * @return the instance of this request
      */
-    public PlayerStatisticsByDateRequest accountId(int accountId) {
+    public PlayerStatisticsByDateRequest accountId(long accountId) {
         this.accountId = accountId;
         return this;
     }

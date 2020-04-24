@@ -56,7 +56,7 @@ public class PlayersStatisticsByDate implements IApiResponse {
 
             private int capture_points = 0;
 
-            private int account_id = 0;
+            private long account_id = 0;
 
             private int max_xp = 0;
 

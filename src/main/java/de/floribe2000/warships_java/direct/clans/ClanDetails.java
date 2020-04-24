@@ -35,11 +35,11 @@ public class ClanDetails implements IApiResponse {
 
         private String leader_name = null;
 
-        private List<Integer> members_ids = null;
+        private List<Long> members_ids = null;
 
-        private int creator_id = 0;
+        private long creator_id = 0;
 
-        private int clan_id = 0;
+        private long clan_id = 0;
 
         private Map<String, ClanMember> members = null;
 
@@ -50,7 +50,7 @@ public class ClanDetails implements IApiResponse {
 
             private long joined_at = 0;
 
-            private int account_id = 0;
+            private long account_id = 0;
 
             private String account_name = null;
         }
@@ -63,7 +63,7 @@ public class ClanDetails implements IApiResponse {
 
         private String old_tag = null;
 
-        private int leader_id = 0;
+        private long leader_id = 0;
 
         private String description = null;
     }

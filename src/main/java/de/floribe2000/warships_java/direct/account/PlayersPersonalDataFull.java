@@ -35,7 +35,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
         private int last_battle_time = 0;
 
-        private int account_id = 0;
+        private long account_id = 0;
 
         private int leveling_tier = 0;
 

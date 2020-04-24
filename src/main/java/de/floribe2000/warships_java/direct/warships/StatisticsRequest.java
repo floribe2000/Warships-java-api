@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author floribe2000
  */
+//TODO allow use of all parameters
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implements IRequestAction<Statistics> {
 
@@ -41,7 +42,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     /**
      * The account id of the player for this request
      */
-    private int accountId = 0;
+    private long accountId = 0;
 
     /**
      * The extra fields for this request
@@ -107,7 +108,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
      * @param accountId the new account id for this request
      * @return the instance of this request
      */
-    public StatisticsRequest accountId(int accountId) {
+    public StatisticsRequest accountId(long accountId) {
         this.accountId = accountId;
         return this;
     }

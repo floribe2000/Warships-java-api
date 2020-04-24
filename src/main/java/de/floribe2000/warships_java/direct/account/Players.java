@@ -45,7 +45,7 @@ public class Players implements IApiResponse {
         /**
          * The account id of the player
          */
-        private int account_id = 0;
+        private long account_id = 0;
     }
 
     @Override

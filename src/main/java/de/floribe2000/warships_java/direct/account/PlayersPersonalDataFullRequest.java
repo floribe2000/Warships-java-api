@@ -43,7 +43,7 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
     /**
      * A set of accound ids for the request.
      */
-    private Set<Integer> accountIds = new HashSet<>();
+    private Set<Long> accountIds = new HashSet<>();
 
     /**
      * A set of extra fields that should be added to the request and will be retrieved from the api.
@@ -94,7 +94,7 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      * @param accountId the id to add
      * @return the instance of this request
      */
-    public PlayersPersonalDataFullRequest addAccountId(int accountId) {
+    public PlayersPersonalDataFullRequest addAccountId(long accountId) {
         if (this.accountIds.size() < 100) {
             this.accountIds.add(accountId);
         } else {
@@ -111,7 +111,7 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      * @return the instance of this request
      * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
      */
-    public PlayersPersonalDataFullRequest accountIds(Set<Integer> accountIds) {
+    public PlayersPersonalDataFullRequest accountIds(Set<Long> accountIds) {
         if (accountIds.size() > 100) {
             throw new IllegalArgumentException("The size of the set must not exceed 100");
         }
