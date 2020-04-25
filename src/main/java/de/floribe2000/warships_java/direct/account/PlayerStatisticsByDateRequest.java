@@ -11,14 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatisticsByDateRequest> implements IRequestAction<PlayersStatisticsByDate> {
@@ -26,7 +29,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
     /**
      * A Logger instance used to log events of this class
      */
-    private final Logger LOG = LoggerFactory.getLogger(getClass().getSimpleName());
+    private static final Logger LOG = LoggerFactory.getLogger(PlayerStatisticsByDateRequest.class.getSimpleName());
 
     /**
      * The date format pattern used for the date field
@@ -36,7 +39,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
     /**
      * The {@link DateFormat} instance used to format dates that can be used by the api
      */
-    private final static DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+    private final static DateTimeFormatter df = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     /**
      * The server region for this request
@@ -157,7 +160,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * @throws IllegalArgumentException If the date is not valid, for example if it's more than 28 days in the past
      * @throws IllegalStateException    If there are already 10 dates set for this request
      */
-    public PlayerStatisticsByDateRequest addDate(Date date) {
+    public PlayerStatisticsByDateRequest addDate(ZonedDateTime date) {
         if (!validateDate(date)) {
             throw new IllegalArgumentException("Date is not valid");
         }
@@ -201,14 +204,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
         String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
         String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
         String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
-//        PlayersStatisticsByDate result;
-//        SimpleRateLimiter.waitForPermit();
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-//            result = GSON.fromJson(reader, PlayersStatisticsByDate.class);
-//        } catch (Exception e) {
-//            LOG.error("Exception", e);
-//            result = new PlayersStatisticsByDate();
-//        }
+
         return connect(url, PlayersStatisticsByDate.class, getLimiter());
     }
 
@@ -219,11 +215,13 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * @param date the date as string
      * @return true if the date is valid, false if the date is invalid or the string doesn't match the required format
      */
+    @Deprecated
     private static boolean validateDate(String date) {
         if (checkStringFormatting(date)) {
             try {
-                return validateDate(df.parse(date));
-            } catch (ParseException e) {
+                return validateDate(LocalDate.parse(date, df).atStartOfDay(ZoneId.systemDefault()));
+            } catch (DateTimeParseException e) {
+                LOG.warn("Parsing error", e);
                 return false;
             }
         }
@@ -237,10 +235,10 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * @param date the date to check
      * @return true if the date is valid, false if not
      */
-    private static boolean validateDate(Date date) {
-        Date now = new Date();
-        long diff = now.getTime() - date.getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) <= 28;
+    private static boolean validateDate(ZonedDateTime date) {
+        ZonedDateTime time = ZonedDateTime.now();
+        long diff = time.until(date, DAYS);
+        return diff <= 28;
     }
 
     /**
@@ -251,10 +249,10 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      */
     private static boolean checkStringFormatting(String date) {
         try {
-            df.setLenient(false);
             df.parse(date);
             return true;
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
+            LOG.warn("Parsing error", e);
             return false;
         }
     }
@@ -270,7 +268,7 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
          */
         PVE("pve");
 
-        private String key;
+        private final String key;
 
         @Override
         public String retrieveKey() {

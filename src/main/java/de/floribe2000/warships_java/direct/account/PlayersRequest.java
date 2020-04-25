@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,7 +89,7 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
     }
 
     /**
-     * Adds a field to the request while keeping all existing fields
+     * Adds a field to the request while keeping all existing fields.
      *
      * @param fields the fields to add
      * @return this instance
@@ -102,14 +103,24 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
     }
 
     /**
-     * Replaces all currently set fields with a new list of fields
+     * Replaces all currently set fields with a new list of fields.
+     *
+     * @param fields the new fields
+     * @return this instance
+     * @see #fields(Collection fields) Use collections instead of an array
+     */
+    public PlayersRequest fields(ResponseField... fields) {
+        return fields(Arrays.asList(fields));
+    }
+
+    /**
+     * Replaces all currently set fields with a new list of fields.
      *
      * @param fields the new fields
      * @return this instance
      */
-    public PlayersRequest fields(ResponseField... fields) {
-        this.fields = new HashSet<>();
-        this.fields.addAll(Arrays.asList(fields));
+    public PlayersRequest fields(Collection<ResponseField> fields) {
+        this.fields = new HashSet<>(fields);
         return this;
     }
 

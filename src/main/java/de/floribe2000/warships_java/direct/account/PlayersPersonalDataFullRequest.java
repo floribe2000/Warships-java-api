@@ -111,11 +111,12 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      * @return the instance of this request
      * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
      */
-    public PlayersPersonalDataFullRequest accountIds(Set<Long> accountIds) {
-        if (accountIds.size() > 100) {
+    public PlayersPersonalDataFullRequest accountIds(Collection<Long> accountIds) {
+        Set<Long> tmp = new HashSet<>(accountIds);
+        if (tmp.size() > 100) {
             throw new IllegalArgumentException("The size of the set must not exceed 100");
         }
-        this.accountIds = accountIds;
+        this.accountIds = tmp;
         return this;
     }
 
@@ -125,9 +126,21 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      *
      * @param extraFields the fields to add to the request
      * @return the instance of this request
+     * @see #extraFields(Collection extraFields) Use collections instead of an array
      */
     public PlayersPersonalDataFullRequest extraFields(ExtraField... extraFields) {
-        this.extraFields.addAll(Arrays.asList(extraFields));
+        return extraFields(Arrays.asList(extraFields));
+    }
+
+    /**
+     * Adds one or more {@link ExtraField extra fields} to the request.
+     * <p>Existing fields won't be changed.</p>
+     *
+     * @param extraFields the fields to add to the request
+     * @return the instance of this request
+     */
+    public PlayersPersonalDataFullRequest extraFields(Collection<ExtraField> extraFields) {
+        this.extraFields.addAll(extraFields);
         return this;
     }
 

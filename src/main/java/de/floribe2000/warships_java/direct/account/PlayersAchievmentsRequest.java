@@ -89,8 +89,27 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
      *
      * @param id the id to add
      * @return the instance of this request
+     * @deprecated use {@link #addAccountId(long id)} instead
      */
+    @Deprecated
     public PlayersAchievmentsRequest accountId(long id) {
+        if (accountIds.size() < 100) {
+            accountIds.add(id);
+        } else {
+            LOG.warn("Skipping account id addition. Reason: Limit reached (Limit: 100)");
+        }
+        return this;
+    }
+
+    /**
+     * Adds an account id to the list of account ids.
+     * <p>Existing ids won't be changed!
+     * If the limit is reached, the id won't be added to the request and a logging call is triggered.</p>
+     *
+     * @param id the id to add
+     * @return the instance of this request
+     */
+    public PlayersAchievmentsRequest addAccountId(long id) {
         if (accountIds.size() < 100) {
             accountIds.add(id);
         } else {
