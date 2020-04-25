@@ -6,7 +6,7 @@
 
     <groupId>de.floribe2000</groupId>
     <artifactId>Warships-java-api</artifactId>
-    <version>0.2.16</version>
+    <version>0.2.17</version>
     <description>A java library to access the official Wargaming.net api. This project is a community project and not
         associated with Wargaming!
     </description>
