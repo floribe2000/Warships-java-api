@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * A class to create and execute requests to get details about the stats of single ships for a player.
  * <p>If the list of ships is not defined, statistics for all ships will be returned. If the list of ships is defined, statistics for up to 100 ships can be requested.</p>
  *
- * @author floribe2000
+ * @author floribe2000, SirLefti
  */
 //TODO allow use of all parameters
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -117,7 +117,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
      * Sets the set of extra fields.
      * <p>Replaces existing values! To add fields use {@link #addExtraField(ExtraField...)}.</p>
      *
-     * @param extraFields the collection of {@link ExtraField ExtraFields}
+     * @param extraFields the collection of {@link ExtraField ExtraFields} to set
      * @return the instance of this request
      */
     public StatisticsRequest extraFields(Collection<ExtraField> extraFields) {
@@ -126,10 +126,46 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     }
 
     /**
+     * Sets the set of extra fields.
+     * <p>Replaces existing values! To add fields use {@link #addExtraField(ExtraField...)}.</p>
+     *
+     * @param extraFields the array of {@link ExtraField ExtraFields} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest extraFields(ExtraField... extraFields) {
+        this.extraFields = new HashSet<>(Arrays.asList(extraFields));
+        return this;
+    }
+
+    /**
      * Adds an extra field to this request.
      * <p>Does not change existing values!</p>
      *
-     * @param extraFields the extra fields to add
+     * @param extraField the {@link ExtraField ExtraField} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addExtraField(ExtraField extraField) {
+        this.extraFields.add(extraField);
+        return this;
+    }
+
+    /**
+     * Add extra fields to this request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param extraFields the {@link ExtraField ExtraFields} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addExtraField(Collection<ExtraField> extraFields) {
+        this.extraFields.addAll(extraFields);
+        return this;
+    }
+
+    /**
+     * Add extra fields to this request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param extraFields the {@link ExtraField ExtraFields} to add
      * @return the instance of this request
      */
     public StatisticsRequest addExtraField(ExtraField... extraFields) {
@@ -138,21 +174,43 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     }
 
     /**
-     * Removes the given extra fields from this request.
+     * Removes the given extra field from this request.
      *
-     * @param extraFields the extra fields to remove
+     * @param extraField the {@link ExtraField ExtraField} to remove
      * @return the instance of this request
      */
-    public StatisticsRequest removeExtraField(ExtraField... extraFields) {
+    public StatisticsRequest removeExtraField(ExtraField extraField) {
+        this.extraFields.remove(extraField);
+        return this;
+    }
+
+    /**
+     * Removes the given extra fields from this request.
+     *
+     * @param extraFields the {@link ExtraField ExtraFields} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeExtraFields(Collection<ExtraField> extraFields) {
+        this.extraFields.removeAll(extraFields);
+        return this;
+    }
+
+    /**
+     * Removes the given extra fields from this request.
+     *
+     * @param extraFields the {@link ExtraField ExtraFields} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeExtraFields(ExtraField... extraFields) {
         this.extraFields.removeAll(Arrays.asList(extraFields));
         return this;
     }
 
     /**
      * Sets the set of ship ids for this request.
-     * <p>Replaces existing values! To add ships use {@link #addShipId(long shipId)} instead.</p>
+     * <p>Replaces existing values! To add ships use {@link #addShipIds(Long...)} instead.</p>
      *
-     * @param shipIds the collection of ship ids
+     * @param shipIds the collection of {@link Long shipIds} to set
      * @return the instance of this request
      * @throws IllegalStateException If the collection contains more than 100 ids.
      */
@@ -166,10 +224,27 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     }
 
     /**
-     * Adds a ship id to the request.
-     * <p>Existing values are not changed.</p>
+     * Sets the set of ship ids for this request.
+     * <p>Replaces existing values! To add ships use {@link #addShipIds(Long...)} instead.</p>
      *
-     * @param shipId the ship id to add
+     * @param shipIds the array of {@link Long shipIds} to set
+     * @return the instance of this request
+     * @throws IllegalStateException If the array contains more than 100 ids.
+     */
+    public StatisticsRequest shipIds(Long... shipIds) {
+        if (shipIds.length <= 100) {
+            this.shipIds = new HashSet<>(Arrays.asList(shipIds));
+        } else {
+            throw new IllegalStateException("There must be not more than 100 ship ids.");
+        }
+        return this;
+    }
+
+    /**
+     * Adds a ship id to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param shipId the {@link Long shipId} to add
      * @return the instance of this request
      * @throws IllegalStateException If there are already 100 ids set for this request.
      */
@@ -183,9 +258,43 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     }
 
     /**
+     * Adds given ship ids to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param shipIds the collection of {@link Long shipIds} to add
+     * @return the instance of this request
+     * @throws IllegalStateException If there would be set more than 100 ids for this request.
+     */
+    public StatisticsRequest addShipIds(Collection<Long> shipIds) {
+        if (this.shipIds.size() + shipIds.size() <= 100) {
+            this.shipIds.addAll(shipIds);
+        } else {
+            throw new IllegalStateException("There must be not more than 100 ship ids.");
+        }
+        return this;
+    }
+
+    /**
+     * Adds given ship ids to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param shipIds the array {@link Long shipIds} to add
+     * @return the instance of this request
+     * @throws IllegalStateException If there would be set more than 100 ids for this request.
+     */
+    public StatisticsRequest addShipIds(Long... shipIds) {
+        if (this.shipIds.size() + shipIds.length <= 100) {
+            this.shipIds.addAll(Arrays.asList(shipIds));
+        } else {
+            throw new IllegalStateException("There must be not more than 100 ship ids.");
+        }
+        return this;
+    }
+
+    /**
      * Removes a ship id from the list of ids.
      *
-     * @param shipId the id to remove
+     * @param shipId the {@link Long shipId} to remove
      * @return the instance of this request
      */
     public StatisticsRequest removeShipId(long shipId) {
@@ -194,50 +303,401 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
     }
 
     /**
-     * Adds one or more nations to the request.
-     * <p>Does NOT replace existing values!</p>
+     * Removes given ship ids from the list of ids.
      *
-     * @param nations the nations to add
+     * @param shipIds the collection of {@link Long shipIds} to remove
      * @return the instance of this request
      */
-    public StatisticsRequest nation(Nation... nations) {
+    public StatisticsRequest removeShipIds(Collection<Long> shipIds) {
+        this.shipIds.removeAll(shipIds);
+        return this;
+    }
+
+    /**
+     * Removes given ship ids from the list of ids.
+     *
+     * @param shipIds the array of {@link Long shipIds} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeShipIds(Long... shipIds) {
+        this.shipIds.removeAll(Arrays.asList(shipIds));
+        return this;
+    }
+
+    /**
+     * Sets the nations to the request.
+     * <p>Replaces existing values! To add nations use {@link #addNations(Nation...)} instead.</p>
+     *
+     * @param nations the collection of {@link Nation nations} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest nations(Collection<Nation> nations) {
+        this.nations.addAll(nations);
+        return this;
+    }
+
+    /**
+     * Sets the nations to the request.
+     * <p>Replaces existing values! To add nations use {@link #addNations(Nation...)} instead.</p>
+     *
+     * @param nations the array of {@link Nation nations} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest nations(Nation... nations) {
         this.nations.addAll(Arrays.asList(nations));
         return this;
     }
 
     /**
-     * Adds one or more ship types to the request.
-     * <p>Does NOT replace existing values!</p>
+     * Adds one nation to the request.
+     * <p>Does not change existing values!</p>
      *
-     * @param types the ship types to add
+     * @param nation the {@link Nation nation} to add
      * @return the instance of this request
      */
-    public StatisticsRequest shipType(ShipType... types) {
+    public StatisticsRequest addNation(Nation nation) {
+        this.nations.addAll(Arrays.asList(nation));
+        return this;
+    }
+
+    /**
+     * Adds one or more nations to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param nations the collection of {@link Nation nations} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addNations(Collection<Nation> nations) {
+        this.nations.addAll(nations);
+        return this;
+    }
+
+    /**
+     * Adds one or more nations to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param nations the array of {@link Nation nations} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addNations(Nation... nations) {
+        this.nations.addAll(Arrays.asList(nations));
+        return this;
+    }
+
+    /**
+     * Removes a nation from the set of nations.
+     *
+     * @param nation the {@link Nation nation} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeNation(Nation nation) {
+        this.nations.remove(nation);
+        return this;
+    }
+
+    /**
+     * Removes given nations from the set of nations.
+     *
+     * @param nations the collection of {@link Nation nations} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeNations(Collection<Nation> nations) {
+        this.nations.removeAll(nations);
+        return this;
+    }
+
+    /**
+     * Removes given nations from the set of nations.
+     *
+     * @param nations the array of {@link Nation nations} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeNations(Nation... nations) {
+        this.nations.removeAll(Arrays.asList(nations));
+        return this;
+    }
+
+    /**
+     * Adds given ship types to the request.
+     * <p>Replaces existing values! To add ship types use {@link #addShipTypes(ShipType...)} instead.</p>
+     *
+     * @param types the collection of {@link ShipType types} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest shipTypes(Collection<ShipType> types) {
+        this.shipTypes.addAll(types);
+        return this;
+    }
+
+    /**
+     * Adds given ship types to the request.
+     * <p>Replaces existing values! To add ship types use {@link #addShipTypes(ShipType...)} instead.</p>
+     *
+     * @param types the array of {@link ShipType types} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest shipTypes(ShipType... types) {
         this.shipTypes.addAll(Arrays.asList(types));
         return this;
     }
 
     /**
-     * Adds one or more ship tiers to the request.
-     * <p>Does NOT replace existing values!</p>
+     * Adds one or more ship types to the request.
+     * <p>Does not change existing values!</p>
      *
-     * @param tiers the ship tiers to add
+     * @param types the colleection of {@link ShipType types} to add
      * @return the instance of this request
      */
-    public StatisticsRequest tier(Tier... tiers) {
+    public StatisticsRequest addShipTypes(Collection<ShipType> types) {
+        this.shipTypes.addAll(types);
+        return this;
+    }
+
+    /**
+     * Adds one or more ship types to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param types the array of {@link ShipType types} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addShipTypes(ShipType... types) {
+        this.shipTypes.addAll(Arrays.asList(types));
+        return this;
+    }
+
+    /**
+     * Adds one ship type to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param type the {@link ShipType type} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addShipType(ShipType type) {
+        this.shipTypes.add(type);
+        return this;
+    }
+
+    /**
+     * Remove given ship types to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param types the collection of {@link ShipType types} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeShipTypes(Collection<ShipType> types) {
+        this.shipTypes.removeAll(types);
+        return this;
+    }
+
+    /**
+     * Remove given ship types to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param types the array of {@link ShipType types} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeShipTypes(ShipType... types) {
+        this.shipTypes.removeAll(Arrays.asList(types));
+        return this;
+    }
+
+    /**
+     * Remove given ship type to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param type the {@link ShipType type} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeShipType(ShipType type) {
+        this.shipTypes.remove(type);
+        return this;
+    }
+
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Replaces existing values! To add ship tiers use {@link #addTiers(Tier...)} instead.</p>
+     *
+     * @param tiers the collection of {@link Tier tiers} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest tiers(Collection<Tier> tiers) {
+        this.shipTiers = new HashSet<>(tiers);
+        return this;
+    }
+
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Replaces existing values! To add ship tiers use {@link #addTiers(Tier...)} instead.</p>
+     *
+     * @param tiers the array of {@link Tier tiers} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest tiers(Tier... tiers) {
+        this.shipTiers = new HashSet<>(Arrays.asList(tiers));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param tiers the collection of {@link Tier tiers} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addTiers(Collection<Tier> tiers) {
+        this.shipTiers.addAll(tiers);
+        return this;
+    }
+
+    /**
+     * Adds one or more ship tiers to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param tiers the array of {@link Tier tiers} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addTiers(Tier... tiers) {
         this.shipTiers.addAll(Arrays.asList(tiers));
         return this;
     }
 
     /**
-     * Adds one or more ship categories to the request.
-     * <p>Does NOT replace existing values!</p>
+     * Adds one ship tiers to the request.
+     * <p>Does not change existing values!</p>
      *
-     * @param categories the ship categories to add
+     * @param tier the {@link Tier tier} to add
      * @return the instance of this request
      */
-    public StatisticsRequest category(ShipCategory... categories) {
+    public StatisticsRequest addTier(Tier tier) {
+        this.shipTiers.add(tier);
+        return this;
+    }
+
+    /**
+     * Removes one or more ship tiers to the request.
+     *
+     * @param tiers the collection of {@link Tier tiers} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeTiers(Collection<Tier> tiers) {
+        this.shipTiers.removeAll(tiers);
+        return this;
+    }
+
+    /**
+     * Removes one or more ship tiers to the request.
+     *
+     * @param tiers the array of {@link Tier tiers} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeTiers(Tier... tiers) {
+        this.shipTiers.removeAll(Arrays.asList(tiers));
+        return this;
+    }
+
+    /**
+     * Removes one ship tiers to the request.
+     *
+     * @param tier the {@link Tier tier} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeTier(Tier tier) {
+        this.shipTiers.remove(tier);
+        return this;
+    }
+
+    /**
+     * Sets the ship categories to the request.
+     * <p>Replaces existing values! To add ship categories use {@link #addCategories(ShipCategory...)} instead.</p>
+     *
+     * @param categories the collection of {@link ShipCategory categories} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest categories(Collection<ShipCategory> categories) {
+        this.shipCategories = new HashSet<>(categories);
+        return this;
+    }
+
+    /**
+     * Sets the ship categories to the request.
+     * <p>Replaces existing values! To add ship categories use {@link #addCategories(ShipCategory...)} instead.</p>
+     *
+     * @param categories the array of {@link ShipCategory categories} to set
+     * @return the instance of this request
+     */
+    public StatisticsRequest categories(ShipCategory... categories) {
+        this.shipCategories = new HashSet<>(Arrays.asList(categories));
+        return this;
+    }
+
+    /**
+     * Adds one or more ship categories to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param categories the collection of {@link ShipCategory categories} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addCategories(Collection<ShipCategory> categories) {
+        this.shipCategories.addAll(categories);
+        return this;
+    }
+
+    /**
+     * Adds one or more ship categories to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param categories the array of {@link ShipCategory categories} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addCategories(ShipCategory... categories) {
         this.shipCategories.addAll(Arrays.asList(categories));
+        return this;
+    }
+
+    /**
+     * Adds one ship category to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param category the {@link ShipCategory category} to add
+     * @return the instance of this request
+     */
+    public StatisticsRequest addCategory(ShipCategory category) {
+        this.shipCategories.add(category);
+        return this;
+    }
+
+    /**
+     * Removes one or more ship categories to the request.
+     *
+     * @param categories the collection of {@link ShipCategory categories} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeCategories(Collection<ShipCategory> categories) {
+        this.shipCategories.removeAll(categories);
+        return this;
+    }
+
+    /**
+     * Removes one or more ship categories to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param categories the array of {@link ShipCategory categories} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeCategories(ShipCategory... categories) {
+        this.shipCategories.removeAll(Arrays.asList(categories));
+        return this;
+    }
+
+    /**
+     * Removes one ship category to the request.
+     * <p>Does not change existing values!</p>
+     *
+     * @param category the {@link ShipCategory category} to remove
+     * @return the instance of this request
+     */
+    public StatisticsRequest removeCategory(ShipCategory category) {
+        this.shipCategories.remove(category);
         return this;
     }
 

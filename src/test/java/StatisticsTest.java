@@ -59,10 +59,10 @@ public class StatisticsTest {
 	public void testShipStatsFiltered() {
 		StatisticsRequest request = StatisticsRequest.createRequest()
 			.accountId(wargamingId).region(Region.EU)
-			.shipType(ShipType.CRUISER)
-			.tier(Tier.VIII, Tier.IX, Tier.X)
-			.nation(Nation.USA)
-			.category(ShipCategory.RESEARCH);
+			.shipTypes(ShipType.CRUISER)
+			.tiers(Tier.VIII, Tier.IX, Tier.X)
+			.nations(Nation.USA)
+			.categories(ShipCategory.RESEARCH);
 		Statistics response = request.fetch();
 
 		assertNotNull(response);
