@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements IRequestAction<Warships> {
+public class WarshipsRequest extends AbstractRequest<WarshipsRequest, Warships> implements IRequestAction<Warships> {
 
     /**
      * A Logger instance used to log events of this class
@@ -262,7 +262,33 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     @Override
-    public Warships fetch() {
+    protected Warships fetch(String url) {
+
+        Warships response = connect(url, Warships.class, getLimiter());
+
+        if (!shipTiers.isEmpty()) {
+            Set<Long> toDelete = response.getData().entrySet().stream()
+                    .filter(entry -> !shipTiers.contains(entry.getValue().getTier()))
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toSet());
+            toDelete.forEach(key -> response.getData().remove(key));
+        }
+
+        if (!shipCategories.isEmpty()) {
+            Set<Long> toDelete = response.getData().entrySet().stream()
+                    .filter(entry -> shipCategories.contains(ShipCategory.PREMIUM) && !entry.getValue().is_premium()
+                            || shipCategories.contains(ShipCategory.SPECIAL) && !entry.getValue().is_special()
+                            || shipCategories.contains(ShipCategory.RESEARCH) && entry.getValue().is_premium() || entry.getValue().is_special())
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toSet());
+            toDelete.forEach(key -> response.getData().remove(key));
+        }
+
+        return response;
+    }
+
+    @Override
+    public String buildUrl() {
         if (region == null) {
             throw new IllegalArgumentException("Region must not be null.");
         }
@@ -270,28 +296,6 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest> implements
         String nations = this.nations.isEmpty() ? "" : FieldType.NATION + this.nations.stream().map(Enum::toString).collect(Collectors.joining(","));
         String types = this.shipTypes.isEmpty() ? "" : FieldType.SHIP_CLASS + this.shipTypes.stream().map(Enum::toString).collect(Collectors.joining(","));
         String ships = this.shipIds.isEmpty() ? "" : FieldType.SHIP_ID + shipIds.stream().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language, getInstanceName()) + ships + nations + types +
-                FieldType.PAGE + pageNo + FieldType.LIMIT + limit;
-        Warships response =  connect(url, Warships.class, getLimiter());
-
-        if (!shipTiers.isEmpty()) {
-            Set<Long> toDelete = response.getData().entrySet().stream()
-                .filter(entry -> !shipTiers.contains(entry.getValue().getTier()))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toSet());
-            toDelete.forEach(key -> response.getData().remove(key));
-        }
-
-        if (!shipCategories.isEmpty()) {
-            Set<Long> toDelete = response.getData().entrySet().stream()
-                .filter(entry -> shipCategories.contains(ShipCategory.PREMIUM) && !entry.getValue().is_premium()
-                    || shipCategories.contains(ShipCategory.SPECIAL) && !entry.getValue().is_special()
-                    || shipCategories.contains(ShipCategory.RESEARCH) && entry.getValue().is_premium() || entry.getValue().is_special())
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toSet());
-            toDelete.forEach(key -> response.getData().remove(key));
-        }
-
-        return response;
+        return baseUrl(region, path, language, getInstanceName()) + ships + nations + types + FieldType.PAGE + pageNo + FieldType.LIMIT + limit;
     }
 }

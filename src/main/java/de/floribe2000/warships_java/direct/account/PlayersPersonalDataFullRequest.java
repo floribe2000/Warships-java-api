@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPersonalDataFullRequest> implements IRequestAction<PlayersPersonalDataFull> {
+public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPersonalDataFullRequest, PlayersPersonalDataFull> {
 
     /**
      * A Logger instance used to log events of this class
@@ -69,6 +69,16 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
     public PlayersPersonalDataFullRequest language(Language language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || accountIds.size() == 0) {
+            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
+        }
+        String path = "/wows/account/info/";
+        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
     }
 
     /**
@@ -155,14 +165,14 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      *                                  </ul>
      */
     @Override
-    public PlayersPersonalDataFull fetch() {
-        if (region == null || accountIds.size() == 0) {
-            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
-        }
-        String path = "/wows/account/info/";
-        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
-        PlayersPersonalDataFull result;
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
+    protected PlayersPersonalDataFull fetch(String url) {
+//        if (region == null || accountIds.size() == 0) {
+//            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
+//        }
+//        String path = "/wows/account/info/";
+//        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
+//        PlayersPersonalDataFull result;
+//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
 //            result = GSON.fromJson(reader, PlayersPersonalDataFull.class);

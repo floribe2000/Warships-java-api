@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * A class to create and execute requests to retrieve a list of players based on a search string.
@@ -22,7 +23,7 @@ import java.util.Set;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersRequest extends AbstractRequest<PlayersRequest> implements IRequestAction<Players> {
+public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
 
     /**
      * A Logger instance used to log events of this class
@@ -68,6 +69,15 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
     public PlayersRequest language(Language language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || searchText == null) {
+            throw new IllegalArgumentException("You can't use this method before setting all parameters");
+        }
+        String path = "/wows/account/list/";
+        return baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
     }
 
     @Override
@@ -127,7 +137,7 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
 
     /**
      * Executes a request and returns the result of the request.
-     * <p>All requests are executed synchronous on this thread. It is safe to execute this in a new thread if it is required to be run asynchronous.</p>
+     * <p>All requests are executed synchronous on this thread. Don't use the same request in multiple threads. Use {@link #fetchAsync(Consumer result)} instead.</p>
      *
      * @return an instance of {@link Players} that contains all requested player data. If the request fails, an empty instance is returned.
      * @throws IllegalArgumentException <ul>
@@ -136,12 +146,12 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest> implements I
      *                                  </ul>
      */
     @Override
-    public Players fetch() {
-        if (region == null || searchText == null) {
-            throw new IllegalArgumentException("You can't use this method before setting all parameters");
-        }
-        String path = "/wows/account/list/";
-        String url = baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
+    protected Players fetch(String url) {
+//        if (region == null || searchText == null) {
+//            throw new IllegalArgumentException("You can't use this method before setting all parameters");
+//        }
+//        String path = "/wows/account/list/";
+//        String url = baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
 //        Players result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {

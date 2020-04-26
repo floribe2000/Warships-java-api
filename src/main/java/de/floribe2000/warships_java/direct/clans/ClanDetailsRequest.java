@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> implements IRequestAction<ClanDetails> {
+public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest, ClanDetails> {
 
     /**
      * A Logger instance used to log events of this class
@@ -136,14 +136,14 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
      *                                  </ul>
      */
     @Override
-    public ClanDetails fetch() {
-        if (region == null || clanIds.size() < 1 || clanIds.size() > 100) {
-            throw new IllegalArgumentException("Region must not be null and the number of clans must be between 1 and 100.");
-        }
-        String path = "/wows/clans/info/";
-        String clans = clanIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.CLAN + clans + extra;
+    protected ClanDetails fetch(String url) {
+//        if (region == null || clanIds.size() < 1 || clanIds.size() > 100) {
+//            throw new IllegalArgumentException("Region must not be null and the number of clans must be between 1 and 100.");
+//        }
+//        String path = "/wows/clans/info/";
+//        String clans = clanIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+//        String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
+//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.CLAN + clans + extra;
 //        ClanDetails result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
@@ -153,6 +153,17 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest> impl
 //            result = new ClanDetails();
 //        }
         return connect(url, ClanDetails.class, getLimiter());
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || clanIds.size() < 1 || clanIds.size() > 100) {
+            throw new IllegalArgumentException("Region must not be null and the number of clans must be between 1 and 100.");
+        }
+        String path = "/wows/clans/info/";
+        String clans = clanIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+        String extra = !this.extra ? "" : FieldType.EXTRA + ExtraField.MEMBERS.key;
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.CLAN + clans + extra;
     }
 
     /**

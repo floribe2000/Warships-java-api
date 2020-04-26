@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MapsRequest extends AbstractRequest<MapsRequest> implements IRequestAction<Maps> {
+public class MapsRequest extends AbstractRequest<MapsRequest, Maps> implements IRequestAction<Maps> {
 
     /**
      * The server region for this request
@@ -55,9 +55,14 @@ public class MapsRequest extends AbstractRequest<MapsRequest> implements IReques
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     @Override
-    public Maps fetch() {
+    protected Maps fetch(String url) {
+        return connect(url, Maps.class, getLimiter());
+    }
+
+    @Override
+    public String buildUrl() {
         checkRegion(region);
         String path = "/wows/encyclopedia/battlearenas/";
-        return connect(baseUrl(region, path, language, getInstanceName()), Maps.class, getLimiter());
+        return baseUrl(region, path, language, getInstanceName());
     }
 }

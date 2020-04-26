@@ -33,6 +33,8 @@ public interface IRequestAction<T extends IApiResponse> {
      */
     T fetch();
 
+    String buildUrl();
+
     /**
      * Executes an asynchronous request.
      * <p>Avoid modifying the request before this request was completed!</p>
@@ -40,9 +42,7 @@ public interface IRequestAction<T extends IApiResponse> {
      *
      * @param result a consumer for the result of the request
      */
-    default void fetchAsync(Consumer<T> result) {
-        CompletableFuture.runAsync(() -> result.accept(fetch()));
-    }
+    void fetchAsync(Consumer<T> result);
 
     /**
      * Creates a url connection to the provided api and returns a object containing the received data.

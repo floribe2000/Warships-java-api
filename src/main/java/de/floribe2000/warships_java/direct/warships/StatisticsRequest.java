@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 //TODO allow use of all parameters
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implements IRequestAction<Statistics> {
+public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statistics> {
 
     /**
      * A Logger instance used to log events of this class
@@ -731,14 +731,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
      *                                  </ul>
      */
     @Override
-    public Statistics fetch() {
-        if (region == null || shipIds.size() > 100 || accountId < 500000000) {
-            throw new IllegalArgumentException("Region must not be null and the number of clans must be between 1 and 100.");
-        }
-        String path = "/wows/ships/stats/";
-        String extra = buildFieldString(FieldType.EXTRA, extraFields);
-        String ships = shipIds.size() == 0 ? "" : FieldType.SHIP_ID + shipIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + extra + ships;
+    protected Statistics fetch(String url) {
         //Statistics result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
@@ -748,6 +741,17 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest> implem
 //            result = new Statistics();
 //        }
         return connect(url, Statistics.class, getLimiter());
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || shipIds.size() > 100 || accountId < 500000000) {
+            throw new IllegalArgumentException("Region must not be null and the number of clans must be between 1 and 100.");
+        }
+        String path = "/wows/ships/stats/";
+        String extra = buildFieldString(FieldType.EXTRA, extraFields);
+        String ships = shipIds.size() == 0 ? "" : FieldType.SHIP_ID + shipIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + extra + ships;
     }
 
     @AllArgsConstructor

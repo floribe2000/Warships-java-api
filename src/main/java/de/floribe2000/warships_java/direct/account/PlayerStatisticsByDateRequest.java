@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatisticsByDateRequest> implements IRequestAction<PlayersStatisticsByDate> {
+public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatisticsByDateRequest, PlayersStatisticsByDate> {
 
     /**
      * A Logger instance used to log events of this class
@@ -85,6 +85,17 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
     public PlayerStatisticsByDateRequest language(Language language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || accountId == 0) {
+            throw new IllegalArgumentException("Region must not be null and accountId has to be defined.");
+        }
+        String path = "/wows/account/statsbydate/";
+        String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
+        String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
     }
 
     @Override
@@ -196,14 +207,14 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      *                                  </ul>
      */
     @Override
-    public PlayersStatisticsByDate fetch() {
-        if (region == null || accountId == 0) {
-            throw new IllegalArgumentException("Region must not be null and accountId has to be defined.");
-        }
-        String path = "/wows/account/statsbydate/";
-        String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
-        String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
+    protected PlayersStatisticsByDate fetch(String url) {
+//        if (region == null || accountId == 0) {
+//            throw new IllegalArgumentException("Region must not be null and accountId has to be defined.");
+//        }
+//        String path = "/wows/account/statsbydate/";
+//        String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
+//        String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
+//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
 
         return connect(url, PlayersStatisticsByDate.class, getLimiter());
     }

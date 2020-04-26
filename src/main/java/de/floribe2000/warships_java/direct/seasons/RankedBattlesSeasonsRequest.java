@@ -18,8 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RankedBattlesSeasonsRequest extends
-	AbstractRequest<RankedBattlesSeasonsRequest> implements IRequestAction<RankedBattlesSeasons>
+public class RankedBattlesSeasonsRequest extends AbstractRequest<RankedBattlesSeasonsRequest, RankedBattlesSeasons>
 //	, IRankedBattlesSeasonsRequest<RankedBattlesSeasonsRequest>
 {
 
@@ -85,14 +84,7 @@ public class RankedBattlesSeasonsRequest extends
 	 *                                  </ul>
 	 */
 	@Override
-	public RankedBattlesSeasons fetch() {
-		if (region == null) {
-			throw new IllegalArgumentException("The region has to be set");
-		}
-		String path = "/wows/seasons/info/";
-		String seasons = seasonIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(", "));
-		String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEASON_ID + seasons;
-
+	protected RankedBattlesSeasons fetch(String url) {
 		return connect(url, RankedBattlesSeasons.class, getLimiter());
 	}
 
@@ -100,5 +92,15 @@ public class RankedBattlesSeasonsRequest extends
 	public RankedBattlesSeasonsRequest apiBuilder(String instanceName) {
 		setInstance(instanceName);
 		return this;
+	}
+
+	@Override
+	public String buildUrl() {
+		if (region == null) {
+			throw new IllegalArgumentException("The region has to be set");
+		}
+		String path = "/wows/seasons/info/";
+		String seasons = seasonIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(", "));
+		return baseUrl(region, path, language, getInstanceName()) + FieldType.SEASON_ID + seasons;
 	}
 }

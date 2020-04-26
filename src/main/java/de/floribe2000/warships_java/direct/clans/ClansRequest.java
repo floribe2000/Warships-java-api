@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClansRequest extends AbstractRequest<ClansRequest> implements IRequestAction<Clans> {
+public class ClansRequest extends AbstractRequest<ClansRequest, Clans> implements IRequestAction<Clans> {
 
     /**
      * A Logger instance used to log events of this class
@@ -114,12 +114,12 @@ public class ClansRequest extends AbstractRequest<ClansRequest> implements IRequ
      *                                  </ul>
      */
     @Override
-    public Clans fetch() {
-        if (searchText == null || searchText.length() < 2 || region == null) {
-            throw new IllegalArgumentException("Search text has to be at least 2 chars long and region must not be null");
-        }
-        String path = "/wows/clans/list/";
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
+    protected Clans fetch(String url) {
+//        if (searchText == null || searchText.length() < 2 || region == null) {
+//            throw new IllegalArgumentException("Search text has to be at least 2 chars long and region must not be null");
+//        }
+//        String path = "/wows/clans/list/";
+//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
 //        Clans result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
@@ -129,5 +129,14 @@ public class ClansRequest extends AbstractRequest<ClansRequest> implements IRequ
 //            result = new Clans();
 //        }
         return connect(url, Clans.class, getLimiter());
+    }
+
+    @Override
+    public String buildUrl() {
+        if (searchText == null || searchText.length() < 2 || region == null) {
+            throw new IllegalArgumentException("Search text has to be at least 2 chars long and region must not be null");
+        }
+        String path = "/wows/clans/list/";
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.SEARCH + searchText + FieldType.PAGE + page;
     }
 }

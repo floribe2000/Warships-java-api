@@ -80,4 +80,31 @@ public class PlayersTest {
         }
     }
 
+    @Test
+    public void testAsyncPlayersRequestModified() {
+        ApiBuilder.createInstance(apiKey, instanceName);
+        String name = "floribe2000";
+        String name2 = "MrDios";
+        PlayersRequest request = PlayersRequest.createRequest().region(Region.EU).searchText(name);
+        request.fetchAsync(result -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(result);
+            assert result.getStatus().get() : result;
+            assert result.getData().get(0).getNickname().equals(name) : result;
+        });
+        Players players = request.searchText(name2).fetch();
+        System.out.println(players);
+        assert players.getStatus().get() : players;
+        assert players.getData().get(0).getNickname().contains(name2) : players;
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

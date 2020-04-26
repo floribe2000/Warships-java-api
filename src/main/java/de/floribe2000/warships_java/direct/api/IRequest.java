@@ -102,4 +102,12 @@ public interface IRequest<R> {
      * @return the request instance with an added language
      */
     R language(Language language);
+
+    /**
+     * Defines the api builder instance for this request.
+     *
+     * @param instanceName the name of the api builder instance
+     * @return the request instance with an added api builder instance
+     */
+    R apiBuilder(String instanceName);
 }

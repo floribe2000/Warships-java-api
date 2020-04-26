@@ -18,8 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RankedBattlesPlayerStatisticsRequest extends
-	AbstractRequest<RankedBattlesPlayerStatisticsRequest> implements IRequestAction<RankedBattlesPlayersStatistics> {
+public class RankedBattlesPlayerStatisticsRequest extends AbstractRequest<RankedBattlesPlayerStatisticsRequest, RankedBattlesPlayersStatistics> {
 
 	/**
 	 * A Logger instance used to log events of this class
@@ -39,8 +38,8 @@ public class RankedBattlesPlayerStatisticsRequest extends
 	/**
 	 * The set of season IDs for this request
 	 */
-	private Set<Integer> seasonIds = new HashSet<>()
-		;
+	private Set<Integer> seasonIds = new HashSet<>();
+
 	/**
 	 * The set of season IDs for this request
 	 */
@@ -104,7 +103,20 @@ public class RankedBattlesPlayerStatisticsRequest extends
 	 *                                  </ul>
 	 */
 	@Override
-	public RankedBattlesPlayersStatistics fetch() {
+	protected RankedBattlesPlayersStatistics fetch(String url) {
+
+
+		return connect(url, RankedBattlesPlayersStatistics.class, getLimiter());
+	}
+
+	@Override
+	public RankedBattlesPlayerStatisticsRequest apiBuilder(String instanceName) {
+		setInstance(instanceName);
+		return this;
+	}
+
+	@Override
+	public String buildUrl() {
 		if (region == null) {
 			throw new IllegalArgumentException("The region has to be set");
 		}
@@ -114,14 +126,6 @@ public class RankedBattlesPlayerStatisticsRequest extends
 		String path = "/wows/seasons/accountinfo/";
 		String seasons = seasonIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(", "));
 		String accounts = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(", "));
-		String url = baseUrl(region, path, language, getInstanceName()) + FieldType.SEASON_ID + seasons + FieldType.ACCOUNT_ID + accounts;
-
-		return connect(url, RankedBattlesPlayersStatistics.class, getLimiter());
-	}
-
-	@Override
-	public RankedBattlesPlayerStatisticsRequest apiBuilder(String instanceName) {
-		setInstance(instanceName);
-		return this;
+		return baseUrl(region, path, language, getInstanceName()) + FieldType.SEASON_ID + seasons + FieldType.ACCOUNT_ID + accounts;
 	}
 }

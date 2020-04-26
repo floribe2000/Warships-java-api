@@ -20,7 +20,7 @@ import java.util.Set;
  * @since 0.2.12
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ConsumablesRequest extends AbstractRequest<ConsumablesRequest> implements IRequestAction<Consumables> {
+public class ConsumablesRequest extends AbstractRequest<ConsumablesRequest, Consumables> {
 
     /**
      * The server region for this request
@@ -149,14 +149,18 @@ public class ConsumablesRequest extends AbstractRequest<ConsumablesRequest> impl
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     @Override
-    public Consumables fetch() {
+    protected Consumables fetch(String url) {
+        return connect(url, Consumables.class, getLimiter());
+    }
+
+    @Override
+    public String buildUrl() {
         if (region == null) {
             throw new IllegalArgumentException("Region must not be null.");
         }
         String path = "/wows/encyclopedia/consumables/";
         String type = this.type != null ? this.type.toString() : "";
         String page = page_no > 1 ? "&page_no=" + page_no : "";
-        String url = baseUrl(region, path, language, getInstanceName()) + type + page;
-        return connect(url, Consumables.class, getLimiter());
+        return baseUrl(region, path, language, getInstanceName()) + type + page;
     }
 }

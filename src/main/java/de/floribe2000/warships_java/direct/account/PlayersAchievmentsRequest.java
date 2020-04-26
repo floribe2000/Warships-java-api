@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author floribe2000
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievmentsRequest> implements IRequestAction<PlayersAchievments> {
+public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievmentsRequest, PlayersAchievments> {
 
     /**
      * A Logger instance used to log events of this class
@@ -64,6 +64,16 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
     public PlayersAchievmentsRequest language(Language language) {
         this.language = language;
         return this;
+    }
+
+    @Override
+    public String buildUrl() {
+        if (region == null || accountIds.size() == 0) {
+            throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
+        }
+        String path = "/wows/account/achievements/";
+        String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+        return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + ids;
     }
 
     /**
@@ -129,13 +139,13 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
      *                                  </ul>
      */
     @Override
-    public PlayersAchievments fetch() {
-        if (region == null || accountIds.size() == 0) {
-            throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
-        }
-        String path = "/wows/account/achievements/";
-        String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
-        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + ids;
+    protected PlayersAchievments fetch(String url) {
+//        if (region == null || accountIds.size() == 0) {
+//            throw new IllegalArgumentException("The region must not be null and the list of the account ids must not be empty.");
+//        }
+//        String path = "/wows/account/achievements/";
+//        String ids = accountIds.stream().sequential().map(Objects::toString).collect(Collectors.joining(","));
+//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + ids;
 //        PlayersAchievments result;
 //        SimpleRateLimiter.waitForPermit();
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
