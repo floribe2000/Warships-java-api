@@ -95,25 +95,25 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private long max_xp_ship_id = 0;
 
-                private int ships_spotted = 0;
+                private long ships_spotted = 0;
 
                 private WeaponType second_battery = null;
 
                 private long max_frags_ship_id = 0;
 
-                private int xp = 0;
+                private long xp = 0;
 
-                private int survived_battles = 0;
+                private long survived_battles = 0;
 
-                private int dropped_capture_points = 0;
+                private long dropped_capture_points = 0;
 
                 private int max_damage_dealt_to_buildings = 0;
 
-                private int torpedo_agro = 0;
+                private long torpedo_agro = 0;
 
                 private int draws = 0;
 
-                private int control_captured_points = 0;
+                private long control_captured_points = 0;
 
                 private int battles_since_510 = 0;
 
@@ -131,17 +131,17 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int frags = 0;
 
-                private int damage_scouting = 0;
+                private long damage_scouting = 0;
 
                 private int max_total_agro = 0;
 
                 private int max_frags_battle = 0;
 
-                private int capture_points = 0;
+                private long capture_points = 0;
 
                 private WeaponTypeReduced ramming = null;
 
-                private int suppressions_count = 0;
+                private long suppressions_count = 0;
 
                 private int max_suppressions_count = 0;
 
@@ -151,9 +151,9 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private WeaponTypeReduced aircraft = null;
 
-                private int team_capture_points = 0;
+                private long team_capture_points = 0;
 
-                private int control_dropped_points = 0;
+                private long control_dropped_points = 0;
 
                 private int max_damage_dealt = 0;
 
@@ -165,13 +165,13 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int losses = 0;
 
-                private int damage_dealt = 0;
+                private long damage_dealt = 0;
 
                 private int max_planes_killed = 0;
 
                 private long max_scouting_damage_ship_id = 0;
 
-                private int team_dropped_capture_points = 0;
+                private long team_dropped_capture_points = 0;
 
                 private int battles_since_512 = 0;
 
@@ -203,7 +203,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
         private String nickname = null;
 
-        private int stats_updated_at = 0;
+        private long stats_updated_at = 0;
     }
 
     @Override
