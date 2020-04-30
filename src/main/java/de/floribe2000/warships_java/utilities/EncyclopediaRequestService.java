@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.utilities;
 
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
@@ -21,8 +22,20 @@ public class EncyclopediaRequestService extends AbstractRequestService {
      * @return a {@link Warships} instance containing the data
      */
     public static Warships requestFullWarshipsList(Region region) {
+        return requestFullWarshipsList(region, Language.ENGLISH);
+    }
+
+    /**
+     * Allows to request a full list of all ships currently in the game.
+     * <p>Ignore the page number of the meta object of the returned {@link Warships} instance!</p>
+     *
+     * @param region   the region for the request
+     * @param language the language for the request
+     * @return a {@link Warships} instance containing the data
+     */
+    public static Warships requestFullWarshipsList(Region region, Language language) {
         //Prepare basic request
-        WarshipsRequest request = WarshipsRequest.createRequest().region(region);
+        WarshipsRequest request = WarshipsRequest.createRequest().region(region).language(language);
         //Send first request
         Warships result = request.fetch();
         //Check response status
