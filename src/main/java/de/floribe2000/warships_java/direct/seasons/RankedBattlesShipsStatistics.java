@@ -3,6 +3,8 @@ package de.floribe2000.warships_java.direct.seasons;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.Meta;
 
+import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
 import java.util.List;
 import java.util.Map;
 
@@ -103,18 +105,7 @@ public class RankedBattlesShipsStatistics implements IApiResponse {
 			/**
 			 * torpedo stats
 			 */
-			private RankedBattlesPlayersStatistics.PlayersElement.ModeStats.Torpedoes torpedoes;
-
-			@Getter
-			public static class Torpedoes {
-				private int max_frags_battle = 0;
-
-				private int frags = 0;
-
-				private int hits = 0;
-
-				private int shots = 0;
-			}
+			private ExtendedWeaponStats torpedoes;
 
 			/**
 			 * total battles
@@ -139,60 +130,22 @@ public class RankedBattlesShipsStatistics implements IApiResponse {
 			/**
 			 * aircraft stats
 			 */
-			private RankedBattlesPlayersStatistics.PlayersElement.ModeStats.Aircraft aircraft;
-
-			@Getter
-			public static class Aircraft {
-
-				private int max_frags_battle = 0;
-
-				private int frags = 0;
-			}
+			private WeaponStats aircraft;
 
 			/**
 			 * ramming stats
 			 */
-			private RankedBattlesPlayersStatistics.PlayersElement.ModeStats.Ramming ramming;
-
-			@Getter
-			public static class Ramming {
-
-				private int max_frags_battle = 0;
-
-				private int frags = 0;
-			}
+			private WeaponStats ramming;
 
 			/**
 			 * main battery stats
 			 */
-			private RankedBattlesPlayersStatistics.PlayersElement.ModeStats.MainBattery main_battery;
-
-			@Getter
-			public static class MainBattery {
-				private int max_frags_battle = 0;
-
-				private int frags = 0;
-
-				private int hits = 0;
-
-				private int shots = 0;
-			}
+			private ExtendedWeaponStats main_battery;
 
 			/**
 			 * secondary battery stats
 			 */
-			private RankedBattlesPlayersStatistics.PlayersElement.ModeStats.SecondaryBattery secondary_battery;
-
-			@Getter
-			public static class SecondaryBattery {
-				private int max_frags_battle = 0;
-
-				private int frags = 0;
-
-				private int hits = 0;
-
-				private int shots = 0;
-			}
+			private ExtendedWeaponStats secondary_battery;
 
 			/**
 			 * total survived wins

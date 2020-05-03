@@ -3,6 +3,8 @@ package de.floribe2000.warships_java.direct.account;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
 
@@ -85,7 +87,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private int damage_to_buildings = 0;
 
-                private WeaponType main_battery = null;
+                private ExtendedWeaponStats main_battery = null;
 
                 private long max_ships_spotted_ship_id = 0;
 
@@ -97,7 +99,7 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private long ships_spotted = 0;
 
-                private WeaponType second_battery = null;
+                private ExtendedWeaponStats second_battery = null;
 
                 private long max_frags_ship_id = 0;
 
@@ -139,17 +141,17 @@ public class PlayersPersonalDataFull implements IApiResponse {
 
                 private long capture_points = 0;
 
-                private WeaponTypeReduced ramming = null;
+                private WeaponStats ramming = null;
 
                 private long suppressions_count = 0;
 
                 private int max_suppressions_count = 0;
 
-                private WeaponType torpedoes = null;
+                private ExtendedWeaponStats torpedoes = null;
 
                 private long max_planes_killed_ship_id = 0;
 
-                private WeaponTypeReduced aircraft = null;
+                private WeaponStats aircraft = null;
 
                 private long team_capture_points = 0;
 
@@ -174,30 +176,6 @@ public class PlayersPersonalDataFull implements IApiResponse {
                 private long team_dropped_capture_points = 0;
 
                 private int battles_since_512 = 0;
-
-                @Getter
-                public static class WeaponTypeReduced {
-
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private long max_frags_ship_id = 0;
-                }
-
-                @Getter
-                public static class WeaponType {
-
-                    private int max_frags_battle = 0;
-
-                    private int frags = 0;
-
-                    private int hits = 0;
-
-                    private int shots = 0;
-
-                    private long max_frags_ship_id = 0;
-                }
             }
         }
 

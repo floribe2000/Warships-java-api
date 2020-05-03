@@ -3,6 +3,8 @@ package de.floribe2000.warships_java.direct.warships;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
+import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
 
@@ -56,7 +58,7 @@ public class Statistics implements IApiResponse {
 
             private int damage_to_buildings = 0;
 
-            private WeaponType main_battery = null;
+            private ExtendedWeaponStats main_battery = null;
 
             private int suppressions_count = 0;
 
@@ -66,7 +68,7 @@ public class Statistics implements IApiResponse {
 
             private int ships_spotted = 0;
 
-            private WeaponType second_battery = null;
+            private ExtendedWeaponStats second_battery = null;
 
             private int xp = 0;
 
@@ -100,11 +102,11 @@ public class Statistics implements IApiResponse {
 
             private int capture_points = 0;
 
-            private WeaponTypeReduced ramming = null;
+            private WeaponStats ramming = null;
 
-            private WeaponType torpedoes = null;
+            private ExtendedWeaponStats torpedoes = null;
 
-            private WeaponTypeReduced aircraft = null;
+            private WeaponStats aircraft = null;
 
             private int survived_wins = 0;
 
@@ -123,26 +125,6 @@ public class Statistics implements IApiResponse {
             private int team_dropped_capture_points = 0;
 
             private int battles_since_512 = 0;
-
-            @Getter
-            public static class WeaponTypeReduced {
-
-                private int max_frags_battle = 0;
-
-                private int frags = 0;
-            }
-
-            @Getter
-            public static class WeaponType {
-
-                private int max_frags_battle = 0;
-
-                private int frags = 0;
-
-                private int hits = 0;
-
-                private int shots = 0;
-            }
 
         }
 
