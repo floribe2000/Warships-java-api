@@ -4,6 +4,7 @@ import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.OperationStatsContainer;
 import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
@@ -76,6 +77,12 @@ public class PlayersPersonalDataFull implements IApiResponse {
             private ModeStats rank_div2 = null;
 
             private ModeStats rank_div3 = null;
+
+            private OperationStatsContainer oper_solo = null;
+
+            private OperationStatsContainer oper_div = null;
+
+            private OperationStatsContainer oper_div_hard = null;
 
             /**
              * The player's pvp statistics

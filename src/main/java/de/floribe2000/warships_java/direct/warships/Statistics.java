@@ -4,6 +4,7 @@ import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.OperationStatsContainer;
 import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
 import lombok.Getter;
@@ -45,11 +46,11 @@ public class Statistics implements IApiResponse {
 
         private ModeStats rank_solo = null;
 
-        private OperationMode oper_div = null;
+        private OperationStatsContainer oper_div = null;
 
-        private OperationMode oper_div_hard = null;
+        private OperationStatsContainer oper_div_hard = null;
 
-        private OperationMode oper_solo = null;
+        private OperationStatsContainer oper_solo = null;
 
         @Getter
         public static class ModeStats {
@@ -126,24 +127,6 @@ public class Statistics implements IApiResponse {
 
             private int battles_since_512 = 0;
 
-        }
-
-        @Getter
-        public static class OperationMode {
-
-            private int wins = 0;
-
-            private int losses = 0;
-
-            private int battles = 0;
-
-            private int survived_wins = 0;
-
-            private int xp = 0;
-
-            private Map<String, Integer> wins_by_tasks = null;
-
-            private int survived_battles = 0;
         }
 
         private long last_battle_time = 0;
