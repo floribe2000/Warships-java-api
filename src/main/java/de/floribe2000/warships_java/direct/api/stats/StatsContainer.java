@@ -35,7 +35,7 @@ public class StatsContainer extends BaseStatsContainer {
 	/**
 	 * torpedo stats
 	 */
-	private ExtendedWeaponStats torpedoes;
+	private ExtendedWeaponStatsWithShip torpedoes;
 
 	/**
 	 * total battles
@@ -60,22 +60,22 @@ public class StatsContainer extends BaseStatsContainer {
 	/**
 	 * aircraft stats
 	 */
-	private WeaponStats aircraft;
+	private WeaponStatsWithShip aircraft;
 
 	/**
 	 * ramming stats
 	 */
-	private WeaponStats ramming;
+	private WeaponStatsWithShip ramming;
 
 	/**
 	 * main battery stats
 	 */
-	private ExtendedWeaponStats main_battery;
+	private ExtendedWeaponStatsWithShip main_battery;
 
 	/**
 	 * secondary battery stats
 	 */
-	private ExtendedWeaponStats secondary_battery;
+	private ExtendedWeaponStatsWithShip secondary_battery;
 
 	/**
 	 * total survived wins

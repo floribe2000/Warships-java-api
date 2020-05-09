@@ -2,17 +2,14 @@ package de.floribe2000.warships_java.direct.seasons;
 
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.Meta;
-
-import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
-import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
-import java.util.Map;
-
+import de.floribe2000.warships_java.direct.api.stats.RankedStatsContainer;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
+import java.util.Map;
 import lombok.Getter;
 
 /**
- * A representation of the api result of ranked battles player statistics.
- * This class holds all data returned by this request to allow easy access to this information
+ * A representation of the api result of ranked battles player statistics. This class holds all data
+ * returned by this request to allow easy access to this information
  *
  * @author SirLefti
  */
@@ -55,111 +52,12 @@ public class RankedBattlesPlayersStatistics implements IApiResponse {
 			 */
 			private static SeasonInfo rank_info;
 
-			private static ModeStats rank_div3;
+			private static RankedStatsContainer rank_div3;
 
-			private static ModeStats rank_solo;
+			private static RankedStatsContainer rank_solo;
 
-			private static ModeStats rank_div2;
+			private static RankedStatsContainer rank_div2;
 
-		}
-
-		@Getter
-		public static class ModeStats {
-
-			/**
-			 * max frags in a battle
-			 */
-			private int max_frags_battle;
-
-			/**
-			 * total draws
-			 */
-			private int draws;
-
-			/**
-			 * max xp in a battle
-			 */
-			private int max_xp;
-
-			/**
-			 * total wins
-			 */
-			private int wins;
-
-			/**
-			 * total planes killed
-			 */
-			private int planes_killed;
-
-			/**
-			 * total losses
-			 */
-			private int losses;
-
-			/**
-			 * torpedo stats
-			 */
-			private ExtendedWeaponStats torpedoes;
-
-			/**
-			 * total battles
-			 */
-			private int battles;
-
-			/**
-			 * max damage in a battle
-			 */
-			private int max_damage_dealt;
-
-			/**
-			 * total damage
-			 */
-			private int damage_dealt;
-
-			/**
-			 * max plane kills in a battle
-			 */
-			private int max_planes_killed;
-
-			/**
-			 * aircraft stats
-			 */
-			private WeaponStats aircraft;
-
-			/**
-			 * ramming stats
-			 */
-			private WeaponStats ramming;
-
-			/**
-			 * main battery stats
-			 */
-			private ExtendedWeaponStats main_battery;
-
-			/**
-			 * secondary battery stats
-			 */
-			private ExtendedWeaponStats secondary_battery;
-
-			/**
-			 * total survived wins
-			 */
-			private int survived_wins;
-
-			/**
-			 * total frags
-			 */
-			private int frags;
-
-			/**
-			 * gained xp
-			 */
-			private int xp;
-
-			/**
-			 * total survived battles
-			 */
-			private int survived_battles;
 		}
 
 		@Getter

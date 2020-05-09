@@ -3,196 +3,96 @@ package de.floribe2000.warships_java.direct.account;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.ExtendedWeaponStatsWithShip;
 import de.floribe2000.warships_java.direct.api.stats.OperationStatsContainer;
-import de.floribe2000.warships_java.direct.api.stats.WeaponStats;
+import de.floribe2000.warships_java.direct.api.stats.PlayerStatsContainer;
+import de.floribe2000.warships_java.direct.api.stats.WeaponStatsWithShip;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
+import java.util.Map;
 import lombok.Getter;
 
-import java.util.Map;
-
 /**
- * A representation of a full data set from the api.
- * Contains all available fields for player and player pvp stats.
+ * A representation of a full data set from the api. Contains all available fields for player and
+ * player pvp stats.
  */
 @Getter
 public class PlayersPersonalDataFull implements IApiResponse {
 
-    /**
-     * The response status from the api
-     */
-    private Status status = Status.ERROR;
+	/**
+	 * The response status from the api
+	 */
+	private Status status = Status.ERROR;
 
-    /**
-     * The meta object of the api response
-     */
-    private Meta meta = null;
+	/**
+	 * The meta object of the api response
+	 */
+	private Meta meta = null;
 
-    private Map<String, PlayerDetails> data = null;
+	private Map<String, PlayerDetails> data = null;
 
-    /**
-     * A representation of individual player statistics.
-     */
-    @Getter
-    public static class PlayerDetails {
+	/**
+	 * A representation of individual player statistics.
+	 */
+	@Getter
+	public static class PlayerDetails {
 
-        private int last_battle_time = 0;
+		private int last_battle_time = 0;
 
-        private long account_id = 0;
+		private long account_id = 0;
 
-        private int leveling_tier = 0;
+		private int leveling_tier = 0;
 
-        private int created_at = 0;
+		private int created_at = 0;
 
-        private boolean hidden_profile = false;
+		private boolean hidden_profile = false;
 
-        private int logout_at = 0;
+		private int logout_at = 0;
 
-        private Statistics statistics = null;
+		private Statistics statistics = null;
 
-        /**
-         * A representation of the player's battle statistics
-         */
-        @Getter
-        public static class Statistics {
+		/**
+		 * A representation of the player's battle statistics
+		 */
+		@Getter
+		public static class Statistics {
 
-            private int distance = 0;
+			private int distance = 0;
 
-            private int battles = 0;
+			private int battles = 0;
 
-            private ModeStats pvp = null;
+			private PlayerStatsContainer pvp = null;
 
-            private ModeStats pve = null;
+			private PlayerStatsContainer pve = null;
 
-            private ModeStats pvp_div2 = null;
+			private PlayerStatsContainer pvp_div2 = null;
 
-            private ModeStats pvp_div3 = null;
+			private PlayerStatsContainer pvp_div3 = null;
 
-            private ModeStats pve_div2 = null;
+			private PlayerStatsContainer pve_div2 = null;
 
-            private ModeStats pve_div3 = null;
+			private PlayerStatsContainer pve_div3 = null;
 
-            private ModeStats rank_solo = null;
+			private PlayerStatsContainer rank_solo = null;
 
-            private ModeStats rank_div2 = null;
+			private PlayerStatsContainer rank_div2 = null;
 
-            private ModeStats rank_div3 = null;
+			private PlayerStatsContainer rank_div3 = null;
 
-            private OperationStatsContainer oper_solo = null;
+			private OperationStatsContainer oper_solo = null;
 
-            private OperationStatsContainer oper_div = null;
+			private OperationStatsContainer oper_div = null;
 
-            private OperationStatsContainer oper_div_hard = null;
+			private OperationStatsContainer oper_div_hard = null;
 
-            /**
-             * The player's pvp statistics
-             */
-            @Getter
-            public static class ModeStats {
+		}
 
-                private int max_xp = 0;
+		private String nickname = null;
 
-                private int damage_to_buildings = 0;
+		private long stats_updated_at = 0;
+	}
 
-                private ExtendedWeaponStats main_battery = null;
-
-                private long max_ships_spotted_ship_id = 0;
-
-                private int max_damage_scouting = 0;
-
-                private long art_agro = 0;
-
-                private long max_xp_ship_id = 0;
-
-                private long ships_spotted = 0;
-
-                private ExtendedWeaponStats second_battery = null;
-
-                private long max_frags_ship_id = 0;
-
-                private long xp = 0;
-
-                private long survived_battles = 0;
-
-                private long dropped_capture_points = 0;
-
-                private int max_damage_dealt_to_buildings = 0;
-
-                private long torpedo_agro = 0;
-
-                private int draws = 0;
-
-                private long control_captured_points = 0;
-
-                private int battles_since_510 = 0;
-
-                private long max_total_agro_ship_id = 0;
-
-                private int planes_killed = 0;
-
-                private int battles = 0;
-
-                private int max_ships_spotted = 0;
-
-                private long max_suppressions_ship_id = 0;
-
-                private int survived_wins = 0;
-
-                private int frags = 0;
-
-                private long damage_scouting = 0;
-
-                private int max_total_agro = 0;
-
-                private int max_frags_battle = 0;
-
-                private long capture_points = 0;
-
-                private WeaponStats ramming = null;
-
-                private long suppressions_count = 0;
-
-                private int max_suppressions_count = 0;
-
-                private ExtendedWeaponStats torpedoes = null;
-
-                private long max_planes_killed_ship_id = 0;
-
-                private WeaponStats aircraft = null;
-
-                private long team_capture_points = 0;
-
-                private long control_dropped_points = 0;
-
-                private int max_damage_dealt = 0;
-
-                private long max_damage_dealt_to_buildings_ship_id = 0;
-
-                private long max_damage_dealt_ship_id = 0;
-
-                private int wins = 0;
-
-                private int losses = 0;
-
-                private long damage_dealt = 0;
-
-                private int max_planes_killed = 0;
-
-                private long max_scouting_damage_ship_id = 0;
-
-                private long team_dropped_capture_points = 0;
-
-                private int battles_since_512 = 0;
-            }
-        }
-
-        private String nickname = null;
-
-        private long stats_updated_at = 0;
-    }
-
-    @Override
-    public String toString() {
-        return IRequestAction.GSON.toJson(this);
-    }
+	@Override
+	public String toString() {
+		return IRequestAction.GSON.toJson(this);
+	}
 }
