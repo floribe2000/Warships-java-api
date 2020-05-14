@@ -60,12 +60,12 @@ public interface IRequestAction<T extends IApiResponse> {
      * @return an object of the given type containing the received data.
      */
     default T connect(String url, Class<T> tClass, SimpleRateLimiter limiter) {
-        SimpleRateLimiter.waitForPermit(limiter);
         T result = null;
         int attempts = 0;
 
         //Retry failed request up to 5 times if request failed because of network issues
         while (result == null && attempts < 5) {
+            SimpleRateLimiter.waitForPermit(limiter);
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
                 result = GSON.fromJson(reader, tClass);
             } catch (UnknownHostException ue) {
