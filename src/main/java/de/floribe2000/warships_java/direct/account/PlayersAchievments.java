@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.account;
 
+import de.floribe2000.warships_java.direct.api.ErrorContainer;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
@@ -23,6 +24,12 @@ public class PlayersAchievments implements IApiResponse {
      * The api response status
      */
     private Status status = Status.ERROR;
+
+    /**
+     * Details about errors in case of a failed request.
+     * <p>Field is null if no errors occurred during the request!</p>
+     */
+    private ErrorContainer error = null;
 
     /**
      * The api meta information

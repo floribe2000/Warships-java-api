@@ -3,11 +3,13 @@ package de.floribe2000.warships_java.direct.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.concurrent.CompletableFuture;
+import java.net.UnknownHostException;
 import java.util.function.Consumer;
 
 /**
@@ -25,6 +27,11 @@ public interface IRequestAction<T extends IApiResponse> {
      * <p>Always use this instance, do not create a gson instance on your own if you don't know exactly what you are doing!</p>
      */
     Gson GSON = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+
+    /**
+     * A logger instance for the methods of this interface.
+     */
+    Logger LOG = LoggerFactory.getLogger("RequestAction");
 
     /**
      * Executes the request.
@@ -54,17 +61,26 @@ public interface IRequestAction<T extends IApiResponse> {
      */
     default T connect(String url, Class<T> tClass, SimpleRateLimiter limiter) {
         SimpleRateLimiter.waitForPermit(limiter);
-        T result;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            result = GSON.fromJson(reader, tClass);
-        } catch (Exception e) {
-            //TODO improve error handling
-            e.printStackTrace();
-            try {
-                return tClass.getDeclaredConstructor().newInstance();
-            } catch (Exception e1) {
-                return null;
+        T result = null;
+        int attempts = 0;
+
+        //Retry failed request up to 5 times if request failed because of network issues
+        while (result == null && attempts < 5) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+                result = GSON.fromJson(reader, tClass);
+            } catch (UnknownHostException ue) {
+                LOG.error("An error occurred", ue);
+                result = null;
+            } catch (Exception e) {
+                LOG.error("An error occurred", e);
+                try {
+                    result = tClass.getDeclaredConstructor().newInstance();
+                } catch (Exception e1) {
+                    result = null;
+                }
+                break;
             }
+            attempts++;
         }
         return result;
     }

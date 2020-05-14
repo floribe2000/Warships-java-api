@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.seasons;
 
+import de.floribe2000.warships_java.direct.api.ErrorContainer;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.stats.RankedStatsContainer;
@@ -21,6 +22,12 @@ public class RankedBattlesShipsStatistics implements IApiResponse {
 	 * Response status
 	 */
 	private Status status;
+
+	/**
+	 * Details about errors in case of a failed request.
+	 * <p>Field is null if no errors occurred during the request!</p>
+	 */
+	private ErrorContainer error = null;
 
 	/**
 	 * Response meta data

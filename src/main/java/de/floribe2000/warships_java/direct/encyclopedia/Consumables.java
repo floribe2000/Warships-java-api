@@ -18,6 +18,12 @@ public class Consumables implements IApiResponse {
 
     private Status status = Status.ERROR;
 
+    /**
+     * Details about errors in case of a failed request.
+     * <p>Field is null if no errors occurred during the request!</p>
+     */
+    private ErrorContainer error = null;
+
     private Meta meta = null;
 
     private Map<String, Consumable> data = null;
