@@ -4,10 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import de.floribe2000.warships_java.direct.api.*;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
-import de.floribe2000.warships_java.direct.encyclopedia.Consumables;
-import de.floribe2000.warships_java.direct.encyclopedia.ConsumablesRequest;
-import de.floribe2000.warships_java.direct.encyclopedia.Warships;
-import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
+import de.floribe2000.warships_java.direct.encyclopedia.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -172,5 +169,14 @@ public class EncyclopediaTest {
 			assert entry.getValue().getType() == ConsumableType.FLAGS : entry.getValue();
 			assert entry.getKey().equals(String.valueOf(entry.getValue().getConsumable_id())) : entry;
 		}
+	}
+
+	@Test
+	public void testShipParameters() {
+		long shipId = 4179605200L;
+		ShipParametersRequest request = ShipParametersRequest.createRequest().region(Region.EU).shipId(shipId);
+		ShipParameters response = request.fetch();
+		assert response.getStatus().get() : response;
+		assert response.getData().get(String.valueOf(shipId)) != null : response;
 	}
 }

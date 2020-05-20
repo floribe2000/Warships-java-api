@@ -6,7 +6,7 @@
 
     <groupId>de.floribe2000</groupId>
     <artifactId>Warships-java-api</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
     <description>A java library to access the official Wargaming.net api. This project is a community project and not
         associated with Wargaming!
     </description>
@@ -148,7 +148,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.30</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+        <!-- Apache commons collection library -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>

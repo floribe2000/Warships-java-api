@@ -238,4 +238,13 @@ public class ApiBuilder {
         instances.clear();
         AbstractRequestService.reset();
     }
+
+    /**
+     * A method to show if there is at least 1 active instance of this class.
+     *
+     * @return true if there is at least an active instance, false if not
+     */
+    public static boolean isInitialized() {
+        return instances.size() > 0;
+    }
 }
