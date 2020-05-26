@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class StatisticsTest {
 
-	private final int wargamingId = 540241530;
+	private final long wargamingId = 540241530;
 	private final long kii = 3762239184L;
 	private final static String instanceName = "TEST";
 
@@ -58,18 +58,19 @@ public class StatisticsTest {
 	@Test
 	public void testShipStatsFiltered() {
 		StatisticsRequest request = StatisticsRequest.createRequest()
-			.accountId(wargamingId).region(Region.EU)
-			.shipTypes(ShipType.CRUISER)
-			.tiers(Tier.VIII, Tier.IX, Tier.X)
-			.nations(Nation.USA)
-			.categories(ShipCategory.RESEARCH);
+				.accountId(wargamingId).region(Region.EU)
+				.shipTypes(ShipType.CRUISER)
+				.tiers(Tier.VIII, Tier.IX, Tier.X)
+				.nations(Nation.USA)
+				.categories(ShipCategory.RESEARCH);
 		Statistics response = request.fetch();
 
 		assertNotNull(response);
-		assertEquals(OK, response.getStatus());
+		assert response.getStatus().get() : response;
+		//assertEquals(OK, response.getStatus());
 		List<ShipEntry> ships = response.getData().get(wargamingId);
 		assertNotNull(ships);
-		assertFalse(ships.isEmpty());
+		assert !ships.isEmpty() : ships;
 
 		// So far, there are 6 researchable US navy cruisers on tier VIII - X (CLs and CAs)
 		// But actually I never player the CA VIII and IX
