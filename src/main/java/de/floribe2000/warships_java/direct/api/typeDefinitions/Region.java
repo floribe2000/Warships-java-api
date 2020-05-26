@@ -52,7 +52,7 @@ public enum Region {
      * @param id the id to check
      * @return the region for the provided id
      */
-    public static Region fromRange(int id) {
+    public static Region fromRange(long id) {
         if (id >= 0 && id < 500_000_000) {
             return RU;
         } else if (id >= 500_000_000 && id < 1_000_000_000) {
