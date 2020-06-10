@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class Warships implements IApiResponse {
@@ -125,6 +126,7 @@ public class Warships implements IApiResponse {
 
         private boolean is_special = false;
 
+        @Setter
         private String name = null;
 
         @Override

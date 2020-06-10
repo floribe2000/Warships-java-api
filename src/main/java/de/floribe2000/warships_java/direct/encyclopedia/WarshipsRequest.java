@@ -283,8 +283,19 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest, Warships> 
                     .collect(Collectors.toSet());
             toDelete.forEach(key -> response.getData().remove(key));
         }
-
+        response.getData().values().forEach(shipEntry -> shipEntry.setName(formattingFixer(shipEntry.getName())));
         return response;
+    }
+
+    /**
+     * Utility method to convert non-blocking spaces (ASCII Dec 160) to regular spaces (ASCII Dec 30).
+     * <p>Some ships have those spaces in their names which prevents finding them when using the {@link String#contains(CharSequence)} method.</p>
+     *
+     * @param oldValue the old string containing the non-blocking spaces
+     * @return the new value containing only regular spaces
+     */
+    private String formattingFixer(String oldValue) {
+        return oldValue.replaceAll(String.valueOf((char) 160), " ");
     }
 
     @Override
