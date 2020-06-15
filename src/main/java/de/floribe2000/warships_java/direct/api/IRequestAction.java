@@ -68,8 +68,15 @@ public interface IRequestAction<T extends IApiResponse> {
             SimpleRateLimiter.waitForPermit(limiter);
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
                 result = GSON.fromJson(reader, tClass);
+                IApiResponse response = result;
+                if (response.getError() != null && response.getError().getCode() == 407) {
+                    throw new IllegalStateException(response.getError().getMessage());
+                }
             } catch (UnknownHostException ue) {
                 LOG.error("An error occurred", ue);
+                result = null;
+            } catch (IllegalStateException ie) {
+                LOG.warn(ie.getMessage());
                 result = null;
             } catch (Exception e) {
                 LOG.error("An error occurred", e);

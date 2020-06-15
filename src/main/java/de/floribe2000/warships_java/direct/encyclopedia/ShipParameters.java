@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
+import de.floribe2000.warships_java.direct.api.ErrorContainer;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
@@ -19,6 +20,8 @@ import java.util.Map;
 public class ShipParameters implements IApiResponse {
 
     private Status status = Status.ERROR;
+
+    private ErrorContainer error = null;
 
     private Meta meta = null;
 

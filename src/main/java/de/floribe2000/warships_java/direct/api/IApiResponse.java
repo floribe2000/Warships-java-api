@@ -7,4 +7,6 @@ package de.floribe2000.warships_java.direct.api;
  * @author floribe2000
  */
 public interface IApiResponse {
+
+    ErrorContainer getError();
 }

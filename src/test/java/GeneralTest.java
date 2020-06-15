@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,9 +28,9 @@ public class GeneralTest {
 
     @Test
     public void testRateLimiter() {
-        int instanceSize = ApiBuilder.getInstanceSize();
         int accountId = 537376379;
         ApiBuilder.createInstance(apiKey, instanceName);
+        int instanceSize = ApiBuilder.getInstanceSize();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
         ExecutorService service = Executors.newCachedThreadPool();
         long start = System.currentTimeMillis();
@@ -35,7 +38,7 @@ public class GeneralTest {
         for (int i = 0; i < requests; i++) {
             service.execute(() -> {
                 PlayersPersonalDataFull result = request.fetch();
-                assert result.getStatus().get() : result;
+                assert result.getStatus().get() : result.getError().getMessage();
             });
         }
         service.shutdown();
@@ -46,7 +49,7 @@ public class GeneralTest {
         }
         double time = (double) (System.currentTimeMillis() - start) / 1000;
         assert time <= (((double) requests / 10) * 1.3) + 1 : time;
-
+        System.out.println("Time passed: " + time + "s");
         assert ApiBuilder.getInstanceSize() == instanceSize : ApiBuilder.getInstanceSize() + ", expected size of " + instanceSize;
     }
 
@@ -58,5 +61,6 @@ public class GeneralTest {
         assert ApiBuilder.getInstanceSize() == 0 : "Instance list not cleared after shutdown";
         ApiBuilder.createInstance(apiKey, "NEWAPP");
         assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
+        ApiBuilder.shutdown();
     }
 }
