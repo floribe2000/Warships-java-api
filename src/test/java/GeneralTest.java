@@ -49,4 +49,14 @@ public class GeneralTest {
 
         assert ApiBuilder.getInstanceSize() == instanceSize : ApiBuilder.getInstanceSize() + ", expected size of " + instanceSize;
     }
+
+    @Test
+    public void testShutdown() {
+        ApiBuilder.createInstance(apiKey);
+        assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
+        ApiBuilder.shutdown();
+        assert ApiBuilder.getInstanceSize() == 0 : "Instance list not cleared after shutdown";
+        ApiBuilder.createInstance(apiKey, "NEWAPP");
+        assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
+    }
 }

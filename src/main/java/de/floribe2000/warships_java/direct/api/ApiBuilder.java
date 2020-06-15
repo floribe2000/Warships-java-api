@@ -236,6 +236,8 @@ public class ApiBuilder {
             }
         });
         instances.clear();
+        primaryInstance = null;
+        lastNum = 0;
         AbstractRequestService.reset();
     }
 
