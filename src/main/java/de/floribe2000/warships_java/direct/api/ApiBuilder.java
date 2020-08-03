@@ -19,7 +19,7 @@ import java.util.*;
  * @author floribe2000
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ApiBuilder {
+public final class ApiBuilder {
 
     /**
      * A logger to log events about this class
@@ -159,6 +159,29 @@ public class ApiBuilder {
     }
 
     /**
+     * Creates a new ApiBuilder instance if there is no active existing instance.
+     *
+     * @param apiKey the api key to use when connecting to the wargaming api
+     */
+    public static void createInstanceIfNoneExists(String apiKey) {
+        if (instances.isEmpty()) {
+            createInstance(apiKey);
+        }
+    }
+
+    /**
+     * Creates a new ApiBuilder instance if there is no active existing instance.
+     *
+     * @param apiKey the api key to use when connecting to the wargaming api
+     * @param type   the {@link de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType ApiType} of the new instance (client or server)
+     */
+    public static void createInstanceIfNoneExists(String apiKey, SimpleRateLimiter.ApiType type) {
+        if (instances.isEmpty()) {
+            createInstance(apiKey, type);
+        }
+    }
+
+    /**
      * A method to get the api key of this instance as url parameter that can be used as first parameter of a request url
      *
      * @return the api key as first url parameter
@@ -176,6 +199,9 @@ public class ApiBuilder {
      * @see ApiBuilder#getApiKeyAsParam()
      */
     public static String getApiKeyAsParam(String instanceName) {
+        if (instances.isEmpty()) {
+            return null;
+        }
         if (instanceName == null) {
             instanceName = primaryInstance;
         }

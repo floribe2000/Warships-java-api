@@ -2,6 +2,8 @@ import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFull;
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullRequest;
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
+import de.floribe2000.warships_java.direct.general.ServerStatus;
+import de.floribe2000.warships_java.direct.general.ServerStatusRequest;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -62,5 +64,14 @@ public class GeneralTest {
         ApiBuilder.createInstance(apiKey, "NEWAPP");
         assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
         ApiBuilder.shutdown();
+    }
+
+    @Test
+    public void testServerStatus() {
+        ApiBuilder.createInstanceIfNoneExists(apiKey);
+        ServerStatusRequest request = ServerStatusRequest.createRequest().region(Region.EU);
+        ServerStatus response = request.fetch();
+        assert response.getStatus().get() : "Invalid response state\n" + response.getError().toString();
+        System.out.println(response);
     }
 }

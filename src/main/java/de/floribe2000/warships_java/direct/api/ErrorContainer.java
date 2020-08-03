@@ -17,4 +17,9 @@ public class ErrorContainer {
     private int code = 0;
 
     private String value = null;
+
+    @Override
+    public String toString() {
+        return IRequestAction.GSON.toJson(this);
+    }
 }
