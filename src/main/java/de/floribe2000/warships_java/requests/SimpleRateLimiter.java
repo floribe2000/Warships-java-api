@@ -24,9 +24,12 @@ public class SimpleRateLimiter implements Closeable {
 
     private Semaphore semaphore;
 
-    private AtomicBoolean enabled = new AtomicBoolean(false);
+    private final AtomicBoolean enabled = new AtomicBoolean(false);
 
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
+
+    private static final long resetDelay = 1000;
+
 
     public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
         this.type = type;
@@ -65,7 +68,7 @@ public class SimpleRateLimiter implements Closeable {
             public void run() {
                 semaphore.release();
             }
-        }, 1300);
+        }, resetDelay);
     }
 
     /**

@@ -36,16 +36,20 @@ public class GeneralTest {
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
         ExecutorService service = Executors.newCachedThreadPool();
         long start = System.currentTimeMillis();
-        int requests = 30;
+        int requests = 100;
         for (int i = 0; i < requests; i++) {
             service.execute(() -> {
                 PlayersPersonalDataFull result = request.fetch();
+                if (result == null) {
+                    System.out.println("Result was null");
+                }
+                assert result != null : "Result was null";
                 assert result.getStatus().get() : result.getError().getMessage();
             });
         }
         service.shutdown();
         try {
-            service.awaitTermination(10, TimeUnit.SECONDS);
+            service.awaitTermination(20, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         }
