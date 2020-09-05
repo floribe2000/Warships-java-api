@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-        stage('Create Documentation') {
+        stage('Publish Documentation') {
             steps {
                 sh 'mvn site'
             }
