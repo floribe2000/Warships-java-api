@@ -34,5 +34,6 @@ pipeline {
     }
     tools {
         maven 'default-maven'
+        jdk 'Java8'
     }
 }
