@@ -43,7 +43,7 @@ public class PlayersTest {
     @Test
     public void testPlayersAchievments() {
         ApiBuilder.createInstance(apiKey, instanceName);
-        PlayersAchievments result = PlayersAchievmentsRequest.createRequest().region(Region.EU).accountId(537376379).fetch();
+        PlayersAchievments result = PlayersAchievmentsRequest.createRequest().region(Region.EU).addAccountId(537376379).fetch();
         assert result.getStatus().get() : result;
         assert PlayersAchievmentsRequest.AchievmentElement.retrieveElement("Solo Warrior") != null;
     }

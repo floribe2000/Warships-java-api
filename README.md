@@ -1,4 +1,4 @@
-[![Build Status](https://ci.floribe2000.de/job/Warships-Java-Api/badge/icon)](https://ci.floribe2000.de/job/Warships-Java-Api/)
+[![Build Status](https://ci.floribe2000.de/job/Warships-java-api/job/master/badge/icon)](https://ci.floribe2000.de/job/Warships-java-api/job/master/)
 
 # Warships-java-api
 A java interface to access the official World of Warships API
@@ -30,6 +30,7 @@ If you have an api key, you can start using this library.
 To initialize the api builder, use the following code:
 `ApiBuilder.createInstance(apiKey)`
 Where you provide your api key as string.
+If you use a server api key you should also provide the ClientType argument when creating a new instance to allow the api to use the increased rate limit.
 
 After initializing the ApiBuilder, you can start sending requests, an example might look like this:
 
@@ -48,7 +49,12 @@ Requests to the Wargaming api are always rate limited.
 This library implements basic rate limiting that should avoid running into rate limit errors.
 Keep in mind that all requests are executed synchronously and a thread is blocked until the rate limit allows the request to be sent!
 
-You can manually disable the rate limiting by calling `SimpleRateLimiter.disable()`.
+You can manually disable the rate limiting by calling `ApiBuilder.getInstanceWithName("InstanceName").getRateLimiter().disable();`.
+Replace InstanceName with the custom name of your instance.
+
+If you want to disable the rate limiting right at the creation of the instance, you can do that by using the 
+`createInstance(String apiKey, boolean rateLimitEnabled)` method (There are multiple methods with that parameter, use the one that accepts all parameters you need).
+
 Disabling the rate limiter will only work of there are no threads waiting!
 
 **It is not recommended to disable the rate limiter because you might get request limit exceeded errors from the api!**
@@ -69,10 +75,10 @@ The following dependencies are used by this project:
   - Version 2.8.6
 
 - Lombok
-  - Version 1.18.10
+  - Version 1.18.12
 
 - JUnit
-  - Version 4.12
+  - Version 4.13
   
 - slf4j-api
   - Version 1.7.30
