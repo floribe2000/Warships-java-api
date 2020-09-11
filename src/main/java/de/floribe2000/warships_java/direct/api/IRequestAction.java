@@ -74,12 +74,15 @@ public interface IRequestAction<T extends IApiResponse> {
                     throw new IllegalStateException(response.getError().getMessage());
                 }
             } catch (UnknownHostException ue) {
+                ue.printStackTrace();
                 LOG.error("An error occurred", ue);
                 result = null;
             } catch (IllegalStateException ie) {
+                ie.printStackTrace();
                 LOG.warn(ie.getMessage());
                 result = null;
             } catch (Exception e) {
+                e.printStackTrace();
                 LOG.error("An error occurred", e);
                 try {
                     result = tClass.getDeclaredConstructor().newInstance();

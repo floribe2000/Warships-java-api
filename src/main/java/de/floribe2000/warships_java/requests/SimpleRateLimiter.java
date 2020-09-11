@@ -31,15 +31,10 @@ public class SimpleRateLimiter implements Closeable {
 
     private final Timer timer = new Timer();
 
-    private final long resetDelay;
+    private final long resetDelay = 1000;
 
     public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
         this.type = type;
-        if (type == ApiType.CLIENT) {
-            resetDelay = 1000;
-        } else {
-            resetDelay = 1100;
-        }
         semaphore = new Semaphore(this.type.getRateLimit());
         this.enabled.set(enabled);
     }
