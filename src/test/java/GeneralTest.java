@@ -54,7 +54,7 @@ public class GeneralTest {
             e.printStackTrace();
         }
         double time = (double) (System.currentTimeMillis() - start) / 1000;
-        assert time <= (((double) requests / 10) * 1.3) + 1 : time;
+        assert time <= (((double) requests / 10) * 1.5) + 1 : time;
         System.out.println("Time passed: " + time + "s");
         assert ApiBuilder.getInstanceSize() == instanceSize : ApiBuilder.getInstanceSize() + ", expected size of " + instanceSize;
     }
