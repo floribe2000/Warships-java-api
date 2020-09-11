@@ -88,6 +88,9 @@ public interface IRequestAction<T extends IApiResponse> {
                 }
                 break;
             }
+            if (result == null) {
+                System.out.println("Retry");
+            }
             attempts++;
         }
         return result;
