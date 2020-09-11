@@ -7,10 +7,7 @@ import lombok.NonNull;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,13 +26,14 @@ public class SimpleRateLimiter implements Closeable {
 
     private final AtomicBoolean enabled = new AtomicBoolean(false);
 
-    private final Timer timer = new Timer();
+    private final ScheduledExecutorService timer;
 
     private final long resetDelay = 1000;
 
     public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
         this.type = type;
         semaphore = new Semaphore(this.type.getRateLimit());
+        timer = Executors.newScheduledThreadPool(this.type.getRateLimit());
         this.enabled.set(enabled);
     }
 
@@ -65,12 +63,13 @@ public class SimpleRateLimiter implements Closeable {
      * Schedules the release task for a previous acquire task.
      */
     private void scheduleDelete() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                semaphore.release();
-            }
-        }, resetDelay);
+        timer.schedule(() -> semaphore.release(), resetDelay, TimeUnit.MILLISECONDS);
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                semaphore.release();
+//            }
+//        }, resetDelay);
     }
 
     /**
@@ -140,7 +139,8 @@ public class SimpleRateLimiter implements Closeable {
         } catch (Exception e) {
             //
         }
-        timer.cancel();
+        //timer.cancel();
+        timer.shutdownNow();
     }
 
     @AllArgsConstructor
