@@ -28,7 +28,7 @@ public class SimpleRateLimiter implements Closeable {
 
     private final Timer timer = new Timer();
 
-    private static final long resetDelay = 1000;
+    private static final long resetDelay = 1100;
 
 
     public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
