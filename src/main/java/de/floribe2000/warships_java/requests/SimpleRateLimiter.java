@@ -6,6 +6,9 @@ import lombok.NonNull;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
@@ -28,7 +31,7 @@ public class SimpleRateLimiter implements Closeable {
 
     private final Timer timer = new Timer();
 
-    private static final long resetDelay = 1100;
+    private static final long resetDelay = 1000;
 
 
     public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
@@ -100,6 +103,17 @@ public class SimpleRateLimiter implements Closeable {
         } else {
             return false;
         }
+    }
+
+    public InputStream connectToApi(String url) throws IOException {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            throw new IllegalStateException("Failed to wait for semaphore.");
+        }
+        InputStream stream = new URL(url).openStream();
+        scheduleDelete();
+        return stream;
     }
 
     /**

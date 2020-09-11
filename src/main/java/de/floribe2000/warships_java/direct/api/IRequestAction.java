@@ -3,6 +3,7 @@ package de.floribe2000.warships_java.direct.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,14 +60,14 @@ public interface IRequestAction<T extends IApiResponse> {
      * @param tClass the class of the api return object
      * @return an object of the given type containing the received data.
      */
-    default T connect(String url, Class<T> tClass, SimpleRateLimiter limiter) {
+    default T connect(String url, Class<T> tClass, @NonNull SimpleRateLimiter limiter) {
         T result = null;
         int attempts = 0;
 
         //Retry failed request up to 5 times if request failed because of network issues
         while (result == null && attempts < 5) {
-            SimpleRateLimiter.waitForPermit(limiter);
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+            //SimpleRateLimiter.waitForPermit(limiter);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(limiter.connectToApi(url)))) {
                 result = GSON.fromJson(reader, tClass);
                 IApiResponse response = result;
                 if (response.getError() != null && response.getError().getCode() == 407) {
