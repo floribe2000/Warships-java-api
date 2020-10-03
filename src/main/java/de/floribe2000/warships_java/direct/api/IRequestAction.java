@@ -70,7 +70,7 @@ public interface IRequestAction<T extends IApiResponse> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(limiter.connectToApi(url)))) {
                 result = GSON.fromJson(reader, tClass);
                 IApiResponse response = result;
-                if (response.getError() != null && response.getError().getCode() == 407) {
+                if (response.getError() != null && (response.getError().getCode() == 407 || response.getError().getCode() == 504)) {
                     throw new IllegalStateException(response.getError().getMessage());
                 }
             } catch (UnknownHostException ue) {
