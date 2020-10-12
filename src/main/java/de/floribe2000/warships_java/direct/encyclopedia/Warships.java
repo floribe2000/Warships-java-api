@@ -129,6 +129,10 @@ public class Warships implements IApiResponse {
         @Setter
         private String name = null;
 
+        public ShipEntryReduced getReducedView() {
+            return new ShipEntryReduced(this);
+        }
+
         @Override
         public String toString() {
             return IRequestAction.GSON.toJson(this);
