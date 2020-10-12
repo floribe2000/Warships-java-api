@@ -16,14 +16,14 @@ pipeline {
             }
         }
 
-        stage('Deploy remote') {
-            when {
-                branch 'master'
-            }
-            steps {
-                sh 'mvn deploy -DskipTests=true'
-            }
-        }
+//        stage('Deploy remote') {
+//            when {
+//                branch 'master'
+//            }
+//            steps {
+//                sh 'mvn deploy -DskipTests=true'
+//            }
+//        }
 
     }
     post {
