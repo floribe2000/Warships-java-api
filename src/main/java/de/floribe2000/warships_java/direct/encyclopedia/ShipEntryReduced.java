@@ -4,12 +4,10 @@ import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Nation;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier;
-import lombok.Getter;
 
 /**
  * A reduced view of a {@link de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry ShipEntry}.
  */
-@Getter
 public class ShipEntryReduced {
 
     private final long shipId;
@@ -45,5 +43,41 @@ public class ShipEntryReduced {
     @Override
     public String toString() {
         return IRequestAction.GSON.toJson(this);
+    }
+
+    public long getShipId() {
+        return this.shipId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Tier getTier() {
+        return this.tier;
+    }
+
+    public Nation getNation() {
+        return this.nation;
+    }
+
+    public ShipType getType() {
+        return this.type;
+    }
+
+    public boolean isDemoProfile() {
+        return this.demoProfile;
+    }
+
+    public boolean isPremium() {
+        return this.premium;
+    }
+
+    public boolean isSpecial() {
+        return this.special;
+    }
+
+    public String getShipIdStr() {
+        return this.shipIdStr;
     }
 }

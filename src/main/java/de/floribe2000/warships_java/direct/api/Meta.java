@@ -1,11 +1,8 @@
 package de.floribe2000.warships_java.direct.api;
 
-import lombok.Getter;
-
 /**
  * A representation of the general meta block that is available on all api requests.
  */
-@Getter
 public class Meta {
 
     /**
@@ -32,4 +29,24 @@ public class Meta {
      * The current page number
      */
     private int page = 0;
+
+    public int getCount() {
+        return this.count;
+    }
+
+    public int getPage_total() {
+        return this.page_total;
+    }
+
+    public int getTotal() {
+        return this.total;
+    }
+
+    public int getLimit() {
+        return this.limit;
+    }
+
+    public int getPage() {
+        return this.page;
+    }
 }

@@ -1,12 +1,10 @@
 package de.floribe2000.warships_java.direct.account;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IResponseFields;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatisticsByDateRequest, PlayersStatisticsByDate> {
 
     /**
@@ -65,6 +62,9 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * The extra field for this request. Only one field is possible in this case.
      */
     private ExtraField extra = null;
+
+    public PlayerStatisticsByDateRequest() {
+    }
 
     /**
      * Creates a new empty request instance of this class.
@@ -272,7 +272,6 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
      * All possible extra fields for this request.
      * <p>These fields are optional fields, the request will also work without them.</p>
      */
-    @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
         /**
          * The coop battles mode
@@ -280,6 +279,10 @@ public class PlayerStatisticsByDateRequest extends AbstractRequest<PlayerStatist
         PVE("pve");
 
         private final String key;
+
+        private ExtraField(String key) {
+            this.key = key;
+        }
 
         @Override
         public String retrieveKey() {

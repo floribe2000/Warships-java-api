@@ -1,11 +1,11 @@
 package de.floribe2000.warships_java.direct.clans;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IRequestAction;
+import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClansRequest extends AbstractRequest<ClansRequest, Clans> implements IRequestAction<Clans> {
 
     /**
@@ -44,6 +43,9 @@ public class ClansRequest extends AbstractRequest<ClansRequest, Clans> implement
      * The page for this request. Minimum value 1, maximum value undefined.
      */
     private int page = 1;
+
+    private ClansRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.

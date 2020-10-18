@@ -1,10 +1,10 @@
 package de.floribe2000.warships_java.direct.account;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IResponseFields;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,6 @@ import java.util.function.Consumer;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
 
     /**
@@ -49,6 +48,9 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
      * The response fields for this request
      */
     private Set<ResponseField> fields = new HashSet<>();
+
+    public PlayersRequest() {
+    }
 
     /**
      * Creates a new, empty request
@@ -167,13 +169,15 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
      * All response fields of the api response.
      * <p>By default, both fields are shown. Only use them if you need only one of them.</p>
      */
-    @AllArgsConstructor
     public enum ResponseField implements IResponseFields {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
 
-        @NonNull
         private String key;
+
+        private ResponseField(String key) {
+            this.key = key;
+        }
 
         @Override
         public String retrieveKey() {

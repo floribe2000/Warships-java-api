@@ -1,7 +1,6 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 
 /**
  * An enum to indicate the response status of an api request.
@@ -9,7 +8,6 @@ import lombok.AllArgsConstructor;
  * @author floribe2000
  * @since 0.2.9
  */
-@AllArgsConstructor
 public enum Status {
     /**
      * Indicates a successful api request. The corresponding boolean value is true.
@@ -27,6 +25,10 @@ public enum Status {
      * The boolean value associated with the status
      */
     private final boolean status;
+
+    private Status(boolean status) {
+        this.status = status;
+    }
 
     /**
      * A method to get the boolean value of a status.

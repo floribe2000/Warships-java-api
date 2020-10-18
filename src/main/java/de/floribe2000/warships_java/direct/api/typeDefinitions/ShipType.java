@@ -1,12 +1,10 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 
 /**
  * All ship types that are available in the game.
  */
-@AllArgsConstructor
 public enum ShipType {
     @SerializedName("AirCarrier")
     AIRCRAFT_CARRIER("AirCarrier"),
@@ -23,6 +21,10 @@ public enum ShipType {
      * The spelled name of the type
      */
     private final String typeName;
+
+    private ShipType(String typeName) {
+        this.typeName = typeName;
+    }
 
     @Override
     public String toString() {

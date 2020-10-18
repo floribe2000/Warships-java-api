@@ -4,9 +4,6 @@ import de.floribe2000.warships_java.direct.api.AbstractRequest;
 import de.floribe2000.warships_java.direct.api.ApiBuilder;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 /**
  * A class to create a server status request.
@@ -15,7 +12,6 @@ import lombok.NonNull;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServerStatusRequest extends AbstractRequest<ServerStatusRequest, ServerStatus> {
 
     /**
@@ -27,6 +23,9 @@ public class ServerStatusRequest extends AbstractRequest<ServerStatusRequest, Se
      * The language for the api response
      */
     private Language language = null;
+
+    public ServerStatusRequest() {
+    }
 
     public static ServerStatusRequest createRequest() {
         return new ServerStatusRequest();
@@ -65,7 +64,7 @@ public class ServerStatusRequest extends AbstractRequest<ServerStatusRequest, Se
     }
 
     @Override
-    public String baseUrl(@NonNull Region region, @NonNull String path, Language language, String instanceName) {
+    public String baseUrl(Region region, String path, Language language, String instanceName) {
         String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam(instanceName) + createLanguageField(language);
         return url.replace("api.worldofwarships.", "api.worldoftanks.");
     }

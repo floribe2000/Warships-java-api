@@ -1,8 +1,5 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public enum ModuleIdField {
 
     ARTILLERY_ID("artillery_id"),
@@ -19,6 +16,10 @@ public enum ModuleIdField {
      * The key that is used in urls
      */
     private final String key;
+
+    private ModuleIdField(String key) {
+        this.key = key;
+    }
 
     /**
      * A method used to convert a {@link FieldType} to a string value.

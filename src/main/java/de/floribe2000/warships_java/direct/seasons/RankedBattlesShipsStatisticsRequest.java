@@ -1,10 +1,12 @@
 package de.floribe2000.warships_java.direct.seasons;
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,12 +14,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RankedBattlesShipsStatisticsRequest extends AbstractRequest<RankedBattlesShipsStatisticsRequest, RankedBattlesShipsStatistics> implements IRequestAction<RankedBattlesShipsStatistics> {
 
     /**
@@ -49,6 +45,9 @@ public class RankedBattlesShipsStatisticsRequest extends AbstractRequest<RankedB
      * The set of season IDs for this request
      */
     private Set<Long> shipIds = new HashSet<>();
+
+    public RankedBattlesShipsStatisticsRequest() {
+    }
 
     @Override
     public RankedBattlesShipsStatisticsRequest region(Region region) {

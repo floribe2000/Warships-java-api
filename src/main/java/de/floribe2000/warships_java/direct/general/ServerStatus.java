@@ -4,7 +4,6 @@ import de.floribe2000.warships_java.direct.api.ErrorContainer;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import java.util.Map;
  *
  * @author floribe2000
  */
-@Getter
 public class ServerStatus implements IApiResponse {
 
     private Status status = Status.ERROR;
@@ -31,12 +29,31 @@ public class ServerStatus implements IApiResponse {
      */
     private Map<String, List<ServerEntry>> data = null;
 
-    @Getter
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public ErrorContainer getError() {
+        return this.error;
+    }
+
+    public Map<String, List<ServerEntry>> getData() {
+        return this.data;
+    }
+
     public static class ServerEntry {
 
         private int players_online = 0;
 
         private String server = null;
+
+        public int getPlayers_online() {
+            return this.players_online;
+        }
+
+        public String getServer() {
+            return this.server;
+        }
     }
 
     @Override

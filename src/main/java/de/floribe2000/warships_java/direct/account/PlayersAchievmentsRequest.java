@@ -1,10 +1,9 @@
 package de.floribe2000.warships_java.direct.account;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievmentsRequest, PlayersAchievments> {
 
     /**
@@ -31,7 +29,6 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
     /**
      * The server region for this request
      */
-    @NonNull
     private Region region;
 
     /**
@@ -42,8 +39,10 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
     /**
      * The account id of the player
      */
-    @NonNull
     private Set<Long> accountIds = new HashSet<>();
+
+    public PlayersAchievmentsRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.
@@ -166,7 +165,6 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
     /**
      * A list of all available achievments. Entries are named after their technical IDs, their ingame names can be retrieved by using {@link #getTitle()}.
      */
-    @AllArgsConstructor
     public enum AchievmentElement {
         FOOLSDAY_TROOPER("Not Overly Assaultive"),
         COLLECTION_HAPPY_BIRTHDAY2018_COMPLETED("3 Years of World of Warships"),
@@ -299,8 +297,11 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
         /**
          * The ingame title of this element
          */
-        @Getter
         private String title;
+
+        private AchievmentElement(String title) {
+            this.title = title;
+        }
 
         /**
          * Allows to retrieve an element based on its title
@@ -315,6 +316,10 @@ public class PlayersAchievmentsRequest extends AbstractRequest<PlayersAchievment
                 }
             }
             return null;
+        }
+
+        public String getTitle() {
+            return this.title;
         }
     }
 }

@@ -4,19 +4,11 @@ import de.floribe2000.warships_java.direct.api.ErrorContainer;
 import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Nation;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
 
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
 public class Warships implements IApiResponse {
 
     private Status status = Status.ERROR;
@@ -31,7 +23,22 @@ public class Warships implements IApiResponse {
 
     private Map<Long, ShipEntry> data = null;
 
-    @Getter
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public ErrorContainer getError() {
+        return this.error;
+    }
+
+    public Meta getMeta() {
+        return this.meta;
+    }
+
+    public Map<Long, ShipEntry> getData() {
+        return this.data;
+    }
+
     public static class ShipEntry {
 
         private String description = null;
@@ -44,7 +51,82 @@ public class Warships implements IApiResponse {
 
         private ImageDetails images = null;
 
-        @Getter
+        public String getDescription() {
+            return this.description;
+        }
+
+        public int getPrice_gold() {
+            return this.price_gold;
+        }
+
+        public String getShip_id_str() {
+            return this.ship_id_str;
+        }
+
+        public boolean isHas_demo_profile() {
+            return this.has_demo_profile;
+        }
+
+        public ImageDetails getImages() {
+            return this.images;
+        }
+
+        public ShipModules getModules() {
+            return this.modules;
+        }
+
+        public Map<String, ModuleDetails> getModules_tree() {
+            return this.modules_tree;
+        }
+
+        public Nation getNation() {
+            return this.nation;
+        }
+
+        public boolean is_premium() {
+            return this.is_premium;
+        }
+
+        public long getShip_id() {
+            return this.ship_id;
+        }
+
+        public int getPrice_credit() {
+            return this.price_credit;
+        }
+
+        public List<Long> getUpgrades() {
+            return this.upgrades;
+        }
+
+        public Tier getTier() {
+            return this.tier;
+        }
+
+        public Map<String, Integer> getNext_ships() {
+            return this.next_ships;
+        }
+
+        public int getMod_slots() {
+            return this.mod_slots;
+        }
+
+        public ShipType getType() {
+            return this.type;
+        }
+
+        public boolean is_special() {
+            return this.is_special;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
         public static class ImageDetails {
 
             private String small = null;
@@ -54,11 +136,26 @@ public class Warships implements IApiResponse {
             private String medium = null;
 
             private String contour = null;
+
+            public String getSmall() {
+                return this.small;
+            }
+
+            public String getLarge() {
+                return this.large;
+            }
+
+            public String getMedium() {
+                return this.medium;
+            }
+
+            public String getContour() {
+                return this.contour;
+            }
         }
 
         private ShipModules modules = null;
 
-        @Getter
         public static class ShipModules {
 
             private List<Long> engine = null;
@@ -78,11 +175,46 @@ public class Warships implements IApiResponse {
             private List<Long> flight_control = null;
 
             private List<Long> dive_bomber = null;
+
+            public List<Long> getEngine() {
+                return this.engine;
+            }
+
+            public List<Long> getTorpedo_bomber() {
+                return this.torpedo_bomber;
+            }
+
+            public List<Long> getFighter() {
+                return this.fighter;
+            }
+
+            public List<Long> getHull() {
+                return this.hull;
+            }
+
+            public List<Long> getArtillery() {
+                return this.artillery;
+            }
+
+            public List<Long> getTorpedoes() {
+                return this.torpedoes;
+            }
+
+            public List<Long> getFire_control() {
+                return this.fire_control;
+            }
+
+            public List<Long> getFlight_control() {
+                return this.flight_control;
+            }
+
+            public List<Long> getDive_bomber() {
+                return this.dive_bomber;
+            }
         }
 
         private Map<String, ModuleDetails> modules_tree = null;
 
-        @Getter
         public static class ModuleDetails {
 
             private String name = null;
@@ -102,6 +234,42 @@ public class Warships implements IApiResponse {
             private ModuleType type = null;
 
             private String module_id_str = null;
+
+            public String getName() {
+                return this.name;
+            }
+
+            public List<Long> getNext_modules() {
+                return this.next_modules;
+            }
+
+            public boolean is_default() {
+                return this.is_default;
+            }
+
+            public int getPrice_xp() {
+                return this.price_xp;
+            }
+
+            public int getPrice_credit() {
+                return this.price_credit;
+            }
+
+            public List<Long> getNext_ships() {
+                return this.next_ships;
+            }
+
+            public long getModule_id() {
+                return this.module_id;
+            }
+
+            public ModuleType getType() {
+                return this.type;
+            }
+
+            public String getModule_id_str() {
+                return this.module_id_str;
+            }
         }
 
         private Nation nation = null;
@@ -126,7 +294,6 @@ public class Warships implements IApiResponse {
 
         private boolean is_special = false;
 
-        @Setter
         private String name = null;
 
         public ShipEntryReduced getReducedView() {

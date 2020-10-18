@@ -5,16 +5,13 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleIdField;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class to create a ShipParameters encyclopedia request
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest, ShipParameters> {
 
     /**
@@ -36,6 +33,9 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      * A map containing lists of additional module ids for the request.
      */
     private Map<ModuleIdField, Long> additionalParams = new HashMap<>();
+
+    public ShipParametersRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.
@@ -83,7 +83,7 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      * @param moduleId the module id to add
      * @return the instance of this request
      */
-    public ShipParametersRequest addAdditionalParam(@NonNull ModuleIdField field, long moduleId) {
+    public ShipParametersRequest addAdditionalParam(ModuleIdField field, long moduleId) {
         additionalParams.put(field, moduleId);
         return this;
     }
@@ -94,7 +94,7 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      * @param field the field type to remove from the request
      * @return the instance of this request
      */
-    public ShipParametersRequest removeAdditionalParam(@NonNull ModuleIdField field) {
+    public ShipParametersRequest removeAdditionalParam(ModuleIdField field) {
         additionalParams.remove(field);
         return this;
     }

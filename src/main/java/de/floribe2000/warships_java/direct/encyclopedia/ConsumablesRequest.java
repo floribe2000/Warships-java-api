@@ -1,11 +1,9 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ConsumableType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,7 +17,6 @@ import java.util.Set;
  * @author floribe2000
  * @since 0.2.12
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConsumablesRequest extends AbstractRequest<ConsumablesRequest, Consumables> {
 
     /**
@@ -46,6 +43,9 @@ public class ConsumablesRequest extends AbstractRequest<ConsumablesRequest, Cons
      * A possibly empty list of consumable ids for the request
      */
     private Set<Long> consumable_id = new HashSet<>();
+
+    private ConsumablesRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.

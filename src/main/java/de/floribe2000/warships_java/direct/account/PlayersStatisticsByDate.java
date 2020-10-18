@@ -5,7 +5,6 @@ import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-import lombok.Getter;
 
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import java.util.Map;
  *
  * @author floribe2000
  */
-@Getter
 public class PlayersStatisticsByDate implements IApiResponse {
 
     /**
@@ -39,10 +37,25 @@ public class PlayersStatisticsByDate implements IApiResponse {
      */
     private Map<String, PlayerEntry> data = null;
 
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public ErrorContainer getError() {
+        return this.error;
+    }
+
+    public Meta getMeta() {
+        return this.meta;
+    }
+
+    public Map<String, PlayerEntry> getData() {
+        return this.data;
+    }
+
     /**
      * A representation of a single player entry
      */
-    @Getter
     public static class PlayerEntry {
 
         /**
@@ -55,10 +68,17 @@ public class PlayersStatisticsByDate implements IApiResponse {
          */
         private Map<String, Day> pve = null;
 
+        public Map<String, Day> getPvp() {
+            return this.pvp;
+        }
+
+        public Map<String, Day> getPve() {
+            return this.pve;
+        }
+
         /**
          * A representation of the stats for a requested day
          */
-        @Getter
         public static class Day {
 
             private int capture_points = 0;
@@ -90,6 +110,58 @@ public class PlayersStatisticsByDate implements IApiResponse {
             @Override
             public String toString() {
                 return IRequestAction.GSON.toJson(this);
+            }
+
+            public int getCapture_points() {
+                return this.capture_points;
+            }
+
+            public long getAccount_id() {
+                return this.account_id;
+            }
+
+            public int getMax_xp() {
+                return this.max_xp;
+            }
+
+            public int getWins() {
+                return this.wins;
+            }
+
+            public int getPlanes_killed() {
+                return this.planes_killed;
+            }
+
+            public int getBattles() {
+                return this.battles;
+            }
+
+            public int getDamage_dealt() {
+                return this.damage_dealt;
+            }
+
+            public String getBattle_type() {
+                return this.battle_type;
+            }
+
+            public String getDate() {
+                return this.date;
+            }
+
+            public int getXp() {
+                return this.xp;
+            }
+
+            public int getFrags() {
+                return this.frags;
+            }
+
+            public int getSurvived_battles() {
+                return this.survived_battles;
+            }
+
+            public int getDropped_capture_points() {
+                return this.dropped_capture_points;
             }
         }
 

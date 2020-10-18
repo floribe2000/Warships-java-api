@@ -2,15 +2,13 @@ package de.floribe2000.warships_java.direct.api;
 
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
 import de.floribe2000.warships_java.utilities.AbstractRequestService;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides a basic connector to the api.
@@ -18,7 +16,6 @@ import java.util.*;
  *
  * @author floribe2000
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ApiBuilder {
 
     /**
@@ -29,7 +26,6 @@ public final class ApiBuilder {
     /**
      * The current game version for this library
      */
-    @Getter
     private static final VersionDetails currentVersion = new VersionDetails(0, 9, 3);
 
     /**
@@ -40,8 +36,6 @@ public final class ApiBuilder {
     /**
      * The default api type for new api instances
      */
-    @Getter
-    @Setter
     private static SimpleRateLimiter.ApiType defaultType = SimpleRateLimiter.ApiType.CLIENT;
 
     /**
@@ -58,20 +52,23 @@ public final class ApiBuilder {
     /**
      * The rate limiter instance linked to this api builder instance
      */
-    @Getter
     private final SimpleRateLimiter rateLimiter;
 
     /**
      * The unique identifier of this instance
      */
-    @Getter
     private final String instanceName;
 
     /**
      * The api key that is used to connect to the wargaming api
      */
-    @Getter
     private final String apiKey;
+
+    public ApiBuilder(SimpleRateLimiter rateLimiter, String instanceName, String apiKey) {
+        this.rateLimiter = rateLimiter;
+        this.instanceName = instanceName;
+        this.apiKey = apiKey;
+    }
 
     /**
      * Creates an ApiBuilder instance to be used for api requests.
@@ -274,5 +271,29 @@ public final class ApiBuilder {
      */
     public static boolean isInitialized() {
         return instances.size() > 0;
+    }
+
+    public static VersionDetails getCurrentVersion() {
+        return ApiBuilder.currentVersion;
+    }
+
+    public static SimpleRateLimiter.ApiType getDefaultType() {
+        return ApiBuilder.defaultType;
+    }
+
+    public SimpleRateLimiter getRateLimiter() {
+        return this.rateLimiter;
+    }
+
+    public String getInstanceName() {
+        return this.instanceName;
+    }
+
+    public String getApiKey() {
+        return this.apiKey;
+    }
+
+    public static void setDefaultType(SimpleRateLimiter.ApiType defaultType) {
+        ApiBuilder.defaultType = defaultType;
     }
 }

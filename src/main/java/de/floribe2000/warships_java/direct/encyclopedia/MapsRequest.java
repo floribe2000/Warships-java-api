@@ -4,10 +4,7 @@ import de.floribe2000.warships_java.direct.api.AbstractRequest;
 import de.floribe2000.warships_java.direct.api.IRequestAction;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MapsRequest extends AbstractRequest<MapsRequest, Maps> implements IRequestAction<Maps> {
 
     /**
@@ -19,6 +16,9 @@ public class MapsRequest extends AbstractRequest<MapsRequest, Maps> implements I
      * The language for the api response
      */
     private Language language = null;
+
+    public MapsRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.

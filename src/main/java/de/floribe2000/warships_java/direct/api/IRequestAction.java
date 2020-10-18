@@ -3,13 +3,11 @@ package de.floribe2000.warships_java.direct.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.floribe2000.warships_java.requests.SimpleRateLimiter;
-import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.function.Consumer;
 
@@ -60,7 +58,7 @@ public interface IRequestAction<T extends IApiResponse> {
      * @param tClass the class of the api return object
      * @return an object of the given type containing the received data.
      */
-    default T connect(String url, Class<T> tClass, @NonNull SimpleRateLimiter limiter) {
+    default T connect(String url, Class<T> tClass, SimpleRateLimiter limiter) {
         T result = null;
         int attempts = 0;
 
@@ -75,11 +73,14 @@ public interface IRequestAction<T extends IApiResponse> {
                 }
             } catch (UnknownHostException ue) {
                 LOG.error("An error occurred", ue);
+                ue.printStackTrace();
                 result = null;
             } catch (IllegalStateException ie) {
                 LOG.warn(ie.getMessage());
+                ie.printStackTrace();
                 result = null;
             } catch (Exception e) {
+                e.printStackTrace();
                 LOG.error("An error occurred", e);
                 try {
                     result = tClass.getDeclaredConstructor().newInstance();

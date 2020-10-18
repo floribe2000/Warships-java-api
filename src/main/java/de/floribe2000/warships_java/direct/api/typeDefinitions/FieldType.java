@@ -1,14 +1,9 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * All available field types.
  * <p>Please note that not all field types are available for every request! For details see the documentation of the specific request.</p>
  */
-@Getter
-@AllArgsConstructor
 public enum FieldType {
     FIELDS("fields"),
     EXTRA("extra"),
@@ -28,6 +23,10 @@ public enum FieldType {
      */
     private final String key;
 
+    private FieldType(String key) {
+        this.key = key;
+    }
+
     @Override
     public String toString() {
         return "&" + key + "=";
@@ -41,5 +40,9 @@ public enum FieldType {
      */
     public static String getAsParam(FieldType type) {
         return "&" + type.getKey() + "=";
+    }
+
+    public String getKey() {
+        return this.key;
     }
 }

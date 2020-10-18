@@ -5,35 +5,25 @@ pipeline {
             steps {
                 sh 'set +x'
                 sh 'cp /var/tmp/Warships.properties Warships.properties'
-                sh 'mvn clean package site'
-                archiveArtifacts '*/*.jar'
+                sh './gradlew clean build'
+                archiveArtifacts 'build/libs/*.jar'
             }
         }
 
         stage('Deploy local') {
             steps {
-                sh 'mvn install -DskipTests=true'
+                sh './gradlew publish'
             }
         }
-
-//        stage('Deploy remote') {
-//            when {
-//                branch 'master'
-//            }
-//            steps {
-//                sh 'mvn deploy -DskipTests=true'
-//            }
-//        }
 
     }
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
-            javadoc(keepAll: true, javadocDir: 'target/site/apidocs')
+            junit 'build/test-results/test/*.xml'
+            javadoc(keepAll: true, javadocDir: 'build/dokka/javadoc')
         }
     }
     tools {
-        maven 'default-maven'
         jdk 'Java8'
     }
 }

@@ -1,15 +1,12 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Comparator;
 
 /**
  * An enum that represents all available tiers in the game.
  */
-@AllArgsConstructor
 public enum Tier implements Comparator<Tier> {
     @SerializedName("1") I(1),
     @SerializedName("2") II(2),
@@ -22,8 +19,11 @@ public enum Tier implements Comparator<Tier> {
     @SerializedName("9") IX(9),
     @SerializedName("10") X(10);
 
-    @Getter
     private final int asInt;
+
+    private Tier(int asInt) {
+        this.asInt = asInt;
+    }
 
     public static Tier fromInt(int tier) {
         if (tier < 1 || tier > Tier.values().length) {
@@ -35,5 +35,9 @@ public enum Tier implements Comparator<Tier> {
     @Override
     public int compare(Tier o1, Tier o2) {
         return Integer.compare(o1.getAsInt() - o2.getAsInt(), 0);
+    }
+
+    public int getAsInt() {
+        return this.asInt;
     }
 }

@@ -1,12 +1,10 @@
 package de.floribe2000.warships_java.direct.clans;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IResponseFields;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest, ClanDetails> {
 
     /**
@@ -50,6 +47,9 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest, Clan
      * The extra field for this request
      */
     private boolean extra = false;
+
+    private ClanDetailsRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.
@@ -170,7 +170,6 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest, Clan
      * The extra fields for this request.
      * <p>In this case, there is only a single field available.</p>
      */
-    @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
         /**
          * If selected includes a list of all clan members with their {@link ClanRole}, join date and account id.
@@ -178,6 +177,10 @@ public class ClanDetailsRequest extends AbstractRequest<ClanDetailsRequest, Clan
         MEMBERS("members");
 
         private String key;
+
+        ExtraField(String key) {
+            this.key = key;
+        }
 
         @Override
         public String retrieveKey() {

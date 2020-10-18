@@ -1,16 +1,17 @@
 package de.floribe2000.warships_java.direct.account;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IResponseFields;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPersonalDataFullRequest, PlayersPersonalDataFull> {
 
     /**
@@ -49,6 +49,9 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      * A set of extra fields that should be added to the request and will be retrieved from the api.
      */
     private Set<ExtraField> extraFields = null;
+
+    public PlayersPersonalDataFullRequest() {
+    }
 
     /**
      * Creates a new empty request instance of this class.
@@ -199,7 +202,6 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
      *
      * <p>Currently, the default pvp field cannot be removed from the api response.</p>
      */
-    @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
         /**
          * The default random battle mode, including divison games.
@@ -263,6 +265,10 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
          * The field name for the api.
          */
         private String key;
+
+        private ExtraField(String key) {
+            this.key = key;
+        }
 
         /**
          * A method to get the key of an entry.

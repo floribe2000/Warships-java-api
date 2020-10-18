@@ -1,12 +1,8 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Enum representation of all current API regions (RU, EU, NA, ASIA) containing the base URLs for API requests
  */
-@AllArgsConstructor
 public enum Region {
 
     RU("https://api.worldofwarships.ru", "ru", 1),
@@ -17,20 +13,23 @@ public enum Region {
     /**
      * The base url for this region
      */
-    @Getter
     private final String baseURL;
 
     /**
      * The domain for this region
      */
-    @Getter
     private final String code;
 
     /**
      * The start of the id range of the region
      */
-    @Getter
     private final int start;
+
+    private Region(String baseURL, String code, int start) {
+        this.baseURL = baseURL;
+        this.code = code;
+        this.start = start;
+    }
 
     /**
      * Parses the region from a string.
@@ -62,5 +61,17 @@ public enum Region {
         } else {
             return ASIA;
         }
+    }
+
+    public String getBaseURL() {
+        return this.baseURL;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public int getStart() {
+        return this.start;
     }
 }

@@ -3,7 +3,6 @@ package de.floribe2000.warships_java.direct.api;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import lombok.NonNull;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public interface IRequest<R> {
      * A default method to create the basic url for a request with mandatory fields as application id and request language.
      * <p>This method returns a raw request url, the {@link IRequestAction#fetch()} method has to make sure to append other fields
      * like account ids or search strings as well as optional parameters.</p>
-     * <p>All parameters that have to be added can be added to this string by using a '&' char followed by the field name and the field values.
+     * <p>All parameters that have to be added can be added to this string by using a '&amp;' char followed by the field name and the field values.
      * This is done automatically for already implemented fields.</p>
      *
      * @param region   the region for the request
@@ -31,7 +30,7 @@ public interface IRequest<R> {
      * @deprecated This method is deprecated. Use {@link #baseUrl(Region, String, Language, String)} instead to be able to use more than one api key for your application.
      */
     @Deprecated
-    default String baseUrl(@NonNull Region region, @NonNull String path, Language language) {
+    default String baseUrl(Region region, String path, Language language) {
         return baseUrl(region, path, language, null);
     }
 
@@ -39,7 +38,7 @@ public interface IRequest<R> {
      * A default method to create the basic url for a request with mandatory fields as application id and request language.
      * <p>This method returns a raw request url, the {@link IRequestAction#fetch()} method has to make sure to append other fields
      * like account ids or search strings as well as optional parameters.</p>
-     * <p>All parameters that have to be added can be added to this string by using a '&' char followed by the field name and the field values.
+     * <p>All parameters that have to be added can be added to this string by using a '&amp;' char followed by the field name and the field values.
      * This is done automatically for already implemented fields.</p>
      *
      * @param region       the region for the request
@@ -48,7 +47,7 @@ public interface IRequest<R> {
      * @param instanceName the identifier of the api instance, null for default instance
      * @return a string that contains the expandable request url
      */
-    default String baseUrl(@NonNull Region region, @NonNull String path, Language language, String instanceName) {
+    default String baseUrl(Region region, String path, Language language, String instanceName) {
         return region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam(instanceName) + createLanguageField(language);
     }
 

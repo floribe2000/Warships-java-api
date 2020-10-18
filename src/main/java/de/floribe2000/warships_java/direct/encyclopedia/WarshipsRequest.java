@@ -1,9 +1,9 @@
 package de.floribe2000.warships_java.direct.encyclopedia;
 
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IRequestAction;
+import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
-import de.floribe2000.warships_java.direct.api.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  *
  * @author floribe2000
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WarshipsRequest extends AbstractRequest<WarshipsRequest, Warships> implements IRequestAction<Warships> {
 
     /**
@@ -70,6 +69,9 @@ public class WarshipsRequest extends AbstractRequest<WarshipsRequest, Warships> 
      * A set of ship tiers for the request
      */
     private Set<Tier> shipTiers = new HashSet<>();
+
+    public WarshipsRequest() {
+    }
 
     @Override
     public WarshipsRequest apiBuilder(String instanceName) {

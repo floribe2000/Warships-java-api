@@ -1,9 +1,5 @@
 package de.floribe2000.warships_java.requests;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +26,7 @@ public class SimpleRateLimiter implements Closeable {
 
     private final long resetDelay = 1000;
 
-    public SimpleRateLimiter(boolean enabled, @NonNull ApiType type) {
+    public SimpleRateLimiter(boolean enabled, ApiType type) {
         this.type = type;
         semaphore = new Semaphore(this.type.getRateLimit());
         timer = Executors.newScheduledThreadPool(this.type.getRateLimit());
@@ -121,7 +117,7 @@ public class SimpleRateLimiter implements Closeable {
      * @param type the ApiType to set
      * @return true if the change was successful, false if not
      */
-    public boolean setClientType(@NonNull ApiType type) {
+    public boolean setClientType(ApiType type) {
         if (enabled.get()) {
             return false;
         } else {
@@ -143,13 +139,19 @@ public class SimpleRateLimiter implements Closeable {
         timer.shutdownNow();
     }
 
-    @AllArgsConstructor
-    @Getter
     public enum ApiType {
         CLIENT(10),
         SERVER(20);
 
         private int rateLimit;
+
+        ApiType(int rateLimit) {
+            this.rateLimit = rateLimit;
+        }
+
+        public int getRateLimit() {
+            return this.rateLimit;
+        }
     }
 }
 

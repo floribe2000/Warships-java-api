@@ -5,8 +5,8 @@ import de.floribe2000.warships_java.direct.api.IApiResponse;
 import de.floribe2000.warships_java.direct.api.Meta;
 import de.floribe2000.warships_java.direct.api.stats.RankedStatsContainer;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
+
 import java.util.Map;
-import lombok.Getter;
 
 /**
  * A representation of the api result of ranked battles player statistics. This class holds all data
@@ -14,7 +14,6 @@ import lombok.Getter;
  *
  * @author SirLefti
  */
-@Getter
 public class RankedBattlesPlayersStatistics implements IApiResponse {
 
 	/**
@@ -28,38 +27,60 @@ public class RankedBattlesPlayersStatistics implements IApiResponse {
 	 */
 	private ErrorContainer error = null;
 
-	/**
-	 * Response meta data
-	 */
-	private Meta meta;
+    /**
+     * Response meta data
+     */
+    private Meta meta;
 
-	/**
-	 * Map containing request objects
-	 */
-	private Map<Integer, PlayersElement> data;
+    /**
+     * Map containing request objects
+     */
+    private Map<Integer, PlayersElement> data;
 
-	@Getter
-	public static class PlayersElement {
+    public Status getStatus() {
+        return this.status;
+    }
 
-		/**
-		 * players accountId
-		 */
-		private int account_id;
+    public ErrorContainer getError() {
+        return this.error;
+    }
 
-		/**
-		 * Map containing request objects
-		 */
-		private Map<Integer, StatsContainer> seasons;
+    public Meta getMeta() {
+        return this.meta;
+    }
 
-		@Getter
-		public static class StatsContainer {
+    public Map<Integer, PlayersElement> getData() {
+        return this.data;
+    }
 
-			/**
-			 * Info about season results
-			 */
-			private static SeasonInfo rank_info;
+    public static class PlayersElement {
 
-			private static RankedStatsContainer rank_div3;
+        /**
+         * players accountId
+         */
+        private int account_id;
+
+        /**
+         * Map containing request objects
+         */
+        private Map<Integer, StatsContainer> seasons;
+
+        public int getAccount_id() {
+            return this.account_id;
+        }
+
+        public Map<Integer, StatsContainer> getSeasons() {
+            return this.seasons;
+        }
+
+        public static class StatsContainer {
+
+            /**
+             * Info about season results
+             */
+            private static SeasonInfo rank_info;
+
+            private static RankedStatsContainer rank_div3;
 
 			private static RankedStatsContainer rank_solo;
 
@@ -67,7 +88,6 @@ public class RankedBattlesPlayersStatistics implements IApiResponse {
 
 		}
 
-		@Getter
 		public static class SeasonInfo {
 
 			/**
@@ -80,20 +100,40 @@ public class RankedBattlesPlayersStatistics implements IApiResponse {
 			 */
 			private int start_rank;
 
-			/**
-			 * stars
-			 */
-			private int stars;
+            /**
+             * stars
+             */
+            private int stars;
 
-			/**
-			 * current/final rank
-			 */
-			private int rank;
+            /**
+             * current/final rank
+             */
+            private int rank;
 
-			/**
-			 * stage
-			 */
-			private int stage;
+            /**
+             * stage
+             */
+            private int stage;
+
+            public int getMax_rank() {
+                return this.max_rank;
+            }
+
+            public int getStart_rank() {
+                return this.start_rank;
+            }
+
+            public int getStars() {
+                return this.stars;
+            }
+
+            public int getRank() {
+                return this.rank;
+            }
+
+            public int getStage() {
+				return this.stage;
+			}
 		}
 	}
 

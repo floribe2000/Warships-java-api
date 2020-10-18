@@ -1,13 +1,11 @@
 package de.floribe2000.warships_java.direct.warships;
 
-import de.floribe2000.warships_java.direct.api.*;
+import de.floribe2000.warships_java.direct.api.AbstractRequest;
+import de.floribe2000.warships_java.direct.api.IResponseFields;
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships;
 import de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry;
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
  * @author floribe2000, SirLefti
  */
 //TODO allow use of all parameters
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statistics> {
 
     /**
@@ -73,6 +70,9 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statis
      * A set of ship tiers for the request
      */
     private Set<Tier> shipTiers = new HashSet<>();
+
+    public StatisticsRequest() {
+    }
 
     /**
      * Creates a new empty request of this class.
@@ -754,7 +754,6 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statis
         return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + extra + ships;
     }
 
-    @AllArgsConstructor
     public enum ExtraField implements IResponseFields {
         OPER_DIV("oper_div"),
         OPER_DIV_HARD("oper_div_hard"),
@@ -771,6 +770,10 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statis
         RANK_SOLO("rank_solo");
 
         private String key;
+
+        private ExtraField(String key) {
+            this.key = key;
+        }
 
         @Override
         public String retrieveKey() {

@@ -1,13 +1,10 @@
 package de.floribe2000.warships_java.direct.api;
 
-import lombok.Getter;
-
 /**
  * A representation of the error field of a failed api request.
  *
  * @author floribe2000
  */
-@Getter
 public class ErrorContainer {
 
     private String field = null;
@@ -21,5 +18,21 @@ public class ErrorContainer {
     @Override
     public String toString() {
         return IRequestAction.GSON.toJson(this);
+    }
+
+    public String getField() {
+        return this.field;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public int getCode() {
+        return this.code;
+    }
+
+    public String getValue() {
+        return this.value;
     }
 }
