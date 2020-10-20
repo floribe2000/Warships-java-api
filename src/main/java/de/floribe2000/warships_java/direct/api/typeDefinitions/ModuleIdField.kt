@@ -1,6 +1,10 @@
-package de.floribe2000.warships_java.direct.api.typeDefinitions;
+package de.floribe2000.warships_java.direct.api.typeDefinitions
 
-public enum ModuleIdField {
+enum class ModuleIdField(
+        /**
+         * The key that is used in urls
+         */
+        private val key: String) {
 
     ARTILLERY_ID("artillery_id"),
     DIVE_BOMBER_ID("dive_bomber_id"),
@@ -13,22 +17,11 @@ public enum ModuleIdField {
     TORPEDOES_ID("torpedoes_id");
 
     /**
-     * The key that is used in urls
-     */
-    private final String key;
-
-    private ModuleIdField(String key) {
-        this.key = key;
-    }
-
-    /**
-     * A method used to convert a {@link FieldType} to a string value.
+     * A method used to convert a [FieldType] to a string value.
      *
      * @return the field type as request param
      */
-    @Override
-    public String toString() {
-        return "&" + key + "=";
+    override fun toString(): String {
+        return "&$key="
     }
-
 }

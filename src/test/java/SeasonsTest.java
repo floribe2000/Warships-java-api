@@ -32,8 +32,8 @@ public class SeasonsTest {
 
 	@Before
 	public void init() {
-		ApiBuilder.createInstance(apiKey, instanceName);
-	}
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
+    }
 
 	@Test
 	public void testSeasonsRequest() {

@@ -18,7 +18,7 @@ public abstract class AbstractRequestService {
         if (initialized.getAndSet(true)) {
             return;
         }
-        ApiBuilder.createInstance(apiKey, INSTANCE);
+        ApiBuilder.Companion.createInstance(apiKey, INSTANCE);
 
         Runtime.getRuntime().addShutdownHook(new Thread(ApiBuilder::shutdown));
     }

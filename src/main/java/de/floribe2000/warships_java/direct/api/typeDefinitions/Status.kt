@@ -1,6 +1,6 @@
-package de.floribe2000.warships_java.direct.api.typeDefinitions;
+package de.floribe2000.warships_java.direct.api.typeDefinitions
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
 /**
  * An enum to indicate the response status of an api request.
@@ -8,7 +8,12 @@ import com.google.gson.annotations.SerializedName;
  * @author floribe2000
  * @since 0.2.9
  */
-public enum Status {
+enum class Status(
+        /**
+         * The boolean value associated with the status
+         */
+        private val status: Boolean) {
+
     /**
      * Indicates a successful api request. The corresponding boolean value is true.
      */
@@ -22,21 +27,12 @@ public enum Status {
     ERROR(false);
 
     /**
-     * The boolean value associated with the status
-     */
-    private final boolean status;
-
-    private Status(boolean status) {
-        this.status = status;
-    }
-
-    /**
      * A method to get the boolean value of a status.
      *
      * @return the boolean value of the status
      */
-    public boolean get() {
-        return status;
+    fun get(): Boolean {
+        return status
     }
 
     /**
@@ -45,11 +41,11 @@ public enum Status {
      * @param value the boolean value of the status
      * @return the status for the boolean value
      */
-    public Status parse(boolean value) {
-        if (value) {
-            return OK;
+    fun parse(value: Boolean): Status {
+        return if (value) {
+            OK
         } else {
-            return ERROR;
+            ERROR
         }
     }
 }

@@ -34,7 +34,7 @@ public class StatisticsTest {
 		Properties PROPERTIES = new Properties();
 		PROPERTIES.load(new FileInputStream("Warships.properties"));
 		String apiKey = PROPERTIES.getProperty("APIKEY");
-		ApiBuilder.createInstance(apiKey, instanceName);
+		ApiBuilder.Companion.createInstance(apiKey, instanceName);
 	}
 
 	@Test

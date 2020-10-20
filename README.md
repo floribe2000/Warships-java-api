@@ -28,7 +28,7 @@ The terms and conditions set by Wargaming apply for you, no matter if you use th
 If you have an api key, you can start using this library.
 
 To initialize the api builder, use the following code:
-`ApiBuilder.createInstance(apiKey)`
+`ApiBuilder.Companion.createInstance(apiKey)`
 Where you provide your api key as string.
 If you use a server api key you should also provide the ClientType argument when creating a new instance to allow the api to use the increased rate limit.
 

@@ -31,7 +31,7 @@ public class GeneralTest {
     @Test
     public void testRateLimiter() {
         int accountId = 537376379;
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         int instanceSize = ApiBuilder.getInstanceSize();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
         ExecutorService service = Executors.newCachedThreadPool();
@@ -61,18 +61,18 @@ public class GeneralTest {
 
     @Test
     public void testShutdown() {
-        ApiBuilder.createInstance(apiKey);
+        ApiBuilder.Companion.createInstance(apiKey);
         assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
         ApiBuilder.shutdown();
         assert ApiBuilder.getInstanceSize() == 0 : "Instance list not cleared after shutdown";
-        ApiBuilder.createInstance(apiKey, "NEWAPP");
+        ApiBuilder.Companion.createInstance(apiKey, "NEWAPP");
         assert ApiBuilder.getApiKeyAsParam(null) != null : "Api key is null";
         ApiBuilder.shutdown();
     }
 
     @Test
     public void testServerStatus() {
-        ApiBuilder.createInstanceIfNoneExists(apiKey);
+        ApiBuilder.Companion.createInstanceIfNoneExists(apiKey);
         ServerStatusRequest request = ServerStatusRequest.createRequest().region(Region.EU);
         ServerStatus response = request.fetch();
         assert response.getStatus().get() : "Invalid response state\n" + response.getError().toString();

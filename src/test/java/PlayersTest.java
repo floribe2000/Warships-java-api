@@ -24,7 +24,7 @@ public class PlayersTest {
 
     @Test
     public void testPlayersRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         PlayersRequest request = PlayersRequest.Companion.createRequest().region(Region.EU).searchText("floribe");
         Players result = request.fetch();
         assert result.getStatus().get() : result;
@@ -33,7 +33,7 @@ public class PlayersTest {
     @Test
     public void testPlayerPersonalDataRequest() {
         //TODO
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         PlayersPersonalDataFull result = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(537376379)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.PVE)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.RANK_SOLO).fetch();
@@ -42,7 +42,7 @@ public class PlayersTest {
 
     @Test
     public void testPlayersAchievments() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         PlayersAchievments result = PlayersAchievmentsRequest.createRequest().region(Region.EU).addAccountId(537376379).fetch();
         assert result.getStatus().get() : result;
         assert PlayersAchievmentsRequest.AchievmentElement.retrieveElement("Solo Warrior") != null;
@@ -50,7 +50,7 @@ public class PlayersTest {
 
     @Test
     public void testPlayersStatisticsByDate() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         PlayersStatisticsByDate result1 = PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch();
         assert result1.getStatus().get() : result1;
         PlayersStatisticsByDate result = PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
@@ -60,14 +60,14 @@ public class PlayersTest {
 
     @Test
     public void testPlayersWarshipsStatistics() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         Statistics result = StatisticsRequest.createRequest().region(Region.EU).accountId(537376379).addExtraField(StatisticsRequest.ExtraField.PVE).fetch();
         assert result.getStatus().get() : result;
     }
 
     @Test
     public void testAsyncPlayersRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         String name = "floribe2000";
         PlayersRequest.Companion.createRequest().region(Region.EU).searchText(name).fetchAsync(result -> {
             assert result.getStatus().get() : result;
@@ -82,7 +82,7 @@ public class PlayersTest {
 
     @Test
     public void testAsyncPlayersRequestModified() {
-        ApiBuilder.createInstance(apiKey, instanceName);
+        ApiBuilder.Companion.createInstance(apiKey, instanceName);
         String name = "floribe2000";
         String name2 = "MrDios";
         PlayersRequest request = PlayersRequest.Companion.createRequest().region(Region.EU).searchText(name);

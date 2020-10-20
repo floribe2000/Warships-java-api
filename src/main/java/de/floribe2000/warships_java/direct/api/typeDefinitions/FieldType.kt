@@ -1,10 +1,16 @@
-package de.floribe2000.warships_java.direct.api.typeDefinitions;
+package de.floribe2000.warships_java.direct.api.typeDefinitions
 
 /**
  * All available field types.
- * <p>Please note that not all field types are available for every request! For details see the documentation of the specific request.</p>
+ *
+ * Please note that not all field types are available for every request! For details see the documentation of the specific request.
  */
-public enum FieldType {
+enum class FieldType(
+        /**
+         * The key that is used in urls
+         */
+        val key: String) {
+
     FIELDS("fields"),
     EXTRA("extra"),
     ACCOUNT_ID("account_id"),
@@ -18,31 +24,19 @@ public enum FieldType {
     CLAN("clan_id"),
     SEASON_ID("season_id");
 
-    /**
-     * The key that is used in urls
-     */
-    private final String key;
-
-    private FieldType(String key) {
-        this.key = key;
+    override fun toString(): String {
+        return "&$key="
     }
 
-    @Override
-    public String toString() {
-        return "&" + key + "=";
-    }
-
-    /**
-     * A method used to convert a {@link FieldType} to a request param
-     *
-     * @param type the field type for this field
-     * @return the field type as request param
-     */
-    public static String getAsParam(FieldType type) {
-        return "&" + type.getKey() + "=";
-    }
-
-    public String getKey() {
-        return this.key;
+    companion object {
+        /**
+         * A method used to convert a [FieldType] to a request param
+         *
+         * @param type the field type for this field
+         * @return the field type as request param
+         */
+        fun getAsParam(type: FieldType): String {
+            return "&" + type.key + "="
+        }
     }
 }

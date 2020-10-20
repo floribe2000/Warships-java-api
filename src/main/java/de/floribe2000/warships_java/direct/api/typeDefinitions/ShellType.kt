@@ -1,11 +1,11 @@
-package de.floribe2000.warships_java.direct.api.typeDefinitions;
+package de.floribe2000.warships_java.direct.api.typeDefinitions
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-public enum ShellType {
-
+enum class ShellType {
     @SerializedName("HE")
     HE,
+
     @SerializedName("AP")
     AP
 }

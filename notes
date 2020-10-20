@@ -1,7 +1,7 @@
 Ziel: modular zusammensetzbare API-Requests
 
 1. API-Instanz bauen
-* ApiBuilder.createInstance(String applicationId): Api
+* ApiBuilder.Companion.createInstance(String applicationId): Api
 --> erzeugt eine API-Instanz mit der Application-ID vom WG-Development-Portal
 --> Theoretisch nur einmal notwending, kann als globale Instanz überall verwendet werden, da Application-ID sich nicht im Betrieb ändert
 
