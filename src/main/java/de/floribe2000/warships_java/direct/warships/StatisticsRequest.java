@@ -771,7 +771,7 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statis
 
         private String key;
 
-        private ExtraField(String key) {
+        ExtraField(String key) {
             this.key = key;
         }
 

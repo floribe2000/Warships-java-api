@@ -25,7 +25,7 @@ public class PlayersTest {
     @Test
     public void testPlayersRequest() {
         ApiBuilder.createInstance(apiKey, instanceName);
-        PlayersRequest request = PlayersRequest.createRequest().region(Region.EU).searchText("floribe");
+        PlayersRequest request = PlayersRequest.Companion.createRequest().region(Region.EU).searchText("floribe");
         Players result = request.fetch();
         assert result.getStatus().get() : result;
     }
@@ -69,7 +69,7 @@ public class PlayersTest {
     public void testAsyncPlayersRequest() {
         ApiBuilder.createInstance(apiKey, instanceName);
         String name = "floribe2000";
-        PlayersRequest.createRequest().region(Region.EU).searchText(name).fetchAsync(result -> {
+        PlayersRequest.Companion.createRequest().region(Region.EU).searchText(name).fetchAsync(result -> {
             assert result.getStatus().get() : result;
             assert result.getData().get(0).getNickname().equals(name) : result;
         });
@@ -85,7 +85,7 @@ public class PlayersTest {
         ApiBuilder.createInstance(apiKey, instanceName);
         String name = "floribe2000";
         String name2 = "MrDios";
-        PlayersRequest request = PlayersRequest.createRequest().region(Region.EU).searchText(name);
+        PlayersRequest request = PlayersRequest.Companion.createRequest().region(Region.EU).searchText(name);
         request.fetchAsync(result -> {
             try {
                 Thread.sleep(500);

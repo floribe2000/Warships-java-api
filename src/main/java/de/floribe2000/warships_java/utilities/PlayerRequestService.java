@@ -10,14 +10,14 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
 public class PlayerRequestService extends AbstractRequestService {
 
     public static PlayersPersonalDataFull requestPlayersPersonalData(String playerName, Region region) {
-        Players players = PlayersRequest.createRequest().region(region).searchText(playerName).fetch();
+        Players players = PlayersRequest.Companion.createRequest().region(region).searchText(playerName).fetch();
         if (!players.getStatus().get()) {
             throw new IllegalStateException("The request failed!");
         }
         if (players.getData().size() < 1) {
             throw new IllegalStateException("Empty api response for this request. No data found.");
         }
-        long id = players.getData().get(0).getAccount_id();
+        long id = players.getData().get(0).getAccountId();
         PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(region).addAccountId(id);
         PlayersPersonalDataFull playerData = request.fetch();
         if (!playerData.getStatus().get()) {

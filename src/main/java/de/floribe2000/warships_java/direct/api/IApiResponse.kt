@@ -1,4 +1,4 @@
-package de.floribe2000.warships_java.direct.api;
+package de.floribe2000.warships_java.direct.api
 
 /**
  * An interface to mark a class as Pojo of an api response.
@@ -6,7 +6,7 @@ package de.floribe2000.warships_java.direct.api;
  *
  * @author floribe2000
  */
-public interface IApiResponse {
+interface IApiResponse {
 
-    ErrorContainer getError();
+    val error: ErrorContainer?
 }

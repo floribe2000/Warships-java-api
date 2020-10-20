@@ -1,10 +1,7 @@
 package de.floribe2000.warships_java.direct.account
 
-import de.floribe2000.warships_java.direct.api.IApiResponse
-import de.floribe2000.warships_java.direct.api.ErrorContainer
-import de.floribe2000.warships_java.direct.api.Meta
-import de.floribe2000.warships_java.direct.account.Players.PlayerElement
-import de.floribe2000.warships_java.direct.api.IRequestAction
+import com.google.gson.annotations.SerializedName
+import de.floribe2000.warships_java.direct.api.*
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
 /**
@@ -24,7 +21,7 @@ class Players : IApiResponse {
      *
      * Field is null if no errors occurred during the request!
      */
-    private var error: ErrorContainer? = null
+    override val error: ErrorContainer? = null
 
     /**
      * The meta object of the api response
@@ -35,10 +32,6 @@ class Players : IApiResponse {
      * A list that contains all player details the api returned
      */
     var data: List<PlayerElement>? = null
-
-    override fun getError(): ErrorContainer? {
-        return error
-    }
 
     /**
      * A class that represents a single player element from the api response.
@@ -52,7 +45,8 @@ class Players : IApiResponse {
         /**
          * The account id of the player
          */
-        var account_id: Long = 0
+        @SerializedName("account_id")
+        var accountId: Long = 0
     }
 
     override fun toString(): String {

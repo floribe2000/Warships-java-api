@@ -17,7 +17,7 @@ public class ErrorContainer {
 
     @Override
     public String toString() {
-        return IRequestAction.GSON.toJson(this);
+        return IRequestAction.Companion.getGSON().toJson(this);
     }
 
     public String getField() {

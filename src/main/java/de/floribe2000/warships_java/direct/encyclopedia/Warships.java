@@ -302,12 +302,12 @@ public class Warships implements IApiResponse {
 
         @Override
         public String toString() {
-            return IRequestAction.GSON.toJson(this);
+            return IRequestAction.Companion.getGSON().toJson(this);
         }
     }
 
     @Override
     public String toString() {
-        return IRequestAction.GSON.toJson(this);
+        return IRequestAction.Companion.getGSON().toJson(this);
     }
 }

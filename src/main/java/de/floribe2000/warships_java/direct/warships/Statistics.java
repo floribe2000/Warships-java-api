@@ -85,7 +85,7 @@ public class Statistics implements IApiResponse {
 
         @Override
         public String toString() {
-            return IRequestAction.GSON.toJson(this);
+            return IRequestAction.Companion.getGSON().toJson(this);
         }
 
         public ShipStatsContainer getPvp() {
@@ -171,6 +171,6 @@ public class Statistics implements IApiResponse {
 
 	@Override
 	public String toString() {
-		return IRequestAction.GSON.toJson(this);
-	}
+        return IRequestAction.Companion.getGSON().toJson(this);
+    }
 }

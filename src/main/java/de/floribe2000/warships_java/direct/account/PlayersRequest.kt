@@ -1,103 +1,80 @@
-package de.floribe2000.warships_java.direct.account;
+package de.floribe2000.warships_java.direct.account
 
-import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.IResponseFields;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Consumer;
+import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.LoggerFactory
 
 /**
  * A class to create and execute requests to retrieve a list of players based on a search string.
- * <p>Up to 100 players can be retrieved, if there is an exact match only one player will be returned.</p>
  *
- * <p>For details about this request see <a href="https://developers.wargaming.net/reference/all/wows/account/list/">WG api reference</a>.</p>
+ * Up to 100 players can be retrieved, if there is an exact match only one player will be returned.
+ *
+ *
+ * For details about this request see [WG api reference](https://developers.wargaming.net/reference/all/wows/account/list/).
  *
  * @author floribe2000
  */
-public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
-
+class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private final Logger LOG = LoggerFactory.getLogger(getClass().getSimpleName());
+    private val LOG = LoggerFactory.getLogger(this::class.simpleName)
 
     /**
      * The server region for this request
      */
-    private Region region = null;
+    private var region: Region? = null
 
     /**
      * The language for the api response
      */
-    private Language language = null;
+    private var language: Language? = null
 
     /**
      * The search text for this request
      */
-    private String searchText = null;
+    private var searchText: String? = null
 
     /**
      * The response fields for this request
      */
-    private Set<ResponseField> fields = new HashSet<>();
+    private var fields: MutableSet<ResponseField> = HashSet()
 
-    public PlayersRequest() {
+    override fun region(region: Region): PlayersRequest {
+        this.region = region
+        return this
     }
 
-    /**
-     * Creates a new, empty request
-     *
-     * @return an instance of this class
-     */
-    public static PlayersRequest createRequest() {
-        return new PlayersRequest();
+    override fun language(language: Language): PlayersRequest {
+        this.language = language
+        return this
     }
 
-    @Override
-    public PlayersRequest region(Region region) {
-        this.region = region;
-        return this;
+    override fun buildUrl(): String {
+        require(!(region == null || searchText == null)) { "You can't use this method before setting all parameters" }
+        val path = "/wows/account/list/"
+        return baseUrl(region!!, path, language, instanceName) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields)
     }
 
-    @Override
-    public PlayersRequest language(Language language) {
-        this.language = language;
-        return this;
-    }
-
-    @Override
-    public String buildUrl() {
-        if (region == null || searchText == null) {
-            throw new IllegalArgumentException("You can't use this method before setting all parameters");
-        }
-        String path = "/wows/account/list/";
-        return baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
-    }
-
-    @Override
-    public PlayersRequest apiBuilder(String instanceName) {
-        setInstance(instanceName);
-        return this;
+    override fun apiBuilder(instanceName: String): PlayersRequest {
+        setInstance(instanceName)
+        return this
     }
 
     /**
      * Sets the search text for the request.
-     * <p>Can be called multiple times. Important: The existing search text is replaced by this method!</p>
+     *
+     * Can be called multiple times. Important: The existing search text is replaced by this method!
      *
      * @param text the new search text
      * @return the instance of this request
      */
-    public PlayersRequest searchText(String text) {
-        searchText = text;
-        return this;
+    fun searchText(text: String?): PlayersRequest {
+        searchText = text
+        return this
     }
 
     /**
@@ -106,12 +83,9 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
      * @param fields the fields to add
      * @return this instance
      */
-    public PlayersRequest addFields(ResponseField... fields) {
-        if (this.fields == null) {
-            this.fields = new HashSet<>();
-        }
-        this.fields.addAll(Arrays.asList(fields));
-        return this;
+    fun addFields(vararg fields: ResponseField): PlayersRequest {
+        this.fields.addAll(fields.asList())
+        return this
     }
 
     /**
@@ -119,10 +93,10 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
      *
      * @param fields the new fields
      * @return this instance
-     * @see #fields(Collection fields) Use collections instead of an array
+     * @see .fields
      */
-    public PlayersRequest fields(ResponseField... fields) {
-        return fields(Arrays.asList(fields));
+    fun fields(vararg fields: ResponseField): PlayersRequest {
+        return fields(fields.asList())
     }
 
     /**
@@ -131,58 +105,48 @@ public class PlayersRequest extends AbstractRequest<PlayersRequest, Players> {
      * @param fields the new fields
      * @return this instance
      */
-    public PlayersRequest fields(Collection<ResponseField> fields) {
-        this.fields = new HashSet<>(fields);
-        return this;
+    fun fields(fields: Collection<ResponseField>): PlayersRequest {
+        this.fields = HashSet(fields)
+        return this
     }
-
 
     /**
      * Executes a request and returns the result of the request.
-     * <p>All requests are executed synchronous on this thread. Don't use the same request in multiple threads. Use {@link #fetchAsync(Consumer result)} instead.</p>
      *
-     * @return an instance of {@link Players} that contains all requested player data. If the request fails, an empty instance is returned.
-     * @throws IllegalArgumentException <ul>
-     *                                  <li>If this method is called and region is null.</li>
-     *                                  <li>If this method is called and searchText is null.</li>
-     *                                  </ul>
+     * All requests are executed synchronous on this thread. Don't use the same request in multiple threads. Use [.fetchAsync] instead.
+     *
+     * @return an instance of [Players] that contains all requested player data. If the request fails, an empty instance is returned.
+     * @throws IllegalArgumentException
+     *  * If this method is called and region is null.
+     *  * If this method is called and searchText is null.
+     *
      */
-    @Override
-    protected Players fetch(String url) {
-//        if (region == null || searchText == null) {
-//            throw new IllegalArgumentException("You can't use this method before setting all parameters");
-//        }
-//        String path = "/wows/account/list/";
-//        String url = baseUrl(region, path, language, getInstanceName()) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields);
-//        Players result;
-//        SimpleRateLimiter.waitForPermit();
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-//            result = GSON.fromJson(reader, Players.class);
-//        } catch (Exception e) {
-//            LOG.error("An exception occured", e);
-//            result = new Players();
-//        }
-        return connect(url, Players.class, getLimiter());
+    override fun fetch(url: String): Players {
+        return connect(url, Players::class.java, limiter)!!
     }
 
     /**
      * All response fields of the api response.
-     * <p>By default, both fields are shown. Only use them if you need only one of them.</p>
+     *
+     * By default, both fields are shown. Only use them if you need only one of them.
      */
-    public enum ResponseField implements IResponseFields {
+    enum class ResponseField(private val key: String) : IResponseFields {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
 
-        private String key;
-
-        private ResponseField(String key) {
-            this.key = key;
-        }
-
-        @Override
-        public String retrieveKey() {
-            return key;
+        override fun retrieveKey(): String {
+            return key
         }
     }
 
+    companion object {
+        /**
+         * Creates a new, empty request
+         *
+         * @return an instance of this class
+         */
+        fun createRequest(): PlayersRequest {
+            return PlayersRequest()
+        }
+    }
 }

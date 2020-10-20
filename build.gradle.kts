@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.floribe2000"
-version = "1.0.0-alpha"
+version = "1.0.0-alpha2"
 description = "A java/kotlin library to make it easier to interact with the Wargaming API."
 
 plugins {
@@ -33,6 +33,9 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjvm-default=all")
+    }
 }
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
@@ -75,7 +78,6 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
-
         }
     }
 }
