@@ -1,1400 +1,734 @@
-package de.floribe2000.warships_java.direct.account;
+package de.floribe2000.warships_java.direct.account
 
-import de.floribe2000.warships_java.direct.api.ErrorContainer;
-import de.floribe2000.warships_java.direct.api.IApiResponse;
-import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-
-import java.util.Map;
+import de.floribe2000.warships_java.direct.api.ErrorContainer
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.Meta
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
 /**
- * <p>A representation of the api results for player achievments.
- * Contains a list of all currently available achievments and the amount of times a player has achieved them.</p>
  *
- * <p><b>Important: Field names can be different that display names ingame!</b> For details see the javadoc for each field.</p>
+ * A representation of the api results for player achievments.
+ * Contains a list of all currently available achievments and the amount of times a player has achieved them.
  *
- * <p>To use the achievment names in your program, use the {@link PlayersAchievmentsRequest.AchievmentElement AchievmentElement enum}.</p>
+ *
+ * **Important: Field names can be different that display names ingame!** For details see the javadoc for each field.
  */
-public class PlayersAchievments implements IApiResponse {
-
+class PlayersAchievements : IApiResponse {
     /**
      * The api response status
      */
-    private Status status = Status.ERROR;
+    val status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
-     * <p>Field is null if no errors occurred during the request!</p>
+     *
+     * Field is null if no errors occurred during the request!
      */
-    private ErrorContainer error = null;
+    override val error: ErrorContainer? = null
 
     /**
      * The api meta information
      */
-    private Meta meta = null;
+    val meta: Meta? = null
 
     /**
      * A map holding data separated by player ids as string
      */
-    private Map<String, Details> data = null;
-
-    public Status getStatus() {
-        return this.status;
-    }
-
-    public ErrorContainer getError() {
-        return this.error;
-    }
-
-    public Meta getMeta() {
-        return this.meta;
-    }
-
-    public Map<String, Details> getData() {
-        return this.data;
-    }
+    val data: Map<String, Details>? = null
 
     /**
      * Achievment details for a single player
      */
-    public static class Details {
-
+    class Details {
         /**
          * A list of all battle achievments
          */
-        private Battle battle = null;
+        val battle: Battle? = null
 
         /**
          * A list of all progress achievments
          */
-        private Progress progress = null;
+        val progress: Progress? = null
 
-        public Battle getBattle() {
-            return this.battle;
-        }
-
-        public Progress getProgress() {
-            return this.progress;
-        }
-
-        public static class Battle {
-
+        class Battle {
             /**
              * Ingame name: Not Overly Assaultive
              */
-            private int FOOLSDAY_TROOPER = 0;
+            val FOOLSDAY_TROOPER = 0
 
             /**
              * Ingame name: 3 Years of World of Warships
              */
-            private int COLLECTION_HAPPY_BIRTHDAY2018_COMPLETED = 0;
+            val COLLECTION_HAPPY_BIRTHDAY2018_COMPLETED = 0
 
             /**
              * Ingame name: Ho-Ho-Ho!
              */
-            private int BD2_NY2016 = 0;
+            val BD2_NY2016 = 0
 
             /**
              * Ingame name: Solo Warrior
              */
-            private int ONE_SOLDIER_IN_THE_FIELD = 0;
+            val ONE_SOLDIER_IN_THE_FIELD = 0
 
             /**
              * Ingame name: "New Year Raid"
              */
-            private int CAMPAIGN_NEWYEAR2018ELITE_COMPLETED = 0;
+            val CAMPAIGN_NEWYEAR2018ELITE_COMPLETED = 0
 
             /**
              * Ingame name: Gale
              */
-            private int CLAN_SEASON_1_LEAGUE_3 = 0;
+            val CLAN_SEASON_1_LEAGUE_3 = 0
 
             /**
              * Ingame name: Bane of the Oceans
              */
-            private int SEA_LEGEND = 0;
+            val SEA_LEGEND = 0
 
             /**
              * Ingame name: Typhoon
              */
-            private int CLAN_SEASON_1_LEAGUE_1 = 0;
+            val CLAN_SEASON_1_LEAGUE_1 = 0
 
             /**
              * Ingame name: Squall
              */
-            private int CLAN_SEASON_1_LEAGUE_4 = 0;
+            val CLAN_SEASON_1_LEAGUE_4 = 0
 
             /**
              * Ingame name: "Royal Navy Destroyers"
              */
-            private int COLLECTION_BRITISHARC_COMPLETED = 0;
+            val COLLECTION_BRITISHARC_COMPLETED = 0
 
             /**
-             * Ingame name: Naval Warfare. Tactics
+             * INGAME NAME: NAval WARFARE. TACTICS
              */
-            private int SCIENCE_OF_WINNING_TACTICIAN = 0;
+            val SCIENCE_OF_WINNING_TACTICIAN = 0
 
             /**
-             * Ingame name: Double Strike
+             * INGAME NAME: DOUBLE STRIKE
              */
-            private int DOUBLE_KILL = 0;
+            val DOUBLE_KILL = 0
 
             /**
-             * Ingame name: Dunkirk
+             * INGAME NAME: DUNKIRK
              */
-            private int COLLECTION_DUNKIRK_COMPLETED = 0;
+            val COLLECTION_DUNKIRK_COMPLETED = 0
 
             /**
-             * Ingame name: High Caliber
+             * INGAME NAME: HIGH CALIBER
              */
-            private int MAIN_CALIBER = 0;
+            val MAIN_CALIBER = 0
 
             /**
-             * Ingame name: Like a Pro
+             * INGAME NAME: LIKE A PRO
              */
-            private int BD2_RANKS = 0;
+            val BD2_RANKS = 0
 
             /**
-             * Ingame name: Hoarder 2016
+             * INGAME NAME: HOARDER 2016
              */
-            private int NY17_WIN_ALL = 0;
+            val NY17_WIN_ALL = 0
 
             /**
-             * Ingame name: "Yamamoto Isoroku"
+             * INGAME NAME: "YAMAMOTO ISOROKU"
              */
-            private int COLLECTION_YAMAMOTO_COMPLETED = 0;
+            val COLLECTION_YAMAMOTO_COMPLETED = 0
 
             /**
-             * Ingame name: American Cruisers
+             * INGAME NAME: AMERICAN CRUISERS
              */
-            private int COLLECTION_AMERICANARC_COMPLETED = 0;
+            val COLLECTION_AMERICANARC_COMPLETED = 0
 
             /**
-             * Ingame name: Run! Admiral! Run!
+             * INGAME NAME: RUN! ADMIRAL! RUN!
              */
-            private int BD2016_RUN_FOREST = 0;
+            val BD2016_RUN_FOREST = 0
 
             /**
-             * Ingame name: Aiming? Too Much Effort
+             * INGAME NAME: AIMING? TOO MUCH EFFORT
              */
-            private int NY17_AIMING = 0;
+            val NY17_AIMING = 0
 
             /**
-             * Ingame name: "Mighty Prinz"
+             * INGAME NAME: "MIGHTY PRINZ"
              */
-            private int CAMPAIGN_NEWYEAR2019PEF_COMPLETED = 0;
+            val CAMPAIGN_NEWYEAR2019PEF_COMPLETED = 0
 
             /**
-             * Ingame name: Sharks
+             * INGAME NAME: SHARKS
              */
-            private int AVASHARKS = 0;
+            val AVASHARKS = 0
 
             /**
-             * Ingame name: Poekhali!
+             * INGAME NAME: POEKHALI!
              */
-            private int FOOLSDAY_POEKHALI = 0;
+            val FOOLSDAY_POEKHALI = 0
 
             /**
-             * Ingame name: "Belle Époque"
+             * INGAME NAME: "BELLE ÉPOQUE"
              */
-            private int COLLECTION_HAPPYNEWYEAR2019_COMPLETED = 0;
+            val COLLECTION_HAPPYNEWYEAR2019_COMPLETED = 0
 
             /**
-             * Ingame name: Liquidator
+             * INGAME NAME: LIQUIDATOR
              */
-            private int LIQUIDATOR = 0;
+            val LIQUIDATOR = 0
 
             /**
-             * Ingame name: Storm
+             * INGAME NAME: STORM
              */
-            private int CLAN_SEASON_1_LEAGUE_2 = 0;
+            val CLAN_SEASON_1_LEAGUE_2 = 0
 
             /**
-             * Ingame name: Witherer
+             * INGAME NAME: WITHERER
              */
-            private int WITHERING = 0;
+            val WITHERING = 0
 
             /**
-             * Ingame name: Fire Show
+             * INGAME NAME: FIRE SHOW
              */
-            private int BD2016_FIRESHOW = 0;
+            val BD2016_FIRESHOW = 0
 
             /**
-             * Ingame name: Fireproof
+             * INGAME NAME: FIREPROOF
              */
-            private int FIREPROOF = 0;
+            val FIREPROOF = 0
 
             /**
-             * Ingame name: You've Got a Parcel Waiting for You!
+             * INGAME NAME: YOU'VE GOT A PARCEL WAITING FOR YOU!
              */
-            private int BD2_CONTAINERS = 0;
+            val BD2_CONTAINERS = 0
 
             /**
-             * Ingame name: Guardian of the Galaxy
+             * INGAME NAME: GUARDIAN OF THE GALAXY
              */
-            private int EV1APR19_ATTDEF1 = 0;
+            val EV1APR19_ATTDEF1 = 0
 
             /**
-             * Ingame name: Tin Can
+             * INGAME NAME: TIN CAN
              */
-            private int NY17_SAFECRACKER = 0;
+            val NY17_SAFECRACKER = 0
 
             /**
-             * Ingame name: Confederate
+             * INGAME NAME: CONFEDERATE
              */
-            private int SUPPORT = 0;
+            val SUPPORT = 0
 
             /**
-             * Ingame name: Workhorse
+             * INGAME NAME: WORKHORSE
              */
-            private int MERCENARY = 0;
+            val MERCENARY = 0
 
             /**
-             * Ingame name: In the Thick of It
+             * INGAME NAME: IN THE THICK OF IT
              */
-            private int MESSENGER = 0;
+            val MESSENGER = 0
 
             /**
-             * Ingame name: Protector
+             * INGAME NAME: PROTECTOR
              */
-            private int PVE_HON_PR_SAVE_3 = 0;
+            val PVE_HON_PR_SAVE_3 = 0
 
             /**
-             * Ingame name: Shield
+             * INGAME NAME: SHIELD
              */
-            private int PVE_HON_PR_SAVE_1 = 0;
+            val PVE_HON_PR_SAVE_1 = 0
 
             /**
-             * Ingame name: Naval Warfare. Arson
+             * INGAME NAME: NAval WARFARE. ARSON
              */
-            private int SCIENCE_OF_WINNING_ARSONIST = 0;
+            val SCIENCE_OF_WINNING_ARSONIST = 0
 
             /**
-             * Ingame name: "The Hunt for Bismarck"
+             * INGAME NAME: "THE HUNT FOR BISMARCK"
              */
-            private int CAMPAIGN_BISMARCK_COMPLETED = 0;
+            val CAMPAIGN_BISMARCK_COMPLETED = 0
 
             /**
-             * Ingame name: Twitch Prime
+             * INGAME NAME: TWITCH PRIME
              */
-            private int TWITCH_PRIME = 0;
+            val TWITCH_PRIME = 0
 
             /**
-             * Ingame name: Feeling Good
+             * INGAME NAME: FEELING GOOD
              */
-            private int NY17_DRESS_THE_TREE = 0;
+            val NY17_DRESS_THE_TREE = 0
 
             /**
-             * Ingame name: Senior Supply Officer
+             * INGAME NAME: SENIOR SUPPLY OFFICER
              */
-            private int WORKAHOLIC_L = 0;
+            val WORKAHOLIC_L = 0
 
             /**
-             * Ingame name: Die-Hard
+             * INGAME NAME: DIE-HARD
              */
-            private int HEADBUTT = 0;
+            val HEADBUTT = 0
 
             /**
-             * Ingame name: Will Now Have Stories
+             * INGAME NAME: WILL NOW HAVE STORIES
              */
-            private int BD2_CAMPAIGNS = 0;
+            val BD2_CAMPAIGNS = 0
 
             /**
-             * Ingame name: Skipper on Deck!
+             * INGAME NAME: SKIPPER ON DECK!
              */
-            private int BD2_CREW = 0;
+            val BD2_CREW = 0
 
             /**
-             * Ingame name: Close Quarters Expert
+             * INGAME NAME: CLOSE QUARTERS EXPERT
              */
-            private int ATBA_CALIBER = 0;
+            val ATBA_CALIBER = 0
 
             /**
-             * Ingame name: Supply Officer
+             * INGAME NAME: SUPPLY OFFICER
              */
-            private int MERCENARY_L = 0;
+            val MERCENARY_L = 0
 
             /**
-             * Ingame name: Look Who We Have Here!
+             * INGAME NAME: LOOK WHO WE HAVE HERE!
              */
-            private int BD2_ARP = 0;
+            val BD2_ARP = 0
 
             /**
-             * Ingame name: Naval Aviation
+             * INGAME NAME: NAval AVIATION
              */
-            private int FILLALBUM_BRIT_CVARC_COMPLETED = 0;
+            val FILLALBUM_BRIT_CVARC_COMPLETED = 0
 
             /**
-             * Ingame name: Business Magnate
+             * INGAME NAME: BUSINESS MAGNATE
              */
-            private int NEVER_ENOUGH_MONEY = 0;
+            val NEVER_ENOUGH_MONEY = 0
 
             /**
-             * Ingame name: Festive Soup
+             * INGAME NAME: FESTIVE SOUP
              */
-            private int BD2016_FESTIV_SOUP = 0;
+            val BD2016_FESTIV_SOUP = 0
 
             /**
-             * Ingame name: Arsonist
+             * INGAME NAME: ARSONIST
              */
-            private int ARSONIST = 0;
+            val ARSONIST = 0
 
             /**
-             * Ingame name: Kraken Unleashed!
+             * INGAME NAME: KRAKEN UNLEASHED!
              */
-            private int WARRIOR = 0;
+            val WARRIOR = 0
 
             /**
-             * Ingame name: Important Missions
+             * INGAME NAME: IMPORTANT MISSIONS
              */
-            private int PVE_HON_PR_DONE_ALL_1 = 0;
+            val PVE_HON_PR_DONE_ALL_1 = 0
 
             /**
-             * Ingame name: Detonation
+             * INGAME NAME: DETONATION
              */
-            private int DETONATED = 0;
+            val DETONATED = 0
 
             /**
-             * Ingame name: Chief Naval Architect
+             * INGAME NAME: CHIEF NAval ARCHITECT
              */
-            private int CHIEF_ENGINEER = 0;
+            val CHIEF_ENGINEER = 0
 
             /**
-             * Ingame name: Natural Selection
+             * INGAME NAME: NATURAL SELECTION
              */
-            private int PVE_HON_FRAG_CLASS = 0;
+            val PVE_HON_FRAG_CLASS = 0
 
             /**
-             * Ingame name: Smooth Supply
+             * INGAME NAME: SMOOTH SUPPLY
              */
-            private int NO_DAY_WITHOUT_ADVENTURE_L = 0;
+            val NO_DAY_WITHOUT_ADVENTURE_L = 0
 
             /**
-             * Ingame name: Legion of Honor
+             * INGAME NAME: LEGION OF HONOR
              */
-            private int FILLALBUM_FRENCHDD_COMPLETED = 0;
+            val FILLALBUM_FRENCHDD_COMPLETED = 0
 
             /**
-             * Ingame name: Naval Warfare. Lucky Shot
+             * INGAME NAME: NAval WARFARE. LUCKY SHOT
              */
-            private int SCIENCE_OF_WINNING_LUCKY = 0;
+            val SCIENCE_OF_WINNING_LUCKY = 0
 
             /**
-             * Ingame name: "Honorable Service"
+             * INGAME NAME: "HONORABLE SERVICE"
              */
-            private int CAMPAIGN_SB_COMPLETED = 0;
+            val CAMPAIGN_SB_COMPLETED = 0
 
             /**
-             * Ingame name: Stream Drop!
+             * INGAME NAME: STREAM DROP!
              */
-            private int STREAM = 0;
+            val STREAM = 0
 
             /**
-             * Ingame name: "High School Fleet"
+             * INGAME NAME: "HIGH SCHOOL FLEET"
              */
-            private int COLLECTION_HSF2018_COMPLETED = 0;
+            val COLLECTION_HSF2018_COMPLETED = 0
 
             /**
-             * Ingame name: True Survivalist
+             * INGAME NAME: TRUE SURVIvalIST
              */
-            private int EV_POST_APOCALYPSE2019_WINNER = 0;
+            val EV_POST_APOCALYPSE2019_WINNER = 0
 
             /**
-             * Ingame name: The Great Eight
+             * INGAME NAME: THE GREAT EIGHT
              */
-            private int COLLECTION_OVECHKIN_COMPLETED = 0;
+            val COLLECTION_OVECHKIN_COMPLETED = 0
 
             /**
-             * Ingame name: "Battle of the North Cape"
+             * INGAME NAME: "BATTLE OF THE NORTH CAPE"
              */
-            private int COLLECTION_HAPPYNEWYEAR2018_COMPLETED = 0;
+            val COLLECTION_HAPPYNEWYEAR2018_COMPLETED = 0
 
             /**
-             * Ingame name: Shark Among Shrimps
+             * INGAME NAME: SHARK AMONG SHRIMPS
              */
-            private int PVE_HON_FRAG_OBJ = 0;
+            val PVE_HON_FRAG_OBJ = 0
 
             /**
-             * Ingame name: Unsinkable
+             * INGAME NAME: UNSINKABLE
              */
-            private int UNSINKABLE = 0;
+            val UNSINKABLE = 0
 
             /**
-             * Ingame name: Naval Constructor
+             * INGAME NAME: NAval CONSTRUCTOR
              */
-            private int ENGINEER = 0;
+            val ENGINEER = 0
 
             /**
-             * Ingame name: "Hit Hard! Hit Fast! Hit Often!"
+             * INGAME NAME: "HIT HARD! HIT FAST! HIT OFTEN!"
              */
-            private int CAMPAIGN_HALSEY_COMPLETED = 0;
+            val CAMPAIGN_HALSEY_COMPLETED = 0
 
             /**
-             * Ingame name: "Battle of the North Cape"
+             * INGAME NAME: "BATTLE OF THE NORTH CAPE"
              */
-            private int CAMPAIGN_NEWYEAR2018BASIC_COMPLETED = 0;
+            val CAMPAIGN_NEWYEAR2018BASIC_COMPLETED = 0
 
             /**
-             * Ingame name: Go Navy!
+             * INGAME NAME: GO NAVY!
              */
-            private int AVACOMMON = 0;
+            val AVACOMMON = 0
 
             /**
-             * Ingame name: Junior Naval Designer
+             * INGAME NAME: JUNIOR NAval DESIGNER
              */
-            private int JUNIOR_PLANNER = 0;
+            val JUNIOR_PLANNER = 0
 
             /**
-             * Ingame name: Paint It Gold!
+             * INGAME NAME: PAINT IT GOLD!
              */
-            private int BD2_CAMO = 0;
+            val BD2_CAMO = 0
 
             /**
-             * Ingame name: Will to Win
+             * INGAME NAME: WILL TO WIN
              */
-            private int PVE_HERO_WIN_ONE = 0;
+            val PVE_HERO_WIN_ONE = 0
 
             /**
-             * Ingame name: Devastating Strike
+             * INGAME NAME: DEVASTATING STRIKE
              */
-            private int INSTANT_KILL = 0;
+            val INSTANT_KILL = 0
 
             /**
-             * Ingame name: Veteran
+             * INGAME NAME: VETERAN
              */
-            private int VETERAN = 0;
+            val VETERAN = 0
 
             /**
-             * Ingame name: Crash Tester
+             * INGAME NAME: CRASH TESTER
              */
-            private int PVE_HON_FRAG_WAY = 0;
+            val PVE_HON_FRAG_WAY = 0
 
             /**
-             * Ingame name: "Vive la France"
+             * INGAME NAME: "VIVE LA FRANCE"
              */
-            private int COLLECTION_VIVELAFRANCE_COMPLETED = 0;
+            val COLLECTION_VIVELAFRANCE_COMPLETED = 0
 
             /**
-             * Ingame name: Tactical Expertise
+             * INGAME NAME: TACTICAL EXPERTISE
              */
-            private int PVE_HERO_WIN_SUR = 0;
+            val PVE_HERO_WIN_SUR = 0
 
             /**
-             * Ingame name: Legend of the Seas
+             * INGAME NAME: LEGEND OF THE SEAS
              */
-            private int NO_PRICE_FOR_HEROISM = 0;
+            val NO_PRICE_FOR_HEROISM = 0
 
             /**
-             * Ingame name: Eat It, Toaster!
+             * INGAME NAME: EAT IT, TOASTER!
              */
-            private int BD2_PVE = 0;
+            val BD2_PVE = 0
 
             /**
-             * Ingame name: Dreadnought
+             * INGAME NAME: DREADNOUGHT
              */
-            private int DREADNOUGHT = 0;
+            val DREADNOUGHT = 0
 
             /**
-             * Ingame name: Exorcist
+             * INGAME NAME: EXORCIST
              */
-            private int HALLOWEEN_2017 = 0;
+            val HALLOWEEN_2017 = 0
 
             /**
-             * Ingame name: Ghostbuster
+             * INGAME NAME: GHOSTBUSTER
              */
-            private int HALLOWEEN_2016 = 0;
+            val HALLOWEEN_2016 = 0
 
             /**
-             * Ingame name: Terror of the Deep
+             * INGAME NAME: TERROR OF THE DEEP
              */
-            private int HALLOWEEN_2018 = 0;
+            val HALLOWEEN_2018 = 0
 
             /**
-             * Ingame name: Queue Jumper
+             * INGAME NAME: QUEUE JUMPER
              */
-            private int BD2016_PARTY_CHECK_IN = 0;
+            val BD2016_PARTY_CHECK_IN = 0
 
             /**
-             * Ingame name: Guardian
+             * INGAME NAME: GUARDIAN
              */
-            private int PVE_HON_PR_SAVE_2 = 0;
+            val PVE_HON_PR_SAVE_2 = 0
 
             /**
-             * Ingame name: Assistant
+             * INGAME NAME: ASSISTANT
              */
-            private int PVE_HERO_DAM_ENEM = 0;
+            val PVE_HERO_DAM_ENEM = 0
 
             /**
-             * Ingame name: Warrior
+             * INGAME NAME: WARRIOR
              */
-            private int FIGHTER = 0;
+            val FIGHTER = 0
 
             /**
-             * Ingame name: An Epic Journey
+             * INGAME NAME: AN EPIC JOURNEY
              */
-            private int NY17_500_LEAGUES = 0;
+            val NY17_500_LEAGUES = 0
 
             /**
-             * Ingame name: Moneybags
+             * INGAME NAME: MONEYBAGS
              */
-            private int MILLIONAIR = 0;
+            val MILLIONAIR = 0
 
             /**
-             * Ingame name: "Yamamoto Isoroku"
+             * INGAME NAME: "YAMAMOTO ISOROKU"
              */
-            private int CAMPAIGN_YAMAMOTO_COMPLETED = 0;
+            val CAMPAIGN_YAMAMOTO_COMPLETED = 0
 
             /**
-             * Ingame name: Torpedoproof
+             * INGAME NAME: TORPEDOPROOF
              */
-            private int EV1APR19_TORPEDO1 = 0;
+            val EV1APR19_TORPEDO1 = 0
 
             /**
-             * Ingame name: Universal Seaman
+             * INGAME NAME: UNIVERSAL SEAMAN
              */
-            private int PVE_HON_DONE_CLASS = 0;
+            val PVE_HON_DONE_CLASS = 0
 
             /**
-             * Ingame name: Weather Beaten
+             * INGAME NAME: WEATHER BEATEN
              */
-            private int PVE_HON_PR_DONE_1 = 0;
+            val PVE_HON_PR_DONE_1 = 0
 
             /**
-             * Ingame name: Master Blaster
+             * INGAME NAME: MASTER BLASTER
              */
-            private int EV1APR19_TORPEDO5 = 0;
+            val EV1APR19_TORPEDO5 = 0
 
             /**
-             * Ingame name: Before Zee Germans Get There!
+             * INGAME NAME: BEFORE ZEE GERMANS GET THERE!
              */
-            private int BD2_BISMARCK = 0;
+            val BD2_BISMARCK = 0
 
             /**
-             * Ingame name: Junior Supply Officer
+             * INGAME NAME: JUNIOR SUPPLY OFFICER
              */
-            private int MESSENGER_L = 0;
+            val MESSENGER_L = 0
 
             /**
-             * Ingame name: Battle Hero
+             * INGAME NAME: BATTLE HERO
              */
-            private int BATTLE_HERO = 0;
+            val BATTLE_HERO = 0
 
             /**
-             * Ingame name: A Shot in the Dark
+             * INGAME NAME: A SHOT IN THE DARK
              */
-            private int BD2016_WRONG_SOW = 0;
+            val BD2016_WRONG_SOW = 0
 
             /**
-             * Ingame name: Sea Star
+             * INGAME NAME: SEA STAR
              */
-            private int PVE_HON_WIN_ALL_DONE = 0;
+            val PVE_HON_WIN_ALL_DONE = 0
 
             /**
-             * Ingame name: "Science of Victory"
+             * INGAME NAME: "SCIENCE OF VICTORY"
              */
-            private int CAMPAIGN1_COMPLETED = 0;
+            val CAMPAIGN1_COMPLETED = 0
 
             /**
-             * Ingame name: Not a Pyramid Scheme!
+             * INGAME NAME: NOT A PYRAMID SCHEME!
              */
-            private int BD2_CREDITS = 0;
+            val BD2_CREDITS = 0
 
             /**
-             * Ingame name: Naval Warfare. Ramming
+             * INGAME NAME: NAval WARFARE. RAMMING
              */
-            private int SCIENCE_OF_WINNING_HARD_EDGED = 0;
+            val SCIENCE_OF_WINNING_HARD_EDGED = 0
 
             /**
-             * Ingame name: Azur Lane
+             * INGAME NAME: AZUR LANE
              */
-            private int FILLALBUM_AZURLANE_COMPLETED = 0;
+            val FILLALBUM_AZURLANE_COMPLETED = 0
 
             /**
-             * Ingame name: It's Just a Flesh Wound!
+             * INGAME NAME: IT'S JUST A FLESH WOUND!
              */
-            private int RETRIBUTION = 0;
+            val RETRIBUTION = 0
 
             /**
-             * Ingame name: Foes Way Past Their Prime
+             * INGAME NAME: FOES WAY PAST THEIR PRIME
              */
-            private int BD2_HW2016 = 0;
+            val BD2_HW2016 = 0
 
             /**
-             * Ingame name: "The Hunt for Graf Spee"
+             * INGAME NAME: "THE HUNT FOR GRAF SPEE"
              */
-            private int CAMPAIGN_NY17B_COMPLETED = 0;
+            val CAMPAIGN_NY17B_COMPLETED = 0
 
             /**
-             * Ingame name: Twitch Welcome
+             * INGAME NAME: TWITCH WELCOME
              */
-            private int TWITCH_WG = 0;
+            val TWITCH_WG = 0
 
             /**
-             * Ingame name: Life and Soul of the Party
+             * INGAME NAME: LIFE AND SOUL OF THE PARTY
              */
-            private int BD2016_PARTY_ANIMAL = 0;
+            val BD2016_PARTY_ANIMAL = 0
 
             /**
-             * Ingame name: Naval Warfare. Flooding
+             * INGAME NAME: NAval WARFARE. FLOODING
              */
-            private int SCIENCE_OF_WINNING_TO_THE_BOTTOM = 0;
+            val SCIENCE_OF_WINNING_TO_THE_BOTTOM = 0
 
             /**
-             * Ingame name: Four-Goal Haul
+             * INGAME NAME: FOUR-GOAL HAUL
              */
-            private int GREATEEIGHT = 0;
+            val GREATEEIGHT = 0
 
             /**
-             * Ingame name: The Hunt for Bismarck
+             * INGAME NAME: THE HUNT FOR BISMARCK
              */
-            private int COLLECTION_BISMARCK_COMPLETED = 0;
+            val COLLECTION_BISMARCK_COMPLETED = 0
 
             /**
-             * Ingame name: "In the service of the Motherland"
+             * INGAME NAME: "IN THE SERVICE OF THE MOTHERLAND"
              */
-            private int FILLALBUM_SOVIETBB_COMPLETED = 0;
+            val FILLALBUM_SOVIETBB_COMPLETED = 0
 
             /**
-             * Ingame name: Break the Bank
+             * INGAME NAME: BREAK THE BANK
              */
-            private int NY17_BREAK_THE_BANK = 0;
+            val NY17_BREAK_THE_BANK = 0
 
             /**
-             * Ingame name: Warrior of the Light
+             * INGAME NAME: WARRIOR OF THE LIGHT
              */
-            private int ALL_THREE_HALLOWEEN_COMPLETE = 0;
+            val ALL_THREE_HALLOWEEN_COMPLETE = 0
 
             /**
-             * Ingame name: Initial Capital
+             * INGAME NAME: INITIAL CAPITAL
              */
-            private int CAPITAL = 0;
+            val CAPITAL = 0
 
             /**
-             * Ingame name: Naval Warfare. Weaponry Basics
+             * INGAME NAME: NAval WARFARE. WEAPONRY BASICS
              */
-            private int SCIENCE_OF_WINNING_BOMBARDIER = 0;
+            val SCIENCE_OF_WINNING_BOMBARDIER = 0
 
             /**
-             * Ingame name: "Resolute and Rapid"
+             * INGAME NAME: "RESOLUTE AND RAPID"
              */
-            private int FILLALBUM_ITCA_COMPLETED = 0;
+            val FILLALBUM_ITCA_COMPLETED = 0
 
             /**
-             * Ingame name: Operation Dynamo
+             * INGAME NAME: OPERATION DYNAMO
              */
-            private int PVE_DUNKERQUE_OPERATION_DYNAMO = 0;
+            val PVE_DUNKERQUE_OPERATION_DYNAMO = 0
 
             /**
-             * Ingame name: First Blood
+             * INGAME NAME: FIRST BLOOD
              */
-            private int FIRST_BLOOD = 0;
+            val FIRST_BLOOD = 0
 
             /**
-             * Ingame name: "2 Years of World of Warships"
+             * INGAME NAME: "2 YEARS OF WORLD OF WARSHIPS"
              */
-            private int COLLECTION_WOWSBIRTHDAY_COMPLETED = 0;
+            val COLLECTION_WOWSBIRTHDAY_COMPLETED = 0
 
             /**
-             * Ingame name: AA Defense Expert
+             * INGAME NAME: AA DEFENSE EXPERT
              */
-            private int AIRDEFENSEEXPERT = 0;
+            val AIRDEFENSEEXPERT = 0
 
             /**
-             * Ingame name: Good Start
+             * INGAME NAME: GOOD START
              */
-            private int NY17_WIN_AT_LEAST_ONE = 0;
+            val NY17_WIN_AT_LEAST_ONE = 0
 
             /**
-             * Ingame name: "The Hunt for Graf Spee" with Honors
+             * INGAME NAME: "THE HUNT FOR GRAF SPEE" WITH HONORS
              */
-            private int CAMPAIGN_NY17B_COMPLETED_EXCELLENT = 0;
+            val CAMPAIGN_NY17B_COMPLETED_EXCELLENT = 0
 
             /**
-             * Ingame name: Amateur
+             * INGAME NAME: AMATEUR
              */
-            private int AMAUTEUR = 0;
+            val AMAUTEUR = 0
 
-            @Override
-            public String toString() {
-                return IRequestAction.Companion.getGSON().toJson(this);
-            }
-
-            public int getFOOLSDAY_TROOPER() {
-                return this.FOOLSDAY_TROOPER;
-            }
-
-            public int getCOLLECTION_HAPPY_BIRTHDAY2018_COMPLETED() {
-                return this.COLLECTION_HAPPY_BIRTHDAY2018_COMPLETED;
-            }
-
-            public int getBD2_NY2016() {
-                return this.BD2_NY2016;
-            }
-
-            public int getONE_SOLDIER_IN_THE_FIELD() {
-                return this.ONE_SOLDIER_IN_THE_FIELD;
-            }
-
-            public int getCAMPAIGN_NEWYEAR2018ELITE_COMPLETED() {
-                return this.CAMPAIGN_NEWYEAR2018ELITE_COMPLETED;
-            }
-
-            public int getCLAN_SEASON_1_LEAGUE_3() {
-                return this.CLAN_SEASON_1_LEAGUE_3;
-            }
-
-            public int getSEA_LEGEND() {
-                return this.SEA_LEGEND;
-            }
-
-            public int getCLAN_SEASON_1_LEAGUE_1() {
-                return this.CLAN_SEASON_1_LEAGUE_1;
-            }
-
-            public int getCLAN_SEASON_1_LEAGUE_4() {
-                return this.CLAN_SEASON_1_LEAGUE_4;
-            }
-
-            public int getCOLLECTION_BRITISHARC_COMPLETED() {
-                return this.COLLECTION_BRITISHARC_COMPLETED;
-            }
-
-            public int getSCIENCE_OF_WINNING_TACTICIAN() {
-                return this.SCIENCE_OF_WINNING_TACTICIAN;
-            }
-
-            public int getDOUBLE_KILL() {
-                return this.DOUBLE_KILL;
-            }
-
-            public int getCOLLECTION_DUNKIRK_COMPLETED() {
-                return this.COLLECTION_DUNKIRK_COMPLETED;
-            }
-
-            public int getMAIN_CALIBER() {
-                return this.MAIN_CALIBER;
-            }
-
-            public int getBD2_RANKS() {
-                return this.BD2_RANKS;
-            }
-
-            public int getNY17_WIN_ALL() {
-                return this.NY17_WIN_ALL;
-            }
-
-            public int getCOLLECTION_YAMAMOTO_COMPLETED() {
-                return this.COLLECTION_YAMAMOTO_COMPLETED;
-            }
-
-            public int getCOLLECTION_AMERICANARC_COMPLETED() {
-                return this.COLLECTION_AMERICANARC_COMPLETED;
-            }
-
-            public int getBD2016_RUN_FOREST() {
-                return this.BD2016_RUN_FOREST;
-            }
-
-            public int getNY17_AIMING() {
-                return this.NY17_AIMING;
-            }
-
-            public int getCAMPAIGN_NEWYEAR2019PEF_COMPLETED() {
-                return this.CAMPAIGN_NEWYEAR2019PEF_COMPLETED;
-            }
-
-            public int getAVASHARKS() {
-                return this.AVASHARKS;
-            }
-
-            public int getFOOLSDAY_POEKHALI() {
-                return this.FOOLSDAY_POEKHALI;
-            }
-
-            public int getCOLLECTION_HAPPYNEWYEAR2019_COMPLETED() {
-                return this.COLLECTION_HAPPYNEWYEAR2019_COMPLETED;
-            }
-
-            public int getLIQUIDATOR() {
-                return this.LIQUIDATOR;
-            }
-
-            public int getCLAN_SEASON_1_LEAGUE_2() {
-                return this.CLAN_SEASON_1_LEAGUE_2;
-            }
-
-            public int getWITHERING() {
-                return this.WITHERING;
-            }
-
-            public int getBD2016_FIRESHOW() {
-                return this.BD2016_FIRESHOW;
-            }
-
-            public int getFIREPROOF() {
-                return this.FIREPROOF;
-            }
-
-            public int getBD2_CONTAINERS() {
-                return this.BD2_CONTAINERS;
-            }
-
-            public int getEV1APR19_ATTDEF1() {
-                return this.EV1APR19_ATTDEF1;
-            }
-
-            public int getNY17_SAFECRACKER() {
-                return this.NY17_SAFECRACKER;
-            }
-
-            public int getSUPPORT() {
-                return this.SUPPORT;
-            }
-
-            public int getMERCENARY() {
-                return this.MERCENARY;
-            }
-
-            public int getMESSENGER() {
-                return this.MESSENGER;
-            }
-
-            public int getPVE_HON_PR_SAVE_3() {
-                return this.PVE_HON_PR_SAVE_3;
-            }
-
-            public int getPVE_HON_PR_SAVE_1() {
-                return this.PVE_HON_PR_SAVE_1;
-            }
-
-            public int getSCIENCE_OF_WINNING_ARSONIST() {
-                return this.SCIENCE_OF_WINNING_ARSONIST;
-            }
-
-            public int getCAMPAIGN_BISMARCK_COMPLETED() {
-                return this.CAMPAIGN_BISMARCK_COMPLETED;
-            }
-
-            public int getTWITCH_PRIME() {
-                return this.TWITCH_PRIME;
-            }
-
-            public int getNY17_DRESS_THE_TREE() {
-                return this.NY17_DRESS_THE_TREE;
-            }
-
-            public int getWORKAHOLIC_L() {
-                return this.WORKAHOLIC_L;
-            }
-
-            public int getHEADBUTT() {
-                return this.HEADBUTT;
-            }
-
-            public int getBD2_CAMPAIGNS() {
-                return this.BD2_CAMPAIGNS;
-            }
-
-            public int getBD2_CREW() {
-                return this.BD2_CREW;
-            }
-
-            public int getATBA_CALIBER() {
-                return this.ATBA_CALIBER;
-            }
-
-            public int getMERCENARY_L() {
-                return this.MERCENARY_L;
-            }
-
-            public int getBD2_ARP() {
-                return this.BD2_ARP;
-            }
-
-            public int getFILLALBUM_BRIT_CVARC_COMPLETED() {
-                return this.FILLALBUM_BRIT_CVARC_COMPLETED;
-            }
-
-            public int getNEVER_ENOUGH_MONEY() {
-                return this.NEVER_ENOUGH_MONEY;
-            }
-
-            public int getBD2016_FESTIV_SOUP() {
-                return this.BD2016_FESTIV_SOUP;
-            }
-
-            public int getARSONIST() {
-                return this.ARSONIST;
-            }
-
-            public int getWARRIOR() {
-                return this.WARRIOR;
-            }
-
-            public int getPVE_HON_PR_DONE_ALL_1() {
-                return this.PVE_HON_PR_DONE_ALL_1;
-            }
-
-            public int getDETONATED() {
-                return this.DETONATED;
-            }
-
-            public int getCHIEF_ENGINEER() {
-                return this.CHIEF_ENGINEER;
-            }
-
-            public int getPVE_HON_FRAG_CLASS() {
-                return this.PVE_HON_FRAG_CLASS;
-            }
-
-            public int getNO_DAY_WITHOUT_ADVENTURE_L() {
-                return this.NO_DAY_WITHOUT_ADVENTURE_L;
-            }
-
-            public int getFILLALBUM_FRENCHDD_COMPLETED() {
-                return this.FILLALBUM_FRENCHDD_COMPLETED;
-            }
-
-            public int getSCIENCE_OF_WINNING_LUCKY() {
-                return this.SCIENCE_OF_WINNING_LUCKY;
-            }
-
-            public int getCAMPAIGN_SB_COMPLETED() {
-                return this.CAMPAIGN_SB_COMPLETED;
-            }
-
-            public int getSTREAM() {
-                return this.STREAM;
-            }
-
-            public int getCOLLECTION_HSF2018_COMPLETED() {
-                return this.COLLECTION_HSF2018_COMPLETED;
-            }
-
-            public int getEV_POST_APOCALYPSE2019_WINNER() {
-                return this.EV_POST_APOCALYPSE2019_WINNER;
-            }
-
-            public int getCOLLECTION_OVECHKIN_COMPLETED() {
-                return this.COLLECTION_OVECHKIN_COMPLETED;
-            }
-
-            public int getCOLLECTION_HAPPYNEWYEAR2018_COMPLETED() {
-                return this.COLLECTION_HAPPYNEWYEAR2018_COMPLETED;
-            }
-
-            public int getPVE_HON_FRAG_OBJ() {
-                return this.PVE_HON_FRAG_OBJ;
-            }
-
-            public int getUNSINKABLE() {
-                return this.UNSINKABLE;
-            }
-
-            public int getENGINEER() {
-                return this.ENGINEER;
-            }
-
-            public int getCAMPAIGN_HALSEY_COMPLETED() {
-                return this.CAMPAIGN_HALSEY_COMPLETED;
-            }
-
-            public int getCAMPAIGN_NEWYEAR2018BASIC_COMPLETED() {
-                return this.CAMPAIGN_NEWYEAR2018BASIC_COMPLETED;
-            }
-
-            public int getAVACOMMON() {
-                return this.AVACOMMON;
-            }
-
-            public int getJUNIOR_PLANNER() {
-                return this.JUNIOR_PLANNER;
-            }
-
-            public int getBD2_CAMO() {
-                return this.BD2_CAMO;
-            }
-
-            public int getPVE_HERO_WIN_ONE() {
-                return this.PVE_HERO_WIN_ONE;
-            }
-
-            public int getINSTANT_KILL() {
-                return this.INSTANT_KILL;
-            }
-
-            public int getVETERAN() {
-                return this.VETERAN;
-            }
-
-            public int getPVE_HON_FRAG_WAY() {
-                return this.PVE_HON_FRAG_WAY;
-            }
-
-            public int getCOLLECTION_VIVELAFRANCE_COMPLETED() {
-                return this.COLLECTION_VIVELAFRANCE_COMPLETED;
-            }
-
-            public int getPVE_HERO_WIN_SUR() {
-                return this.PVE_HERO_WIN_SUR;
-            }
-
-            public int getNO_PRICE_FOR_HEROISM() {
-                return this.NO_PRICE_FOR_HEROISM;
-            }
-
-            public int getBD2_PVE() {
-                return this.BD2_PVE;
-            }
-
-            public int getDREADNOUGHT() {
-                return this.DREADNOUGHT;
-            }
-
-            public int getHALLOWEEN_2017() {
-                return this.HALLOWEEN_2017;
-            }
-
-            public int getHALLOWEEN_2016() {
-                return this.HALLOWEEN_2016;
-            }
-
-            public int getHALLOWEEN_2018() {
-                return this.HALLOWEEN_2018;
-            }
-
-            public int getBD2016_PARTY_CHECK_IN() {
-                return this.BD2016_PARTY_CHECK_IN;
-            }
-
-            public int getPVE_HON_PR_SAVE_2() {
-                return this.PVE_HON_PR_SAVE_2;
-            }
-
-            public int getPVE_HERO_DAM_ENEM() {
-                return this.PVE_HERO_DAM_ENEM;
-            }
-
-            public int getFIGHTER() {
-                return this.FIGHTER;
-            }
-
-            public int getNY17_500_LEAGUES() {
-                return this.NY17_500_LEAGUES;
-            }
-
-            public int getMILLIONAIR() {
-                return this.MILLIONAIR;
-            }
-
-            public int getCAMPAIGN_YAMAMOTO_COMPLETED() {
-                return this.CAMPAIGN_YAMAMOTO_COMPLETED;
-            }
-
-            public int getEV1APR19_TORPEDO1() {
-                return this.EV1APR19_TORPEDO1;
-            }
-
-            public int getPVE_HON_DONE_CLASS() {
-                return this.PVE_HON_DONE_CLASS;
-            }
-
-            public int getPVE_HON_PR_DONE_1() {
-                return this.PVE_HON_PR_DONE_1;
-            }
-
-            public int getEV1APR19_TORPEDO5() {
-                return this.EV1APR19_TORPEDO5;
-            }
-
-            public int getBD2_BISMARCK() {
-                return this.BD2_BISMARCK;
-            }
-
-            public int getMESSENGER_L() {
-                return this.MESSENGER_L;
-            }
-
-            public int getBATTLE_HERO() {
-                return this.BATTLE_HERO;
-            }
-
-            public int getBD2016_WRONG_SOW() {
-                return this.BD2016_WRONG_SOW;
-            }
-
-            public int getPVE_HON_WIN_ALL_DONE() {
-                return this.PVE_HON_WIN_ALL_DONE;
-            }
-
-            public int getCAMPAIGN1_COMPLETED() {
-                return this.CAMPAIGN1_COMPLETED;
-            }
-
-            public int getBD2_CREDITS() {
-                return this.BD2_CREDITS;
-            }
-
-            public int getSCIENCE_OF_WINNING_HARD_EDGED() {
-                return this.SCIENCE_OF_WINNING_HARD_EDGED;
-            }
-
-            public int getFILLALBUM_AZURLANE_COMPLETED() {
-                return this.FILLALBUM_AZURLANE_COMPLETED;
-            }
-
-            public int getRETRIBUTION() {
-                return this.RETRIBUTION;
-            }
-
-            public int getBD2_HW2016() {
-                return this.BD2_HW2016;
-            }
-
-            public int getCAMPAIGN_NY17B_COMPLETED() {
-                return this.CAMPAIGN_NY17B_COMPLETED;
-            }
-
-            public int getTWITCH_WG() {
-                return this.TWITCH_WG;
-            }
-
-            public int getBD2016_PARTY_ANIMAL() {
-                return this.BD2016_PARTY_ANIMAL;
-            }
-
-            public int getSCIENCE_OF_WINNING_TO_THE_BOTTOM() {
-                return this.SCIENCE_OF_WINNING_TO_THE_BOTTOM;
-            }
-
-            public int getGREATEEIGHT() {
-                return this.GREATEEIGHT;
-            }
-
-            public int getCOLLECTION_BISMARCK_COMPLETED() {
-                return this.COLLECTION_BISMARCK_COMPLETED;
-            }
-
-            public int getFILLALBUM_SOVIETBB_COMPLETED() {
-                return this.FILLALBUM_SOVIETBB_COMPLETED;
-            }
-
-            public int getNY17_BREAK_THE_BANK() {
-                return this.NY17_BREAK_THE_BANK;
-            }
-
-            public int getALL_THREE_HALLOWEEN_COMPLETE() {
-                return this.ALL_THREE_HALLOWEEN_COMPLETE;
-            }
-
-            public int getCAPITAL() {
-                return this.CAPITAL;
-            }
-
-            public int getSCIENCE_OF_WINNING_BOMBARDIER() {
-                return this.SCIENCE_OF_WINNING_BOMBARDIER;
-            }
-
-            public int getFILLALBUM_ITCA_COMPLETED() {
-                return this.FILLALBUM_ITCA_COMPLETED;
-            }
-
-            public int getPVE_DUNKERQUE_OPERATION_DYNAMO() {
-                return this.PVE_DUNKERQUE_OPERATION_DYNAMO;
-            }
-
-            public int getFIRST_BLOOD() {
-                return this.FIRST_BLOOD;
-            }
-
-            public int getCOLLECTION_WOWSBIRTHDAY_COMPLETED() {
-                return this.COLLECTION_WOWSBIRTHDAY_COMPLETED;
-            }
-
-            public int getAIRDEFENSEEXPERT() {
-                return this.AIRDEFENSEEXPERT;
-            }
-
-            public int getNY17_WIN_AT_LEAST_ONE() {
-                return this.NY17_WIN_AT_LEAST_ONE;
-            }
-
-            public int getCAMPAIGN_NY17B_COMPLETED_EXCELLENT() {
-                return this.CAMPAIGN_NY17B_COMPLETED_EXCELLENT;
-            }
-
-            public int getAMAUTEUR() {
-                return this.AMAUTEUR;
+            override fun toString(): String {
+                return GSON.toJson(this)
             }
         }
 
-        public static class Progress {
-
-            private int FIGHTER = 0;
-
-            private int MILLIONAIR = 0;
-
-            private int MERCENARY = 0;
-
-            private int MESSENGER = 0;
-
-            private int PVE_HON_PR_SAVE_3 = 0;
-
-            private int PVE_HON_PR_SAVE_1 = 0;
-
-            private int ENGINEER = 0;
-
-            private int BATTLE_HERO = 0;
-
-            private int SEA_LEGEND = 0;
-
-            private int WORKAHOLIC_L = 0;
-
-            private int PVE_HON_PR_SAVE_2 = 0;
-
-            private int JUNIOR_PLANNER = 0;
-
-            private int MESSENGER_L = 0;
-
-            private int MERCENARY_L = 0;
-
-            private int VETERAN = 0;
-
-            private int NEVER_ENOUGH_MONEY = 0;
-
-            private int NO_PRICE_FOR_HEROISM = 0;
-
-            private int ALL_THREE_HALLOWEEN_COMPLETE = 0;
-
-            private int CAPITAL = 0;
-
-            private int SCIENCE_OF_WINNING_BOMBARDIER = 0;
-
-            private int PVE_HON_PR_DONE_ALL_1 = 0;
-
-            private int CHIEF_ENGINEER = 0;
-
-            private int NO_DAY_WITHOUT_ADVENTURE_L = 0;
-
-            private int PVE_HON_PR_DONE_1 = 0;
-
-            private int AMAUTEUR = 0;
-
-            @Override
-            public String toString() {
-                return IRequestAction.Companion.getGSON().toJson(this);
-            }
-
-            public int getFIGHTER() {
-                return this.FIGHTER;
-            }
-
-            public int getMILLIONAIR() {
-                return this.MILLIONAIR;
-            }
-
-            public int getMERCENARY() {
-                return this.MERCENARY;
-            }
-
-            public int getMESSENGER() {
-                return this.MESSENGER;
-            }
-
-            public int getPVE_HON_PR_SAVE_3() {
-                return this.PVE_HON_PR_SAVE_3;
-            }
-
-            public int getPVE_HON_PR_SAVE_1() {
-                return this.PVE_HON_PR_SAVE_1;
-            }
-
-            public int getENGINEER() {
-                return this.ENGINEER;
-            }
-
-            public int getBATTLE_HERO() {
-                return this.BATTLE_HERO;
-            }
-
-            public int getSEA_LEGEND() {
-                return this.SEA_LEGEND;
-            }
-
-            public int getWORKAHOLIC_L() {
-                return this.WORKAHOLIC_L;
-            }
-
-            public int getPVE_HON_PR_SAVE_2() {
-                return this.PVE_HON_PR_SAVE_2;
-            }
-
-            public int getJUNIOR_PLANNER() {
-                return this.JUNIOR_PLANNER;
-            }
-
-            public int getMESSENGER_L() {
-                return this.MESSENGER_L;
-            }
-
-            public int getMERCENARY_L() {
-                return this.MERCENARY_L;
-            }
-
-            public int getVETERAN() {
-                return this.VETERAN;
-            }
-
-            public int getNEVER_ENOUGH_MONEY() {
-                return this.NEVER_ENOUGH_MONEY;
-            }
-
-            public int getNO_PRICE_FOR_HEROISM() {
-                return this.NO_PRICE_FOR_HEROISM;
-            }
-
-            public int getALL_THREE_HALLOWEEN_COMPLETE() {
-                return this.ALL_THREE_HALLOWEEN_COMPLETE;
-            }
-
-            public int getCAPITAL() {
-                return this.CAPITAL;
-            }
-
-            public int getSCIENCE_OF_WINNING_BOMBARDIER() {
-                return this.SCIENCE_OF_WINNING_BOMBARDIER;
-            }
-
-            public int getPVE_HON_PR_DONE_ALL_1() {
-                return this.PVE_HON_PR_DONE_ALL_1;
-            }
-
-            public int getCHIEF_ENGINEER() {
-                return this.CHIEF_ENGINEER;
-            }
-
-            public int getNO_DAY_WITHOUT_ADVENTURE_L() {
-                return this.NO_DAY_WITHOUT_ADVENTURE_L;
-            }
-
-            public int getPVE_HON_PR_DONE_1() {
-                return this.PVE_HON_PR_DONE_1;
-            }
-
-            public int getAMAUTEUR() {
-                return this.AMAUTEUR;
+        class Progress {
+            val FIGHTER = 0
+            val MILLIONAIR = 0
+            val MERCENARY = 0
+            val MESSENGER = 0
+            val PVE_HON_PR_SAVE_3 = 0
+            val PVE_HON_PR_SAVE_1 = 0
+            val ENGINEER = 0
+            val BATTLE_HERO = 0
+            val SEA_LEGEND = 0
+            val WORKAHOLIC_L = 0
+            val PVE_HON_PR_SAVE_2 = 0
+            val JUNIOR_PLANNER = 0
+            val MESSENGER_L = 0
+            val MERCENARY_L = 0
+            val VETERAN = 0
+            val NEVER_ENOUGH_MONEY = 0
+            val NO_PRICE_FOR_HEROISM = 0
+            val ALL_THREE_HALLOWEEN_COMPLETE = 0
+            val CAPITAL = 0
+            val SCIENCE_OF_WINNING_BOMBARDIER = 0
+            val PVE_HON_PR_DONE_ALL_1 = 0
+            val CHIEF_ENGINEER = 0
+            val NO_DAY_WITHOUT_ADVENTURE_L = 0
+            val PVE_HON_PR_DONE_1 = 0
+            val AMAUTEUR = 0
+            override fun toString(): String {
+                return GSON.toJson(this)
             }
         }
 
-        @Override
-        public String toString() {
-            return IRequestAction.Companion.getGSON().toJson(this);
+        override fun toString(): String {
+            return GSON.toJson(this)
         }
     }
 
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }

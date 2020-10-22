@@ -33,7 +33,7 @@ public class GeneralTest {
         int accountId = 537376379;
         ApiBuilder.Companion.createInstance(apiKey, instanceName);
         int instanceSize = ApiBuilder.getInstanceSize();
-        PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId);
+        PlayersPersonalDataFullRequest request = PlayersPersonalDataFullRequest.Companion.createRequest().region(Region.EU).addAccountId(accountId);
         ExecutorService service = Executors.newCachedThreadPool();
         long start = System.currentTimeMillis();
         int requests = 100;

@@ -12,7 +12,7 @@ import java.util.function.Consumer
  * @param <T> The response class that implements the [IApiResponse] interface. This is also the return type of the [.fetch] method.
  * @author floribe2000
 </T></R> */
-abstract class AbstractRequest<R, T : IApiResponse> : IRequest<R>, IRequestAction<T> {
+abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IRequestAction<T> {
 
     private var instance: ApiBuilder? = null
 

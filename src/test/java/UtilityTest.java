@@ -47,7 +47,7 @@ public class UtilityTest {
     public void testPlayerRequestService() {
         PlayerRequestService.initialize(apiKey);
         String playerName = "floribe2000";
-        PlayersPersonalDataFull player = PlayerRequestService.requestPlayersPersonalData(playerName, Region.EU);
+        PlayersPersonalDataFull player = PlayerRequestService.INSTANCE.requestPlayersPersonalData(playerName, Region.EU);
         assert player.getStatus().get() : "Invalid response status";
         assert player.getData().size() > 0 : "Empty response";
         String playerId = player.getData().keySet().iterator().next();

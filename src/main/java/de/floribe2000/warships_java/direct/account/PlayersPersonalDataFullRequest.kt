@@ -1,174 +1,154 @@
-package de.floribe2000.warships_java.direct.account;
+package de.floribe2000.warships_java.direct.account
 
-import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.IResponseFields;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.LoggerFactory
+import kotlin.collections.HashSet
 
 /**
  * A class to create and execute requests to retrieve personal data for one or more players from the api.
- * <p>By default only pvp statistics and basic player details are retrieved, more fields can be specified by using
- * the {@link #extraFields(ExtraField...)} or {@link #addExtraField(ExtraField...)} methods.</p>
  *
- * <p>The request is executed by calling the {@link #fetch()} method, for details see the javadoc of those methods.</p>
+ * By default only pvp statistics and basic player details are retrieved, more fields can be specified by using
+ * the [.extraFields] or [.addExtraField] methods.
+ *
+ *
+ * The request is executed by calling the [.fetch] method, for details see the javadoc of those methods.
  *
  * @author floribe2000
  */
-public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPersonalDataFullRequest, PlayersPersonalDataFull> {
-
+class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRequest, PlayersPersonalDataFull>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private final Logger LOG = LoggerFactory.getLogger(getClass().getSimpleName());
+    private val log = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The region for the request. Must not be null when fetch ist called.
      */
-    private Region region = null;
+    private lateinit var selectedRegion: Region
 
     /**
      * The language for the api response
      */
-    private Language language = null;
+    private var language: Language? = null
 
     /**
      * A set of accound ids for the request.
      */
-    private Set<Long> accountIds = new HashSet<>();
+    private var accountIds: MutableSet<Long> = HashSet()
 
     /**
      * A set of extra fields that should be added to the request and will be retrieved from the api.
      */
-    private Set<ExtraField> extraFields = null;
+    private var extraFields: MutableSet<ExtraField> = HashSet()
 
-    public PlayersPersonalDataFullRequest() {
+    override fun region(region: Region): PlayersPersonalDataFullRequest {
+        this.selectedRegion = region
+        return this
     }
 
-    /**
-     * Creates a new empty request instance of this class.
-     *
-     * @return a new instance of this class
-     */
-    public static PlayersPersonalDataFullRequest createRequest() {
-        return new PlayersPersonalDataFullRequest();
+    override fun language(language: Language): PlayersPersonalDataFullRequest {
+        this.language = language
+        return this
     }
 
-    @Override
-    public PlayersPersonalDataFullRequest region(Region region) {
-        this.region = region;
-        return this;
-    }
-
-    @Override
-    public PlayersPersonalDataFullRequest language(Language language) {
-        this.language = language;
-        return this;
-    }
-
-    @Override
-    public String buildUrl() {
-        if (region == null || accountIds.size() == 0) {
-            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
+    override fun buildUrl(): String {
+        require(this::selectedRegion.isInitialized && accountIds.size > 0) {
+            "The region has to be set and accountIds must not be empty"
         }
-        String path = "/wows/account/info/";
-        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
-        return baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
+        val path = "/wows/account/info/"
+        val accounts = accountIds.joinToString(",")
+        return baseUrl(selectedRegion, path, language, instanceName) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields)
     }
 
     /**
-     * Adds one or more fields to the {@link #extraFields} set.
-     * <p>Existing fields won't be changed!</p>
+     * Adds one or more fields to the [.extraFields] set.
+     *
+     * Existing fields won't be changed!
      *
      * @param fields the fields to add to the request's extra fields
      * @return the instance of this request
      */
-    public PlayersPersonalDataFullRequest addExtraField(ExtraField... fields) {
-        if (extraFields == null) {
-            extraFields = new HashSet<>();
-        }
-        extraFields.addAll(Arrays.asList(fields));
-        return this;
+    fun addExtraField(vararg fields: ExtraField): PlayersPersonalDataFullRequest {
+        extraFields.addAll(fields.asList())
+        return this
     }
 
     /**
      * Adds an account id to the list of account ids.
-     * <p>Existing ids won't be changed!
-     * If the limit is reached, the id won't be added to the request and a logging call is triggered.</p>
+     *
+     * Existing ids won't be changed!
+     * If the limit is reached, the id won't be added to the request and a logging call is triggered.
      *
      * @param accountId the id to add
      * @return the instance of this request
      */
-    public PlayersPersonalDataFullRequest addAccountId(long accountId) {
-        if (this.accountIds.size() < 100) {
-            this.accountIds.add(accountId);
+    fun addAccountId(accountId: Long): PlayersPersonalDataFullRequest {
+        if (accountIds.size < 100) {
+            accountIds.add(accountId)
         } else {
-            LOG.warn("Skipping account id addition. Reason: Limit reached (Limit: 100)");
+            log.warn("Skipping account id addition. Reason: Limit reached (Limit: 100)")
         }
-        return this;
+        return this
     }
 
     /**
      * Sets the list of account ids.
-     * <p>Warning: the existing ids are replaced!</p>
+     *
+     * Warning: the existing ids are replaced!
      *
      * @param accountIds the ids that should be added
      * @return the instance of this request
      * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
      */
-    public PlayersPersonalDataFullRequest accountIds(Collection<Long> accountIds) {
-        Set<Long> tmp = new HashSet<>(accountIds);
-        if (tmp.size() > 100) {
-            throw new IllegalArgumentException("The size of the set must not exceed 100");
-        }
-        this.accountIds = tmp;
-        return this;
+    fun accountIds(accountIds: Collection<Long>): PlayersPersonalDataFullRequest {
+        val tmp: MutableSet<Long> = HashSet(accountIds)
+        require(tmp.size <= 100) { "The size of the set must not exceed 100" }
+        this.accountIds = tmp
+        return this
     }
 
     /**
-     * Adds one or more {@link ExtraField extra fields} to the request.
-     * <p>Existing fields won't be changed.</p>
+     * Adds one or more [extra fields][ExtraField] to the request.
+     *
+     * Existing fields won't be changed.
      *
      * @param extraFields the fields to add to the request
      * @return the instance of this request
-     * @see #extraFields(Collection extraFields) Use collections instead of an array
+     * @see .extraFields
      */
-    public PlayersPersonalDataFullRequest extraFields(ExtraField... extraFields) {
-        return extraFields(Arrays.asList(extraFields));
+    fun extraFields(vararg extraFields: ExtraField): PlayersPersonalDataFullRequest {
+        return extraFields(extraFields.asList())
     }
 
     /**
-     * Adds one or more {@link ExtraField extra fields} to the request.
-     * <p>Existing fields won't be changed.</p>
+     * Adds one or more [extra fields][ExtraField] to the request.
+     *
+     * Existing fields won't be changed.
      *
      * @param extraFields the fields to add to the request
      * @return the instance of this request
      */
-    public PlayersPersonalDataFullRequest extraFields(Collection<ExtraField> extraFields) {
-        this.extraFields.addAll(extraFields);
-        return this;
+    fun extraFields(extraFields: Collection<ExtraField>): PlayersPersonalDataFullRequest {
+        this.extraFields.addAll(extraFields)
+        return this
     }
 
     /**
      * Executes a request and returns the result of the request.
-     * <p>All requests are executed synchronous on this thread. It is safe to execute this in a new thread if it is required to be run asynchronous.</p>
      *
-     * @return an instance of {@link PlayersPersonalDataFull} that contains all requested player data. If the request fails, an empty instance is returned.
-     * @throws IllegalArgumentException <ul>
-     *                                  <li>If this method is called and region is null.</li>
-     *                                  <li>If this method is called and accountIds is empty.</li>
-     *                                  </ul>
+     * All requests are executed synchronous on this thread. It is safe to execute this in a new thread if it is required to be run asynchronous.
+     *
+     * @return an instance of [PlayersPersonalDataFull] that contains all requested player data. If the request fails, an empty instance is returned.
+     * @throws IllegalArgumentException
+     *  * If this method is called and region is null.
+     *  * If this method is called and accountIds is empty.
+     *
      */
-    @Override
-    protected PlayersPersonalDataFull fetch(String url) {
+    override fun fetch(url: String): PlayersPersonalDataFull {
 //        if (region == null || accountIds.size() == 0) {
 //            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
 //        }
@@ -186,100 +166,117 @@ public class PlayersPersonalDataFullRequest extends AbstractRequest<PlayersPerso
 //            LOG.error("Unexpected exception detected.", e2);
 //            throw new IllegalStateException("Error while processing request");
 //        }
-        return connect(url, PlayersPersonalDataFull.class, getLimiter());
+        return connect(url, PlayersPersonalDataFull::class.java, limiter)!!
     }
 
-    @Override
-    public PlayersPersonalDataFullRequest apiBuilder(String instanceName) {
-        setInstance(instanceName);
-        return this;
+    override fun apiBuilder(instanceName: String): PlayersPersonalDataFullRequest {
+        setInstance(instanceName)
+        return this
     }
 
     /**
      * An enum that represents all available extra fields for the api request.
-     * <p>By default the api response only contains data for the {@link #PVP} field.
-     * If you want to get data for other modes, you have to add one of the fields to the request.</p>
      *
-     * <p>Currently, the default pvp field cannot be removed from the api response.</p>
+     * By default the api response only contains data for the [.PVP] field.
+     * If you want to get data for other modes, you have to add one of the fields to the request.
+     *
+     *
+     * Currently, the default pvp field cannot be removed from the api response.
      */
-    public enum ExtraField implements IResponseFields {
+    enum class ExtraField(
+            /**
+             * The field name for the api.
+             */
+            private val key: String) : IResponseFields {
         /**
          * The default random battle mode, including divison games.
          * Always a part of the api response unless it's manually disabled.
          */
-        PVP("statistics.pvp"), // as standard in each stats related request, unless you exclude it via "&fields=-statistics.pvp"
+        PVP("statistics.pvp"),  // as standard in each stats related request, unless you exclude it via "&fields=-statistics.pvp"
+
         /**
          * Only solo games in the random battles mode.
          */
         PVP_SOLO("statistics.pvp_solo"),
+
         /**
          * Only division games with divisions of 2 players in the random battles mode.
          */
         PVP_DIV2("statistics.pvp_div2"),
+
         /**
          * Only division games with divisions of 3 players in the random battles mode.
          */
         PVP_DIV3("statistics.pvp_div3"),
+
         /**
          * The coop battles mode. Contains solo and division statistics.
          */
         PVE("statistics.pve"),
+
         /**
          * Only solo games in the coop battles mode.
          */
         PVE_SOLO("statistics.pve_solo"),
+
         /**
          * Only division games with 2 players in the coop battles mode.
          */
         PVE_DIV2("statistics.pve_div2"),
+
         /**
          * Only division games with 3 players in the coop battles mode.
          */
         PVE_DIV3("statistics.pve_div3"),
+
         /**
          * Only solo games in ranked battles mode
          */
         RANK_SOLO("statistics.rank_solo"),
+
         /**
          * Only division games with 2 players in the ranked battles mode.
          */
         RANK_DIV2("statistics.rank_div2"),
+
         /**
          * Only division games with 3 players in the ranked battles mode.
          */
         RANK_DIV3("statistics.rank_div3"),
+
         /**
          * Only solo games in the operations mode.
          */
         OPER_SOLO("statistics.oper_solo"),
+
         /**
          * Only division games in the operations mode.
          */
         OPER_DIV("statistics.oper_div"),
+
         /**
          * Only division games in the operations mode with difficulty level hard.
          */
         OPER_DIV_HARD("statistics.oper_div_hard");
 
         /**
-         * The field name for the api.
-         */
-        private String key;
-
-        private ExtraField(String key) {
-            this.key = key;
-        }
-
-        /**
          * A method to get the key of an entry.
          *
          * @return the key associated with the entry
          */
-        @Override
-        public String retrieveKey() {
-            return key;
+        override fun retrieveKey(): String {
+            return key
         }
     }
 
-
+    companion object {
+        /**
+         * Creates a new empty request instance of this class.
+         *
+         * @return a new instance of this class
+         */
+        fun createRequest(): PlayersPersonalDataFullRequest {
+            return PlayersPersonalDataFullRequest()
+        }
+    }
 }

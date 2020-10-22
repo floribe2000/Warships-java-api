@@ -26,7 +26,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     /**
      * The server region for this request
      */
-    private var region: Region? = null
+    private lateinit var selectedRegion: Region
 
     /**
      * The language for the api response
@@ -36,7 +36,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     /**
      * The search text for this request
      */
-    private var searchText: String? = null
+    private lateinit var selectedSearchText: String
 
     /**
      * The response fields for this request
@@ -44,7 +44,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     private var fields: MutableSet<ResponseField> = HashSet()
 
     override fun region(region: Region): PlayersRequest {
-        this.region = region
+        this.selectedRegion = region
         return this
     }
 
@@ -54,9 +54,11 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     }
 
     override fun buildUrl(): String {
-        require(!(region == null || searchText == null)) { "You can't use this method before setting all parameters" }
+        require(this::selectedRegion.isInitialized && this::selectedSearchText.isInitialized) {
+            "You can't use this method before setting all parameters"
+        }
         val path = "/wows/account/list/"
-        return baseUrl(region!!, path, language, instanceName) + "&search=" + searchText + buildFieldString(FieldType.FIELDS, fields)
+        return baseUrl(selectedRegion, path, language, instanceName) + "&search=" + selectedSearchText + buildFieldString(FieldType.FIELDS, fields)
     }
 
     override fun apiBuilder(instanceName: String): PlayersRequest {
@@ -72,8 +74,8 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      * @param text the new search text
      * @return the instance of this request
      */
-    fun searchText(text: String?): PlayersRequest {
-        searchText = text
+    fun searchText(text: String): PlayersRequest {
+        selectedSearchText = text
         return this
     }
 

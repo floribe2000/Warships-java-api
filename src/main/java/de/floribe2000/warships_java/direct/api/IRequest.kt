@@ -12,7 +12,7 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
  * @param <R> the request type of the implementation of this interface
  * @author floribe2000
 </R> */
-interface IRequest<R> {
+interface IRequest<R : Any> {
     /**
      * A default method to create the basic url for a request with mandatory fields as application id and request language.
      *
@@ -44,9 +44,9 @@ interface IRequest<R> {
      * @return A string of the fields that can be added to an api request url
     </T> */
     @JvmDefault
-    fun <T : IResponseFields> buildFieldString(type: FieldType, fields: Set<T>?): String {
+    fun <T : IResponseFields> buildFieldString(type: FieldType, fields: Set<T>): String {
         val builder = StringBuilder()
-        if (fields?.isNotEmpty() == true) {
+        if (fields.isNotEmpty()) {
             builder.append(type)
             builder.append(fields.joinToString(separator = ",") { entry -> entry.retrieveKey() })
         }
