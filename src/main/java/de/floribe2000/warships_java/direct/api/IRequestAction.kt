@@ -55,7 +55,9 @@ interface IRequestAction<T : IApiResponse?> {
                 limiter.connectToApi(url).bufferedReader().use { reader ->
                     result = GSON.fromJson(reader, tClass)
                     val response: IApiResponse? = result
-                    check(!(response!!.error != null && (response.error!!.code == 407 || response.error!!.code == 504))) { response.error!!.message }
+                    if (response?.error?.code == 407 || response?.error?.code == 504) {
+                        throw IllegalStateException(response.error?.message ?: "Cannot read error message")
+                    }
                 }
             } catch (ue: UnknownHostException) {
                 LOG.error("An error occurred", ue)

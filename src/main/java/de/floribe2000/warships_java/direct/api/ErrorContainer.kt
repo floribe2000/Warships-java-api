@@ -1,38 +1,19 @@
-package de.floribe2000.warships_java.direct.api;
+package de.floribe2000.warships_java.direct.api
+
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 
 /**
  * A representation of the error field of a failed api request.
  *
  * @author floribe2000
  */
-public class ErrorContainer {
+class ErrorContainer {
+    val field: String? = null
+    val message: String? = null
+    val code = 0
+    val value: String? = null
 
-    private String field = null;
-
-    private String message = null;
-
-    private int code = 0;
-
-    private String value = null;
-
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
-    }
-
-    public String getField() {
-        return this.field;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public int getCode() {
-        return this.code;
-    }
-
-    public String getValue() {
-        return this.value;
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }
