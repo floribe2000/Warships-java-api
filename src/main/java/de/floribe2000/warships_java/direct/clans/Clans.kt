@@ -1,78 +1,42 @@
-package de.floribe2000.warships_java.direct.clans;
+package de.floribe2000.warships_java.direct.clans
 
-import de.floribe2000.warships_java.direct.api.ErrorContainer;
-import de.floribe2000.warships_java.direct.api.IApiResponse;
-import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
+import com.google.gson.annotations.SerializedName
+import de.floribe2000.warships_java.direct.api.ErrorContainer
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.Meta
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
-import java.util.List;
-
-public class Clans implements IApiResponse {
-
-    private Status status = Status.ERROR;
+class Clans : IApiResponse {
+    val status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
-     * <p>Field is null if no errors occurred during the request!</p>
+     *
+     * Field is null if no errors occurred during the request!
      */
-    private ErrorContainer error = null;
+    override val error: ErrorContainer? = null
 
-    private Meta meta = null;
+    val meta: Meta? = null
 
-    private List<ClanDetails> data = null;
+    val data: List<ClanDetails>? = null
 
-    public Status getStatus() {
-        return this.status;
+    class ClanDetails {
+        @SerializedName("members_count")
+        val membersCount = 0
+
+        @SerializedName("created_at")
+        val createdAt: Long = 0
+
+        @SerializedName("clan_id")
+        val clanId = 0
+
+        val tag: String? = null
+
+        val name: String? = null
     }
 
-    public ErrorContainer getError() {
-        return this.error;
-    }
-
-    public Meta getMeta() {
-        return this.meta;
-    }
-
-    public List<ClanDetails> getData() {
-        return this.data;
-    }
-
-    public static class ClanDetails {
-
-        private int members_count = 0;
-
-        private long created_at = 0;
-
-        private int clan_id = 0;
-
-        private String tag = null;
-
-        private String name = null;
-
-        public int getMembers_count() {
-            return this.members_count;
-        }
-
-        public long getCreated_at() {
-            return this.created_at;
-        }
-
-        public int getClan_id() {
-            return this.clan_id;
-        }
-
-        public String getTag() {
-            return this.tag;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }

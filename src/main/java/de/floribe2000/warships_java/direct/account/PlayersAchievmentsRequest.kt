@@ -100,7 +100,7 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
      *
      */
     override fun fetch(url: String): PlayersAchievements {
-        return connect(url, PlayersAchievements::class.java, limiter)!!
+        return connect(url, PlayersAchievements::class.java, limiter)
     }
 
     override fun apiBuilder(instanceName: String): PlayersAchievmentsRequest {

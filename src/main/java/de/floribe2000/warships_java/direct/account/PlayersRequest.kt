@@ -124,7 +124,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      *
      */
     override fun fetch(url: String): Players {
-        return connect(url, Players::class.java, limiter)!!
+        return connect(url, Players::class.java, limiter)
     }
 
     /**

@@ -29,7 +29,7 @@ interface IRequest<R : Any> {
      * @return a string that contains the expandable request url
      */
     @JvmDefault
-    fun baseUrl(region: Region, path: String, language: Language?, instanceName: String?): String? {
+    fun baseUrl(region: Region, path: String, language: Language?, instanceName: String?): String {
         return region.baseURL + path + ApiBuilder.getApiKeyAsParam(instanceName) + createLanguageField(language)
     }
 

@@ -165,14 +165,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
      *
      */
     override fun fetch(url: String): PlayersStatisticsByDate {
-//        if (region == null || accountId == 0) {
-//            throw new IllegalArgumentException("Region must not be null and accountId has to be defined.");
-//        }
-//        String path = "/wows/account/statsbydate/";
-//        String dates = this.dates.stream().sequential().collect(Collectors.joining(","));
-//        String extra = this.extra != null ? (FieldType.EXTRA + this.extra.retrieveKey()) : "";
-//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra;
-        return connect(url, PlayersStatisticsByDate::class.java, limiter)!!
+        return connect(url, PlayersStatisticsByDate::class.java, limiter)
     }
 
     /**

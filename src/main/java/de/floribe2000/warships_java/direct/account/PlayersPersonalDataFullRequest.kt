@@ -166,7 +166,7 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
 //            LOG.error("Unexpected exception detected.", e2);
 //            throw new IllegalStateException("Error while processing request");
 //        }
-        return connect(url, PlayersPersonalDataFull::class.java, limiter)!!
+        return connect(url, PlayersPersonalDataFull::class.java, limiter)
     }
 
     override fun apiBuilder(instanceName: String): PlayersPersonalDataFullRequest {

@@ -73,7 +73,7 @@ public class GeneralTest {
     @Test
     public void testServerStatus() {
         ApiBuilder.Companion.createInstanceIfNoneExists(apiKey);
-        ServerStatusRequest request = ServerStatusRequest.createRequest().region(Region.EU);
+        ServerStatusRequest request = ServerStatusRequest.Companion.createRequest().region(Region.EU);
         ServerStatus response = request.fetch();
         assert response.getStatus().get() : "Invalid response state\n" + response.getError().toString();
         System.out.println(response);

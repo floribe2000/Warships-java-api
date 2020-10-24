@@ -44,9 +44,10 @@ interface IRequestAction<T : IApiResponse?> {
      * @param tClass the class of the api return object
      * @return an object of the given type containing the received data.
      */
-    fun connect(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T? {
+    fun connect(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T {
         var result: T? = null
         var attempts = 0
+        var lastException: Exception
 
         //Retry failed request up to 5 times if request failed because of network issues
         while (result == null && attempts < 5) {
@@ -63,23 +64,25 @@ interface IRequestAction<T : IApiResponse?> {
                 LOG.error("An error occurred", ue)
                 ue.printStackTrace()
                 result = null
+                lastException = ue
             } catch (ie: IllegalStateException) {
                 LOG.warn(ie.message)
                 ie.printStackTrace()
                 result = null
+                lastException = ie
             } catch (e: Exception) {
                 e.printStackTrace()
                 LOG.error("An error occurred", e)
-                result = try {
-                    tClass.getDeclaredConstructor().newInstance()
-                } catch (e1: Exception) {
-                    null
-                }
                 break
             }
             attempts++
         }
-        return result
+
+        return result ?: try {
+            tClass.getDeclaredConstructor().newInstance()
+        } catch (e1: Exception) {
+            throw IllegalStateException("Unable to initialize a default instance")
+        }
     }
 
     companion object {

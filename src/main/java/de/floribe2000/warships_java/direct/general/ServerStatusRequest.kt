@@ -1,71 +1,62 @@
-package de.floribe2000.warships_java.direct.general;
+package de.floribe2000.warships_java.direct.general
 
-import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
+import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getApiKeyAsParam
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 
 /**
  * A class to create a server status request.
  * Server status requests retrieve data about the current number of players on all available servers for a region.
- * <p>If you need data for multiple regions, call this request multiple times after changing the region.</p>
+ *
+ * If you need data for multiple regions, call this request multiple times after changing the region.
  *
  * @author floribe2000
  */
-public class ServerStatusRequest extends AbstractRequest<ServerStatusRequest, ServerStatus> {
-
+class ServerStatusRequest : AbstractRequest<ServerStatusRequest, ServerStatus>() {
     /**
      * The server region for this request
      */
-    private Region region = null;
+    private lateinit var selectedRegion: Region
 
     /**
      * The language for the api response
      */
-    private Language language = null;
+    private var language: Language? = null
 
-    public ServerStatusRequest() {
+    override fun fetch(url: String): ServerStatus {
+        return connect(url, ServerStatus::class.java, limiter)
     }
 
-    public static ServerStatusRequest createRequest() {
-        return new ServerStatusRequest();
+    override fun region(region: Region): ServerStatusRequest {
+        this.selectedRegion = region
+        return this
     }
 
-    @Override
-    protected ServerStatus fetch(String url) {
-        return connect(url, ServerStatus.class, getLimiter());
+    override fun language(language: Language): ServerStatusRequest {
+        this.language = language
+        return this
     }
 
-    @Override
-    public ServerStatusRequest region(Region region) {
-        this.region = region;
-        return this;
+    override fun apiBuilder(instanceName: String): ServerStatusRequest {
+        setInstance(instanceName)
+        return this
     }
 
-    @Override
-    public ServerStatusRequest language(Language language) {
-        this.language = language;
-        return this;
+    override fun buildUrl(): String {
+        require(this::selectedRegion.isInitialized) { "Region has to be initialized." }
+        val path = "/wgn/servers/info/"
+        return baseUrl(selectedRegion, path, language, instanceName)
     }
 
-    @Override
-    public ServerStatusRequest apiBuilder(String instanceName) {
-        setInstance(instanceName);
-        return this;
+    override fun baseUrl(region: Region, path: String, language: Language?, instanceName: String?): String {
+        val url = region.baseURL + path + getApiKeyAsParam(instanceName) + createLanguageField(language)
+        return url.replace("api.worldofwarships.", "api.worldoftanks.")
     }
 
-    @Override
-    public String buildUrl() {
-        if (region == null) {
-            throw new IllegalArgumentException("Region must not be null.");
+    companion object {
+        fun createRequest(): ServerStatusRequest {
+            return ServerStatusRequest()
         }
-        String path = "/wgn/servers/info/";
-        return baseUrl(region, path, language, getInstanceName());
-    }
-
-    @Override
-    public String baseUrl(Region region, String path, Language language, String instanceName) {
-        String url = region.getBaseURL() + path + ApiBuilder.getApiKeyAsParam(instanceName) + createLanguageField(language);
-        return url.replace("api.worldofwarships.", "api.worldoftanks.");
     }
 }

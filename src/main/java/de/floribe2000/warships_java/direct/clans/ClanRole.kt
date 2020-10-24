@@ -1,9 +1,8 @@
-package de.floribe2000.warships_java.direct.clans;
+package de.floribe2000.warships_java.direct.clans
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-public enum ClanRole {
-
+enum class ClanRole {
     @SerializedName("officer")
     OFFICER,
 
@@ -20,5 +19,5 @@ public enum ClanRole {
     DEPUTY_COMMANDER,
 
     @SerializedName("commander")
-    COMMANDER
+    COMMANDER,
 }

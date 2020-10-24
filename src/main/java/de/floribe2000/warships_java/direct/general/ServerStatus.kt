@@ -1,63 +1,42 @@
-package de.floribe2000.warships_java.direct.general;
+package de.floribe2000.warships_java.direct.general
 
-import de.floribe2000.warships_java.direct.api.ErrorContainer;
-import de.floribe2000.warships_java.direct.api.IApiResponse;
-import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-
-import java.util.List;
-import java.util.Map;
+import com.google.gson.annotations.SerializedName
+import de.floribe2000.warships_java.direct.api.ErrorContainer
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
 /**
  * The api response for a server status request.
  *
  * @author floribe2000
  */
-public class ServerStatus implements IApiResponse {
+class ServerStatus : IApiResponse {
 
-    private Status status = Status.ERROR;
+    val status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
-     * <p>Field is null if no errors occurred during the request!</p>
+     *
+     * Field is null if no errors occurred during the request!
      */
-    private ErrorContainer error = null;
+    override val error: ErrorContainer? = null
 
     /**
      * A list containing the details for all available servers.
-     * <p>Possible entries are wot, wows and wotb</p>
+     *
+     * Possible entries are wot, wows and wotb
      */
-    private Map<String, List<ServerEntry>> data = null;
+    val data: Map<String, List<ServerEntry>>? = null
 
-    public Status getStatus() {
-        return this.status;
+    class ServerEntry {
+        @SerializedName("players_online")
+        val playersOnline = 0
+
+        val server: String? = null
     }
 
-    public ErrorContainer getError() {
-        return this.error;
-    }
-
-    public Map<String, List<ServerEntry>> getData() {
-        return this.data;
-    }
-
-    public static class ServerEntry {
-
-        private int players_online = 0;
-
-        private String server = null;
-
-        public int getPlayers_online() {
-            return this.players_online;
-        }
-
-        public String getServer() {
-            return this.server;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }
