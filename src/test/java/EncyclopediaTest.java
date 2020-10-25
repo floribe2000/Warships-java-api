@@ -30,19 +30,19 @@ public class EncyclopediaTest {
 	public void testWarWarshipsRequest() {
 		int limit = 100;
 		int page = 5;
-		Warships warships = WarshipsRequest.createRequest().region(Region.EU).limit(limit)
-			.pageNo(page).fetch();
+		Warships warships = WarshipsRequest.Companion.createRequest().region(Region.EU).limit(limit)
+				.pageNo(page).fetch();
 
 		assert warships.getStatus().get() : warships;
 		assert warships.getMeta() != null : warships;
 		assert warships.getData() != null : warships;
 		assert warships.getData().size() == warships.getMeta().getCount()
-			&& warships.getData().size() <= limit : warships;
+				&& warships.getData().size() <= limit : warships;
 	}
 
 	@Test
 	public void testShipRequestFilterClassCruisers() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipType(ShipType.CRUISER);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).shipType(ShipType.CRUISER);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -56,7 +56,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterClassCruisersAndBattleShips() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipType(ShipType.CRUISER, ShipType.BATTLESHIP);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).shipType(ShipType.CRUISER, ShipType.BATTLESHIP);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -70,7 +70,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterTierX() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).tier(Tier.X);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).tier(Tier.X);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -84,7 +84,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterTierIAndII() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).tier(Tier.I, Tier.II);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).tier(Tier.I, Tier.II);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -98,7 +98,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterNationEurope() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).nation(Nation.EUROPE);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).nation(Nation.EUROPE);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -112,7 +112,7 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterNationEuropeAndPanAsia() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).nation(Nation.EUROPE, Nation.PAN_ASIA);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).nation(Nation.EUROPE, Nation.PAN_ASIA);
 		Warships response;
 		int pageNo = 1;
 		do {
@@ -127,47 +127,47 @@ public class EncyclopediaTest {
 
 	@Test
 	public void testShipRequestFilterTypeResearch() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipCategory(ShipCategory.RESEARCH);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).shipCategory(ShipCategory.RESEARCH);
 		Warships response;
 		int pageNo = 1;
 		do {
 			response = request.pageNo(pageNo).fetch();
 			assertNotNull(response);
 			assertEquals(Status.OK, response.getStatus());
-			response.getData().values().forEach(entry -> assertTrue(!entry.is_premium() && !entry.is_special()));
+			response.getData().values().forEach(entry -> assertTrue(!entry.isPremium() && !entry.isSpecial()));
 			pageNo++;
 		} while (response.getMeta().getPage_total() >= pageNo);
 	}
 
 	@Test
 	public void testShipRequestFilterTypePremiumOrSpecial() {
-		WarshipsRequest request = WarshipsRequest.createRequest().region(Region.EU).shipCategory(ShipCategory.PREMIUM, ShipCategory.SPECIAL);
+		WarshipsRequest request = WarshipsRequest.Companion.createRequest().region(Region.EU).shipCategory(ShipCategory.PREMIUM, ShipCategory.SPECIAL);
 		Warships response;
 		int pageNo = 1;
 		do {
 			response = request.pageNo(pageNo).fetch();
 			assertNotNull(response);
 			assertEquals(Status.OK, response.getStatus());
-			response.getData().values().forEach(entry -> assertTrue(entry.is_premium() || entry.is_special()));
+			response.getData().values().forEach(entry -> assertTrue(entry.isPremium() || entry.isSpecial()));
 			pageNo++;
 		} while (response.getMeta().getPage_total() >= pageNo);
 	}
 
 	@Test
 	public void testConsumableRequest() {
-		ConsumablesRequest request = ConsumablesRequest.createRequest().region(Region.EU);
+		ConsumablesRequest request = ConsumablesRequest.Companion.createRequest().region(Region.EU);
 		Consumables response = request.fetch();
 		assert response.getStatus().get() : response;
 	}
 
 	@Test
 	public void testConsumableRequestFlags() {
-		ConsumablesRequest request = ConsumablesRequest.createRequest().region(Region.EU).type(ConsumableType.FLAGS);
+		ConsumablesRequest request = ConsumablesRequest.Companion.createRequest().region(Region.EU).type(ConsumableType.FLAGS);
 		Consumables response = request.fetch();
 		assert response.getStatus().get() : response;
 		for (Map.Entry<String, Consumables.Consumable> entry : response.getData().entrySet()) {
 			assert entry.getValue().getType() == ConsumableType.FLAGS : entry.getValue();
-			assert entry.getKey().equals(String.valueOf(entry.getValue().getConsumable_id())) : entry;
+			assert entry.getKey().equals(String.valueOf(entry.getValue().getConsumableId())) : entry;
 		}
 	}
 

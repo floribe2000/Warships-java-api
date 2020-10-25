@@ -1,29 +1,39 @@
-package de.floribe2000.warships_java.utilities;
+package de.floribe2000.warships_java.utilities
 
-import de.floribe2000.warships_java.direct.api.ApiBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.floribe2000.warships_java.direct.api.ApiBuilder
+import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.createInstance
+import org.slf4j.LoggerFactory
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.thread
 
-import java.util.concurrent.atomic.AtomicBoolean;
+abstract class AbstractRequestService {
 
-public abstract class AbstractRequestService {
+    abstract fun initialize(apiKey: String)
 
-    protected static final AtomicBoolean initialized = new AtomicBoolean(false);
+    companion object {
 
-    protected static final String INSTANCE = "RequestService";
+        protected val initialized = AtomicBoolean(false)
 
-    protected static final Logger LOG = LoggerFactory.getLogger("RequestService");
+        protected const val INSTANCE = "RequestService"
 
-    public static void initialize(String apiKey) {
-        if (initialized.getAndSet(true)) {
-            return;
+        protected val LOG = LoggerFactory.getLogger("RequestService")
+
+        fun initialize(apiKey: String) {
+            if (initialized.getAndSet(true)) {
+                return
+            }
+            createInstance(apiKey, INSTANCE)
+//            try {
+//                Runtime.getRuntime().addShutdownHook(thread {
+//                    ApiBuilder.shutdown()
+//                })
+//            } catch (ie: IllegalArgumentException) {
+//                LOG.error("Encountered an exception while adding a shutdown hook.")
+//            }
         }
-        ApiBuilder.Companion.createInstance(apiKey, INSTANCE);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(ApiBuilder::shutdown));
-    }
-
-    public static void reset() {
-        initialized.set(false);
+        fun reset() {
+            initialized.set(false)
+        }
     }
 }

@@ -18,4 +18,10 @@ object PlayerRequestService : AbstractRequestService() {
         check(playerData.status.get()) { "Invalid response status!" }
         return playerData
     }
+
+
+    override fun initialize(apiKey: String) {
+        AbstractRequestService.initialize(apiKey)
+    }
+
 }

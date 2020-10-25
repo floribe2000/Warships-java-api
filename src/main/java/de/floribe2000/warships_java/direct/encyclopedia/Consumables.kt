@@ -1,124 +1,65 @@
-package de.floribe2000.warships_java.direct.encyclopedia;
+package de.floribe2000.warships_java.direct.encyclopedia
 
-import de.floribe2000.warships_java.direct.api.ErrorContainer;
-import de.floribe2000.warships_java.direct.api.IApiResponse;
-import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.ConsumableType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Status;
-
-import java.util.Map;
+import com.google.gson.annotations.SerializedName
+import de.floribe2000.warships_java.direct.api.ErrorContainer
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.Meta
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ConsumableType
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
 /**
- * A representation of the api response for a {@link ConsumablesRequest}.
+ * A representation of the api response for a [ConsumablesRequest].
  *
  * @author floribe2000
  * @since 0.2.12
  */
-public class Consumables implements IApiResponse {
+class Consumables : IApiResponse {
 
-    private Status status = Status.ERROR;
+    val status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
-     * <p>Field is null if no errors occurred during the request!</p>
+     *
+     * Field is null if no errors occurred during the request!
      */
-    private ErrorContainer error = null;
+    override val error: ErrorContainer? = null
 
-    private Meta meta = null;
+    val meta: Meta? = null
 
-    private Map<String, Consumable> data = null;
+    val data: Map<String, Consumable>? = null
 
-    public Status getStatus() {
-        return this.status;
+    class Consumable {
+        val profile: Map<String, EntryStats>? = null
+
+        class EntryStats {
+            val description: String? = null
+            val value = 0.0
+        }
+
+        val name: String? = null
+
+        @SerializedName("price_gold")
+        val doubloonPrice = 0
+
+        val image: String? = null
+
+        @SerializedName("consumable_id")
+        val consumableId: Long = 0
+
+        @SerializedName("price_credit")
+        val creditPrice = 0
+
+        val type: ConsumableType? = null
+
+        val description: String? = null
+
+        override fun toString(): String {
+            return GSON.toJson(this)
+        }
     }
 
-    public ErrorContainer getError() {
-        return this.error;
-    }
-
-    public Meta getMeta() {
-        return this.meta;
-    }
-
-    public Map<String, Consumable> getData() {
-        return this.data;
-    }
-
-    public static class Consumable {
-
-        private Map<String, EntryStats> profile = null;
-
-        public Map<String, EntryStats> getProfile() {
-            return this.profile;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public int getPrice_gold() {
-            return this.price_gold;
-        }
-
-        public String getImage() {
-            return this.image;
-        }
-
-        public long getConsumable_id() {
-            return this.consumable_id;
-        }
-
-        public int getPrice_credit() {
-            return this.price_credit;
-        }
-
-        public ConsumableType getType() {
-            return this.type;
-        }
-
-        public String getDescription() {
-            return this.description;
-        }
-
-        public static class EntryStats {
-
-            private String description = null;
-
-            private double value = 0;
-
-            public String getDescription() {
-                return this.description;
-            }
-
-            public double getValue() {
-                return this.value;
-            }
-        }
-
-        private String name = null;
-
-        private int price_gold = 0;
-
-        private String image = null;
-
-        private long consumable_id = 0;
-
-        private int price_credit = 0;
-
-        private ConsumableType type = null;
-
-        private String description = null;
-
-        @Override
-        public String toString() {
-            return IRequestAction.Companion.getGSON().toJson(this);
-        }
-
-    }
-
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }

@@ -702,14 +702,19 @@ public class StatisticsRequest extends AbstractRequest<StatisticsRequest, Statis
     }
 
     private Set<Long> getShipIds(Set<Long> baseShipSet, Set<Nation> filterNation, Set<ShipType> filterShipType, Set<ShipCategory> filterShipCategory, Set<Tier> filterTier) {
-        WarshipsRequest request = WarshipsRequest.createRequest().region(region).nation(filterNation).shipType(filterShipType).shipCategory(filterShipCategory).tier(filterTier);
+        WarshipsRequest request = WarshipsRequest.Companion.createRequest()
+                .region(region)
+                .nation(filterNation)
+                .shipType(filterShipType)
+                .shipCategory(filterShipCategory)
+                .tier(filterTier);
         Warships response;
         Set<Long> ships = new HashSet<>();
 
         int pageNo = 1;
         do {
             response = request.pageNo(pageNo).fetch();
-            ships.addAll(response.getData().values().stream().map(ShipEntry::getShip_id).collect(Collectors.toSet()));
+            ships.addAll(response.getData().values().stream().map(ShipEntry::getShipId).collect(Collectors.toSet()));
             pageNo++;
         } while (response.getMeta().getPage_total() >= pageNo);
 

@@ -1,58 +1,52 @@
-package de.floribe2000.warships_java.utilities;
+package de.floribe2000.warships_java.utilities
 
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-import de.floribe2000.warships_java.direct.encyclopedia.Warships;
-import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest;
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import de.floribe2000.warships_java.direct.encyclopedia.Warships
+import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest.Companion.createRequest
 
 /**
  * A class that offers a collection of utility methods for api encyclopedia requests.
- * <p>Make sure to initialize the ApiBuilder instance before sending requests! You can either do this by using {@link #initialize(String apiKey)}
- * or by manually creating an ApiBuilder instance using {@link de.floribe2000.warships_java.direct.api.ApiBuilder#createInstance(String apiKey)}</p>
+ *
+ * Make sure to initialize the ApiBuilder instance before sending requests! You can either do this by using [.initialize]
+ * or by manually creating an ApiBuilder instance using [de.floribe2000.warships_java.direct.api.ApiBuilder.createInstance]
  *
  * @author floribe2000
  */
-public class EncyclopediaRequestService extends AbstractRequestService {
+object EncyclopediaRequestService : AbstractRequestService() {
 
     /**
      * Allows to request a full list of all ships currently in the game.
-     * <p>Ignore the page number of the meta object of the returned {@link Warships} instance!</p>
      *
-     * @param region the region for the request
-     * @return a {@link Warships} instance containing the data
-     */
-    public static Warships requestFullWarshipsList(Region region) {
-        return requestFullWarshipsList(region, Language.ENGLISH);
-    }
-
-    /**
-     * Allows to request a full list of all ships currently in the game.
-     * <p>Ignore the page number of the meta object of the returned {@link Warships} instance!</p>
+     * Ignore the page number of the meta object of the returned [Warships] instance!
      *
      * @param region   the region for the request
      * @param language the language for the request
-     * @return a {@link Warships} instance containing the data
+     * @return a [Warships] instance containing the data
      */
-    public static Warships requestFullWarshipsList(Region region, Language language) {
+    @JvmOverloads
+    fun requestFullWarshipsList(region: Region, language: Language = Language.ENGLISH): Warships {
         //Prepare basic request
-        WarshipsRequest request = WarshipsRequest.createRequest().region(region).language(language);
+        val request = createRequest().region(region).language(language)
         //Send first request
-        Warships result = request.fetch();
+        val result = request.fetch()
         //Check response status
-        if (!result.getStatus().get()) {
-            throw new IllegalStateException("Invalid result state!");
-        }
+        check(result.status.get()) { "Invalid result state!" }
 
-        int page = 1;
-        while (page < result.getMeta().getPage_total()) {
-            page++;
-            Warships tmp = request.pageNo(page).fetch();
-            if (tmp.getStatus().get()) {
-                result.getData().putAll(tmp.getData());
+        var page = 1
+        while (page < result.meta?.page_total ?: -1) {
+            page++
+            val tmp = request.pageNo(page).fetch()
+            if (tmp.status.get()) {
+                result.data?.putAll(tmp.data ?: mutableMapOf())
             } else {
-                throw new IllegalStateException("Invalid result state!");
+                throw IllegalStateException("Invalid result state!")
             }
         }
-        return result;
+        return result
+    }
+
+    override fun initialize(apiKey: String) {
+        AbstractRequestService.initialize(apiKey)
     }
 }

@@ -1,313 +1,140 @@
-package de.floribe2000.warships_java.direct.encyclopedia;
+package de.floribe2000.warships_java.direct.encyclopedia
 
-import de.floribe2000.warships_java.direct.api.ErrorContainer;
-import de.floribe2000.warships_java.direct.api.IApiResponse;
-import de.floribe2000.warships_java.direct.api.IRequestAction;
-import de.floribe2000.warships_java.direct.api.Meta;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.*;
+import com.google.gson.annotations.SerializedName
+import de.floribe2000.warships_java.direct.api.ErrorContainer
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.Meta
+import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 
-import java.util.List;
-import java.util.Map;
-
-public class Warships implements IApiResponse {
-
-    private Status status = Status.ERROR;
+class Warships : IApiResponse {
+    val status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
-     * <p>Field is null if no errors occurred during the request!</p>
+     *
+     * Field is null if no errors occurred during the request!
      */
-    private ErrorContainer error = null;
+    override val error: ErrorContainer? = null
+    val meta: Meta? = null
+    val data: MutableMap<Long, ShipEntry>? = null
 
-    private Meta meta = null;
+    class ShipEntry {
 
-    private Map<Long, ShipEntry> data = null;
+        val description: String? = null
 
-    public Status getStatus() {
-        return this.status;
-    }
+        @SerializedName("price_gold")
+        val doubloonPrice = 0
 
-    public ErrorContainer getError() {
-        return this.error;
-    }
+        @SerializedName("ship_id_str")
+        val shipIdStr: String? = null
 
-    public Meta getMeta() {
-        return this.meta;
-    }
+        @SerializedName("has_demo_profile")
+        val hasDemoProfile = false
 
-    public Map<Long, ShipEntry> getData() {
-        return this.data;
-    }
+        val images: ImageDetails? = null
 
-    public static class ShipEntry {
+        @SerializedName("is_premium")
+        val isPremium: Boolean = false
 
-        private String description = null;
+        @SerializedName("is_special")
+        val isSpecial: Boolean = false
 
-        private int price_gold = 0;
-
-        private String ship_id_str = null;
-
-        private boolean has_demo_profile = false;
-
-        private ImageDetails images = null;
-
-        public String getDescription() {
-            return this.description;
+        class ImageDetails {
+            val small: String? = null
+            val large: String? = null
+            val medium: String? = null
+            val contour: String? = null
         }
 
-        public int getPrice_gold() {
-            return this.price_gold;
+        val modules: ShipModules? = null
+
+        class ShipModules {
+            val engine: List<Long>? = null
+
+            @SerializedName("torpedo_bomber")
+            val torpedoBomber: List<Long>? = null
+
+            val fighter: List<Long>? = null
+
+            val hull: List<Long>? = null
+
+            val artillery: List<Long>? = null
+
+            val torpedoes: List<Long>? = null
+
+            @SerializedName("fire_control")
+            val fireControl: List<Long>? = null
+
+            @SerializedName("flight_control")
+            val flightControl: List<Long>? = null
+
+            @SerializedName("dive_bomber")
+            val diveBomber: List<Long>? = null
         }
 
-        public String getShip_id_str() {
-            return this.ship_id_str;
+        @SerializedName("modules_tree")
+        val modulesTree: Map<String, ModuleDetails>? = null
+
+        class ModuleDetails {
+            val name: String? = null
+
+            @SerializedName("next_modules")
+            val nextModules: List<Long>? = null
+
+            @SerializedName("is_default")
+            val isDefault: Boolean = false
+
+            @SerializedName("price_xp")
+            val xpPrice: Int = 0
+
+            @SerializedName("price_credit")
+            val creditPrice: Int = 0
+
+            @SerializedName("next_ships")
+            val nextShips: List<Long>? = null
+
+            @SerializedName("module_id")
+            val moduleId: Long = 0
+
+            val type: ModuleType? = null
+
+            @SerializedName("module_id_str")
+            val moduleIdStr: String? = null
         }
 
-        public boolean isHas_demo_profile() {
-            return this.has_demo_profile;
-        }
+        val nation: Nation? = null
 
-        public ImageDetails getImages() {
-            return this.images;
-        }
+        @SerializedName("ship_id")
+        val shipId: Long = 0
 
-        public ShipModules getModules() {
-            return this.modules;
-        }
-
-        public Map<String, ModuleDetails> getModules_tree() {
-            return this.modules_tree;
-        }
-
-        public Nation getNation() {
-            return this.nation;
-        }
-
-        public boolean is_premium() {
-            return this.is_premium;
-        }
-
-        public long getShip_id() {
-            return this.ship_id;
-        }
-
-        public int getPrice_credit() {
-            return this.price_credit;
-        }
-
-        public List<Long> getUpgrades() {
-            return this.upgrades;
-        }
-
-        public Tier getTier() {
-            return this.tier;
-        }
-
-        public Map<String, Integer> getNext_ships() {
-            return this.next_ships;
-        }
-
-        public int getMod_slots() {
-            return this.mod_slots;
-        }
-
-        public ShipType getType() {
-            return this.type;
-        }
-
-        public boolean is_special() {
-            return this.is_special;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public static class ImageDetails {
-
-            private String small = null;
-
-            private String large = null;
-
-            private String medium = null;
-
-            private String contour = null;
-
-            public String getSmall() {
-                return this.small;
-            }
-
-            public String getLarge() {
-                return this.large;
-            }
-
-            public String getMedium() {
-                return this.medium;
-            }
-
-            public String getContour() {
-                return this.contour;
-            }
-        }
-
-        private ShipModules modules = null;
-
-        public static class ShipModules {
-
-            private List<Long> engine = null;
-
-            private List<Long> torpedo_bomber = null;
-
-            private List<Long> fighter = null;
-
-            private List<Long> hull = null;
-
-            private List<Long> artillery = null;
-
-            private List<Long> torpedoes = null;
-
-            private List<Long> fire_control = null;
-
-            private List<Long> flight_control = null;
-
-            private List<Long> dive_bomber = null;
-
-            public List<Long> getEngine() {
-                return this.engine;
-            }
-
-            public List<Long> getTorpedo_bomber() {
-                return this.torpedo_bomber;
-            }
-
-            public List<Long> getFighter() {
-                return this.fighter;
-            }
-
-            public List<Long> getHull() {
-                return this.hull;
-            }
-
-            public List<Long> getArtillery() {
-                return this.artillery;
-            }
-
-            public List<Long> getTorpedoes() {
-                return this.torpedoes;
-            }
-
-            public List<Long> getFire_control() {
-                return this.fire_control;
-            }
-
-            public List<Long> getFlight_control() {
-                return this.flight_control;
-            }
-
-            public List<Long> getDive_bomber() {
-                return this.dive_bomber;
-            }
-        }
-
-        private Map<String, ModuleDetails> modules_tree = null;
-
-        public static class ModuleDetails {
-
-            private String name = null;
-
-            private List<Long> next_modules = null;
-
-            private boolean is_default = false;
-
-            private int price_xp = 0;
-
-            private int price_credit = 0;
-
-            private List<Long> next_ships = null;
-
-            private long module_id = 0;
-
-            private ModuleType type = null;
-
-            private String module_id_str = null;
-
-            public String getName() {
-                return this.name;
-            }
-
-            public List<Long> getNext_modules() {
-                return this.next_modules;
-            }
-
-            public boolean is_default() {
-                return this.is_default;
-            }
-
-            public int getPrice_xp() {
-                return this.price_xp;
-            }
-
-            public int getPrice_credit() {
-                return this.price_credit;
-            }
-
-            public List<Long> getNext_ships() {
-                return this.next_ships;
-            }
-
-            public long getModule_id() {
-                return this.module_id;
-            }
-
-            public ModuleType getType() {
-                return this.type;
-            }
-
-            public String getModule_id_str() {
-                return this.module_id_str;
-            }
-        }
-
-        private Nation nation = null;
-
-        private boolean is_premium = false;
-
-        private long ship_id = 0;
-
-        private int price_credit = 0;
+        @SerializedName("price_credit")
+        val creditPrice: Int = 0
 
         //TODO default profile configuration
+        val upgrades: List<Long>? = null
 
-        private List<Long> upgrades = null;
+        val tier: Tier? = null
 
-        private Tier tier = null;
+        @SerializedName("next_ships")
+        val nextShips: Map<String, Int>? = null
 
-        private Map<String, Integer> next_ships = null;
+        @SerializedName("mod_slots")
+        val upgradeSlots = 5
 
-        private int mod_slots = 5;
+        val type: ShipType? = null
 
-        private ShipType type = null;
+        var name: String? = null
 
-        private boolean is_special = false;
+        val reducedView: ShipEntryReduced
+            get() = ShipEntryReduced(this)
 
-        private String name = null;
-
-        public ShipEntryReduced getReducedView() {
-            return new ShipEntryReduced(this);
-        }
-
-        @Override
-        public String toString() {
-            return IRequestAction.Companion.getGSON().toJson(this);
+        override fun toString(): String {
+            return GSON.toJson(this)
         }
     }
 
-    @Override
-    public String toString() {
-        return IRequestAction.Companion.getGSON().toJson(this);
+    override fun toString(): String {
+        return GSON.toJson(this)
     }
 }
