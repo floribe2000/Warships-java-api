@@ -32,6 +32,7 @@ class ClanDetails : IApiResponse {
 
         @SerializedName("created_at")
         val createdAt: Long = 0
+
         val tag: String? = null
 
         @SerializedName("updated_at")

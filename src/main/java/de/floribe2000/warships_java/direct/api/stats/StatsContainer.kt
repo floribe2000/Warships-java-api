@@ -1,100 +1,98 @@
-package de.floribe2000.warships_java.direct.api.stats;
+package de.floribe2000.warships_java.direct.api.stats
 
-public class StatsContainer extends BaseStatsContainer {
+class StatsContainer : BaseStatsContainer() {
+    /**
+     * max frags in a battle
+     */
+    val max_frags_battle = 0
 
-	/**
-	 * max frags in a battle
-	 */
-	private int max_frags_battle;
+    /**
+     * total draws
+     */
+    val draws = 0
 
-	/**
-	 * total draws
-	 */
-	private int draws;
+    /**
+     * max xp in a battle
+     */
+    val max_xp = 0
 
-	/**
-	 * max xp in a battle
-	 */
-	private int max_xp;
+    /**
+     * total wins
+     */
+    override val wins = 0
 
-	/**
-	 * total wins
-	 */
-	private int wins;
+    /**
+     * total planes killed
+     */
+    val planes_killed = 0
 
-	/**
-	 * total planes killed
-	 */
-	private int planes_killed;
+    /**
+     * total losses
+     */
+    override val losses = 0
 
-	/**
-	 * total losses
-	 */
-	private int losses;
+    /**
+     * torpedo stats
+     */
+    val torpedoes: ExtendedWeaponStatsWithShip? = null
 
-	/**
-	 * torpedo stats
-	 */
-	private ExtendedWeaponStatsWithShip torpedoes;
+    /**
+     * total battles
+     */
+    override val battles = 0
 
-	/**
-	 * total battles
-	 */
-	private int battles;
+    /**
+     * max damage in a battle
+     */
+    val max_damage_dealt = 0
 
-	/**
-	 * max damage in a battle
-	 */
-	private int max_damage_dealt;
+    /**
+     * total damage
+     */
+    val damage_dealt = 0
 
-	/**
-	 * total damage
-	 */
-	private int damage_dealt;
+    /**
+     * max plane kills in a battle
+     */
+    val max_planes_killed = 0
 
-	/**
-	 * max plane kills in a battle
-	 */
-	private int max_planes_killed;
+    /**
+     * aircraft stats
+     */
+    val aircraft: WeaponStatsWithShip? = null
 
-	/**
-	 * aircraft stats
-	 */
-	private WeaponStatsWithShip aircraft;
+    /**
+     * ramming stats
+     */
+    val ramming: WeaponStatsWithShip? = null
 
-	/**
-	 * ramming stats
-	 */
-	private WeaponStatsWithShip ramming;
+    /**
+     * main battery stats
+     */
+    val main_battery: ExtendedWeaponStatsWithShip? = null
 
-	/**
-	 * main battery stats
-	 */
-	private ExtendedWeaponStatsWithShip main_battery;
+    /**
+     * secondary battery stats
+     */
+    val secondary_battery: ExtendedWeaponStatsWithShip? = null
 
-	/**
-	 * secondary battery stats
-	 */
-	private ExtendedWeaponStatsWithShip secondary_battery;
+    /**
+     * total survived wins
+     */
+    override val survived_wins = 0
 
-	/**
-	 * total survived wins
-	 */
-	private int survived_wins;
+    /**
+     * total frags
+     */
+    val frags = 0
 
-	/**
-	 * total frags
-	 */
-	private int frags;
+    /**
+     * gained xp
+     */
+    override val xp: Long = 0
 
-	/**
-	 * gained xp
-	 */
-	private int xp;
-
-	/**
-	 * total survived battles
-	 */
-	private int survived_battles;
-
+    /**
+     * total survived battles
+     */
+    override val survived_battles = 0
 }

@@ -29,7 +29,7 @@ class Clans : IApiResponse {
         val createdAt: Long = 0
 
         @SerializedName("clan_id")
-        val clanId = 0
+        val clanId: Long = 0
 
         val tag: String? = null
 

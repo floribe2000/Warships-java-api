@@ -40,6 +40,7 @@ class ClansRequest private constructor() : AbstractRequest<ClansRequest, Clans>(
      * The page for this request. Minimum value 1, maximum value undefined.
      */
     private var page = 1
+
     override fun region(region: Region): ClansRequest {
         this.selectedRegion = region
         return this

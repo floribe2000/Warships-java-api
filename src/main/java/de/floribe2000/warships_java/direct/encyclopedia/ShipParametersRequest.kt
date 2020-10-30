@@ -1,67 +1,49 @@
-package de.floribe2000.warships_java.direct.encyclopedia;
+package de.floribe2000.warships_java.direct.encyclopedia
 
-import de.floribe2000.warships_java.direct.api.AbstractRequest;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Language;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleIdField;
-import de.floribe2000.warships_java.direct.api.typeDefinitions.Region;
-
-import java.util.HashMap;
-import java.util.Map;
+import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
+import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleIdField
+import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import java.util.*
 
 /**
  * A class to create a ShipParameters encyclopedia request
  */
-public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest, ShipParameters> {
-
+class ShipParametersRequest : AbstractRequest<ShipParametersRequest, ShipParameters>() {
     /**
      * The server region for this request
      */
-    private Region region = null;
+    private lateinit var selectedRegion: Region
 
     /**
      * The language for the api response
      */
-    private Language language = null;
+    private var language: Language? = null
 
     /**
      * The ship id for the request
      */
-    private long shipId = 0;
+    private var shipId: Long = 0
 
     /**
      * A map containing lists of additional module ids for the request.
      */
-    private Map<ModuleIdField, Long> additionalParams = new HashMap<>();
+    private val additionalParams: MutableMap<ModuleIdField, Long> = EnumMap(ModuleIdField::class.java)
 
-    public ShipParametersRequest() {
+    override fun region(region: Region): ShipParametersRequest {
+        this.selectedRegion = region
+        return this
     }
 
-    /**
-     * Creates a new empty request of this class.
-     *
-     * @return an instance of this class
-     */
-    public static ShipParametersRequest createRequest() {
-        return new ShipParametersRequest();
+    override fun language(language: Language): ShipParametersRequest {
+        this.language = language
+        return this
     }
 
-    @Override
-    public ShipParametersRequest region(Region region) {
-        this.region = region;
-        return this;
-    }
-
-    @Override
-    public ShipParametersRequest language(Language language) {
-        this.language = language;
-        return this;
-    }
-
-    @Override
-    public ShipParametersRequest apiBuilder(String instanceName) {
-        setInstance(instanceName);
-        return this;
+    override fun apiBuilder(instanceName: String): ShipParametersRequest {
+        setInstance(instanceName)
+        return this
     }
 
     /**
@@ -70,22 +52,23 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      * @param shipId the id of the ship
      * @return an instance of this request
      */
-    public ShipParametersRequest shipId(long shipId) {
-        this.shipId = shipId;
-        return this;
+    fun shipId(shipId: Long): ShipParametersRequest {
+        this.shipId = shipId
+        return this
     }
 
     /**
      * Adds an additional parameter to the request.
-     * <p>If there is already a value defined for this field, the value will not be replaced</p>
+     *
+     * If there is already a value defined for this field, the value will not be replaced
      *
      * @param field    the field type to add
      * @param moduleId the module id to add
      * @return the instance of this request
      */
-    public ShipParametersRequest addAdditionalParam(ModuleIdField field, long moduleId) {
-        additionalParams.put(field, moduleId);
-        return this;
+    fun addAdditionalParam(field: ModuleIdField, moduleId: Long): ShipParametersRequest {
+        additionalParams[field] = moduleId
+        return this
     }
 
     /**
@@ -94,9 +77,9 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      * @param field the field type to remove from the request
      * @return the instance of this request
      */
-    public ShipParametersRequest removeAdditionalParam(ModuleIdField field) {
-        additionalParams.remove(field);
-        return this;
+    fun removeAdditionalParam(field: ModuleIdField): ShipParametersRequest {
+        additionalParams.remove(field)
+        return this
     }
 
     /**
@@ -104,24 +87,33 @@ public class ShipParametersRequest extends AbstractRequest<ShipParametersRequest
      *
      * @return the instance of this request
      */
-    public ShipParametersRequest clearAdditionalParams() {
-        additionalParams.clear();
-        return this;
+    fun clearAdditionalParams(): ShipParametersRequest {
+        additionalParams.clear()
+        return this
     }
 
-    @Override
-    public String buildUrl() {
-        checkRegion(region);
-        String path = "/wows/encyclopedia/shipprofile/";
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<ModuleIdField, Long> entry : additionalParams.entrySet()) {
-            stringBuilder.append(entry.getKey().toString()).append(entry.getValue());
+    override fun buildUrl(): String {
+        require(this::selectedRegion.isInitialized) { "The region has to be initialized." }
+        val path = "/wows/encyclopedia/shipprofile/"
+        val stringBuilder = StringBuilder()
+        for ((key, value) in additionalParams) {
+            stringBuilder.append(key.toString()).append(value)
         }
-        return baseUrl(region, path, language, getInstanceName()) + FieldType.SHIP_ID + shipId + stringBuilder.toString();
+        return baseUrl(selectedRegion, path, language, instanceName) + FieldType.SHIP_ID + shipId + stringBuilder.toString()
     }
 
-    @Override
-    protected ShipParameters fetch(String url) {
-        return connect(url, ShipParameters.class, getLimiter());
+    override fun fetch(url: String): ShipParameters {
+        return connect(url, ShipParameters::class.java, limiter)
+    }
+
+    companion object {
+        /**
+         * Creates a new empty request of this class.
+         *
+         * @return an instance of this class
+         */
+        fun createRequest(): ShipParametersRequest {
+            return ShipParametersRequest()
+        }
     }
 }
