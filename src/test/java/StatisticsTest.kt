@@ -1,8 +1,8 @@
 import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 import java.util.*
 
@@ -19,14 +19,14 @@ class StatisticsTest {
         val request = StatisticsRequest.createRequest()
                 .accountId(wargamingId).region(Region.EU).addShipId(kii)
         val response = request.fetch()
-        Assert.assertNotNull(response)
-        Assert.assertEquals(Status.OK, response.status)
+        assertNotNull(response)
+        assertEquals(Status.OK, response.status)
         val ships = response.data?.get(wargamingId)
-        Assert.assertNotNull(ships)
-        Assert.assertFalse(ships?.isEmpty() ?: false)
-        Assert.assertEquals(kii, ships?.get(0)?.shipId)
-        Assert.assertNotNull(ships?.get(0)?.pvp)
-        Assert.assertNull(ships?.get(0)?.pve)
+        assertNotNull(ships)
+        assertFalse(ships?.isEmpty() ?: false)
+        assertEquals(kii, ships?.get(0)?.shipId)
+        assertNotNull(ships?.get(0)?.pvp)
+        assertNull(ships?.get(0)?.pve)
     }
 
     @Test
@@ -39,17 +39,17 @@ class StatisticsTest {
                 .nations(Nation.USA)
                 .categories(ShipCategory.RESEARCH)
         val response = request.fetch()
-        Assert.assertNotNull(response)
+        assertNotNull(response)
         assert(response.status.get()) { response }
         //assertEquals(OK, response.getStatus());
         val ships = response.data?.get(wargamingId)
-        Assert.assertNotNull(ships)
+        assertNotNull(ships)
         assert(ships?.isNotEmpty() ?: false) { ships ?: "Error" }
 
         // So far, there are 6 researchable US navy cruisers on tier VIII - X (CLs and CAs)
         // But actually I never player the CA VIII and IX
-        Assert.assertTrue(ships?.size ?: -1 >= 4)
-        Assert.assertNotNull(ships?.get(0)?.pvp)
+        assertTrue(ships?.size ?: -1 >= 4)
+        assertNotNull(ships?.get(0)?.pvp)
     }
 
     init {

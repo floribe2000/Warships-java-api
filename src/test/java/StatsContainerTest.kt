@@ -6,7 +6,7 @@ import de.floribe2000.warships_java.direct.api.stats.implementation.ExtendedWeap
 import de.floribe2000.warships_java.direct.api.stats.implementation.ExtendedWeaponStatsWithShipImpl
 import de.floribe2000.warships_java.direct.api.stats.implementation.WeaponStatsImpl
 import de.floribe2000.warships_java.direct.api.stats.implementation.WeaponStatsWithShipImpl
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.util.*
 
 class StatsContainerTest {

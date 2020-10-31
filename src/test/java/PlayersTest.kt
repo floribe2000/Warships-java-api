@@ -3,7 +3,7 @@ import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.account.PlayersRequest
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.lang.InterruptedException
 import java.util.Properties
 import java.io.FileInputStream

@@ -5,10 +5,10 @@ version = "1.0.0-beta1"
 description = "A java/kotlin library to make it easier to interact with the Wargaming API."
 
 plugins {
-    java
+    `java-library`
     `maven-publish`
     kotlin("jvm") version "1.4.10"
-    id("org.jetbrains.dokka") version "1.4.10"
+    id("org.jetbrains.dokka") version "1.4.10.2"
     idea
 }
 
@@ -20,16 +20,16 @@ repositories {
     maven {
         url = uri("https://maven.floribe2000.de/")
     }
-    gradlePluginPortal()
     jcenter()
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.8.6")
-    implementation("org.slf4j:slf4j-api:1.7.30")
+    api("com.google.code.gson:gson:2.8.6")
+    api("org.slf4j:slf4j-api:1.7.30")
     implementation("org.apache.commons:commons-collections4:4.4")
-    testImplementation("junit:junit:4.13.1")
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.2.3")
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks.withType<KotlinCompile> {
@@ -45,6 +45,16 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
             includes.from("Module.md")
             reportUndocumented.set(true)
         }
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+    reports {
+        junitXml.isEnabled = true
     }
 }
 

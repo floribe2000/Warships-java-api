@@ -4,8 +4,8 @@ import de.floribe2000.warships_java.direct.encyclopedia.ConsumablesRequest
 import de.floribe2000.warships_java.direct.encyclopedia.ShipParametersRequest
 import de.floribe2000.warships_java.direct.encyclopedia.Warships
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 import java.util.*
 import java.util.function.Consumer
@@ -35,9 +35,8 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertEquals(ShipType.CRUISER, entry.type) })
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertEquals(ShipType.CRUISER, entry.type) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -49,9 +48,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertTrue(entry.type == ShipType.CRUISER || entry.type == ShipType.BATTLESHIP) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.type == ShipType.CRUISER || entry.type == ShipType.BATTLESHIP) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -63,9 +62,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertEquals(Tier.X, entry.tier) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertEquals(Tier.X, entry.tier) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -77,9 +76,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertTrue(entry.tier == Tier.I || entry.tier == Tier.II) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.tier == Tier.I || entry.tier == Tier.II) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -91,9 +90,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertEquals(Nation.EUROPE, entry.nation) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertEquals(Nation.EUROPE, entry.nation) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -105,9 +104,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertTrue(entry.nation == Nation.EUROPE || entry.nation == Nation.PAN_ASIA) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.nation == Nation.EUROPE || entry.nation == Nation.PAN_ASIA) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -119,9 +118,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertTrue(!entry.isPremium && !entry.isSpecial) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(!entry.isPremium && !entry.isSpecial) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }
@@ -133,9 +132,9 @@ class EncyclopediaTest {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            Assert.assertNotNull(response)
-            Assert.assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> Assert.assertTrue(entry.isPremium || entry.isSpecial) })
+            assertNotNull(response)
+            assertEquals(Status.OK, response.status)
+            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.isPremium || entry.isSpecial) })
             pageNo++
         } while (response.meta!!.page_total >= pageNo)
     }

@@ -5,7 +5,7 @@ import de.floribe2000.warships_java.utilities.EncyclopediaRequestService
 import de.floribe2000.warships_java.utilities.EncyclopediaRequestService.requestFullWarshipsList
 import de.floribe2000.warships_java.utilities.PlayerRequestService
 import de.floribe2000.warships_java.utilities.PlayerRequestService.requestPlayersPersonalData
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 import java.util.*
 

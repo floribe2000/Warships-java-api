@@ -4,8 +4,8 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayerStatisticsRequest
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesSeasonsRequest
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesShipsStatisticsRequest.Companion.createRequest
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 import java.util.*
 
@@ -21,7 +21,7 @@ class SeasonsTest {
                 .region(Region.EU).addSeason(15)
         val result = request.fetch()
         println(result)
-        Assert.assertEquals(Status.OK, result.status)
+        assertEquals(Status.OK, result.status)
     }
 
     @Test
@@ -31,7 +31,7 @@ class SeasonsTest {
                 .createRequest().region(Region.EU).addSeason(15).addAccountId(accountId)
         val result = request.fetch()
         println(result)
-        Assert.assertEquals(Status.OK, result.status)
+        assertEquals(Status.OK, result.status)
     }
 
     @Test
@@ -43,7 +43,7 @@ class SeasonsTest {
                 .addAccountId(accountId)
         val result = request.fetch()
         println(result)
-        Assert.assertEquals(Status.OK, result.status)
+        assertEquals(Status.OK, result.status)
     }
 
     init {
