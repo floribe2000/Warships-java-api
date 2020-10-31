@@ -22,12 +22,24 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable {
 
+    /**
+     * A semaphore used to manage the rate limit
+     */
     private var semaphore: Semaphore
 
+    /**
+     * Indicates whether or not this rate limiter is enabled.
+     */
     private val enabled = AtomicBoolean(false)
 
+    /**
+     * An executor service that is used to reset the number of used requests after a second.
+     */
     private val timer: ScheduledExecutorService
 
+    /**
+     * Indicates how long a request blocks one slot of the semaphore.
+     */
     private val resetDelay: Long = 1000
 
     /**
@@ -84,6 +96,9 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
         }
     }
 
+    /**
+     * Connects to the specified url and makes sure to manage the rate limit properly.
+     */
     @Throws(IOException::class)
     fun connectToApi(url: String): InputStream {
         try {
@@ -114,6 +129,9 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
         }
     }
 
+    /**
+     * Stops the [timer] and marks this instance as disabled.
+     */
     override fun close() {
         enabled.set(false)
         try {
@@ -124,12 +142,33 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
         timer.shutdownNow()
     }
 
-    enum class ApiType(val rateLimit: Int) {
-        CLIENT(10), SERVER(20);
+    /**
+     * An enum that defines the two api key types that are currently available for the wargaming api.
+     */
+    enum class ApiType(
+            /**
+             * An integer indicating the rate limit in requests/second.
+             */
+            val rateLimit: Int) {
+        /**
+         * Describes a client api key with a request limit of 10 requests/s from a single IP.
+         * Valid IPs are unlimited and don't have to be specified in the developer portal.
+         */
+        CLIENT(10),
+
+        /**
+         * Describes a server api key with a request limit of 20 requests/second.
+         * Up to 5 valid IPs have to be specified in the wargaming developer portal.
+         */
+        SERVER(20);
 
     }
 
     companion object {
+
+        /**
+         * Waits for the permit for the operation for the specified rate limiter instance.
+         */
         fun waitForPermit(limiter: SimpleRateLimiter) {
             limiter.waitForPermit()
         }

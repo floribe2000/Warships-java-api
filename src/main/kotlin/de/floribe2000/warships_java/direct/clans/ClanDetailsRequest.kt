@@ -135,7 +135,7 @@ class ClanDetailsRequest private constructor() : AbstractRequest<ClanDetailsRequ
      *
      * In this case, there is only a single field available.
      */
-    enum class ExtraField(val key: String) : IResponseFields {
+    enum class ExtraField(override val key: String) : IResponseFields {
         /**
          * If selected includes a list of all clan members with their [ClanRole], join date and account id.
          */

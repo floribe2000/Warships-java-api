@@ -762,7 +762,7 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
         return baseUrl(selectedRegion, path, language, instanceName) + FieldType.ACCOUNT_ID + accountId + extra + ships
     }
 
-    enum class ExtraField(val key: String) : IResponseFields {
+    enum class ExtraField(override val key: String) : IResponseFields {
         OPER_DIV("oper_div"),
         OPER_DIV_HARD("oper_div_hard"),
         OPER_SOLO("oper_solo"),

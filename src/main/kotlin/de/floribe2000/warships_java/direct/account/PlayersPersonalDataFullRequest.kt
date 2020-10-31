@@ -187,7 +187,7 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
             /**
              * The field name for the api.
              */
-            private val key: String) : IResponseFields {
+            override val key: String) : IResponseFields {
         /**
          * The default random battle mode, including divison games.
          * Always a part of the api response unless it's manually disabled.

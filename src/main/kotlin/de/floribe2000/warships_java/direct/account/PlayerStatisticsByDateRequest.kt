@@ -174,7 +174,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
      *
      * These fields are optional fields, the request will also work without them.
      */
-    enum class ExtraField(private val key: String) : IResponseFields {
+    enum class ExtraField(override val key: String) : IResponseFields {
         /**
          * The coop battles mode
          */

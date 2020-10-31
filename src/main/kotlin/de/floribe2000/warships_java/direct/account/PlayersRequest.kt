@@ -132,7 +132,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      *
      * By default, both fields are shown. Only use them if you need only one of them.
      */
-    enum class ResponseField(private val key: String) : IResponseFields {
+    enum class ResponseField(override val key: String) : IResponseFields {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
 

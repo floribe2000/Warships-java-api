@@ -1,7 +1,9 @@
 package de.floribe2000.warships_java.direct.api
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.UnknownHostException
 
@@ -86,17 +88,20 @@ interface IRequestAction<T : IApiResponse> {
         }
     }
 
+    /**
+     * A companion object that provides some constant variables that are usable outside of this class as well.
+     */
     companion object {
         /**
          * The gson instance used for deserialization by all classes that implement this interface.
          *
          * Always use this instance, do not create a gson instance on your own if you don't know exactly what you are doing!
          */
-        val GSON = GsonBuilder().serializeNulls().setPrettyPrinting().create()
+        val GSON: Gson = GsonBuilder().serializeNulls().setPrettyPrinting().create()
 
         /**
          * A logger instance for the methods of this interface.
          */
-        val LOG = LoggerFactory.getLogger("RequestAction")
+        val LOG: Logger = LoggerFactory.getLogger("RequestAction")
     }
 }
