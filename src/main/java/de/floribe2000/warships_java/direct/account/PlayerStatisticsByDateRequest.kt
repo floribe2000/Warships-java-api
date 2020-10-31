@@ -37,7 +37,8 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
     /**
      * The extra field for this request. Only one field is possible in this case.
      */
-    private var extra: ExtraField? = null
+    private var extra: ExtraField = ExtraField.NONE
+
     override fun region(region: Region): PlayerStatisticsByDateRequest {
         this.selectedRegion = region
         return this
@@ -52,7 +53,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
         require(this::selectedRegion.isInitialized && accountId > 0) { "Region must not be null and accountId has to be defined." }
         val path = "/wows/account/statsbydate/"
         val dates = dates.joinToString { "," }
-        val extra = if (extra != null) FieldType.EXTRA.toString() + extra!!.retrieveKey() else ""
+        val extra = if (extra != ExtraField.NONE) FieldType.EXTRA.toString() + extra.retrieveKey() else ""
         return baseUrl(selectedRegion, path, language, instanceName) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra
     }
 
@@ -148,7 +149,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
      * @param extra the extra field for this request
      * @return the instance of this request
      */
-    fun extra(extra: ExtraField?): PlayerStatisticsByDateRequest {
+    fun extra(extra: ExtraField): PlayerStatisticsByDateRequest {
         this.extra = extra
         return this
     }
@@ -177,7 +178,8 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
         /**
          * The coop battles mode
          */
-        PVE("pve");
+        PVE("pve"),
+        NONE("none");
 
         override fun retrieveKey(): String {
             return key

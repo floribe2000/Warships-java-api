@@ -3,7 +3,6 @@ package de.floribe2000.warships_java.direct.api
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
 import java.util.concurrent.CompletableFuture
-import java.util.function.Consumer
 
 /**
  * An abstract implementation of [IRequest] and [IRequestAction] that provides some utility methods to make it easier to use those interfaces.
@@ -31,11 +30,7 @@ abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IReques
      * @return the RateLimiter instance for this request
      */
     protected val limiter: SimpleRateLimiter
-        get() = if (instance == null) {
-            ApiBuilder.getInstanceWithName(null).rateLimiter
-        } else {
-            instance!!.rateLimiter
-        }
+        get() = instance?.rateLimiter ?: ApiBuilder.getInstanceWithName(null).rateLimiter
 
     /**
      * A method to get the identifier of the linked api builder instance.
@@ -43,11 +38,7 @@ abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IReques
      * @return the identifier of the linked api builder instance
      */
     protected val instanceName: String?
-        get() = if (instance != null) {
-            instance!!.instanceName
-        } else {
-            null
-        }
+        get() = instance?.instanceName
 
     /**
      * A utility method to make it easier to check the region.
@@ -72,9 +63,9 @@ abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IReques
      *
      * @param result a consumer for the result of the request
      */
-    override fun fetchAsync(result: Consumer<T>) {
+    override fun fetchAsync(result: (T) -> Unit) {
         val url = buildUrl()
-        CompletableFuture.runAsync { result.accept(fetch(url)) }
+        CompletableFuture.runAsync { result(fetch(url)) }
     }
 
     /**

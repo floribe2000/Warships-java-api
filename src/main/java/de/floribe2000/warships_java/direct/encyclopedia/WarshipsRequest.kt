@@ -9,8 +9,9 @@ import org.slf4j.LoggerFactory
  *
  * Up to 100 ships can be retrieved per request, depending on the defined parameters less entries can be returned.
  *
- * Details about the total amount of hits and the total number of pages can be retrieved by analyzing the [Meta] object of the api response
- * returned by [.fetch].
+ * Details about the total amount of hits and the total number of pages can be retrieved by analyzing the
+ * [Meta][de.floribe2000.warships_java.direct.api.Meta] object of the api response
+ * returned by [fetch].
  *
  * @author floribe2000
  */
@@ -123,7 +124,8 @@ class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
     }
 
     /**
-     * Adds one or more ship ids to the request. If the total number of ship ids after adding the new ones would be bigger than 100, an exception is thrown.
+     * Adds one or more ship ids to the request. If the total number of ship ids after adding the new ones would be
+     * bigger than 100, an exception is thrown.
      *
      * Doesn't change existing values.
      *
@@ -240,8 +242,8 @@ class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
      * @param categories the ship categories to add
      * @return the instance of this request
      */
-    fun shipCategory(categories: Collection<ShipCategory>?): WarshipsRequest {
-        shipCategories.addAll(categories!!)
+    fun shipCategory(categories: Collection<ShipCategory>): WarshipsRequest {
+        shipCategories.addAll(categories)
         return this
     }
 

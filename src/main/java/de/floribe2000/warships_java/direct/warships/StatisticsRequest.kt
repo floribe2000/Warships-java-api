@@ -323,8 +323,8 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
      * @param nations the collection of [nations][Nation] to set
      * @return the instance of this request
      */
-    fun nations(nations: Collection<Nation>?): StatisticsRequest {
-        this.nations.addAll(nations!!)
+    fun nations(nations: Collection<Nation>): StatisticsRequest {
+        this.nations.addAll(nations)
         return this
     }
 

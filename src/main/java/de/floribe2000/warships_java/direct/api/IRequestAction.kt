@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
 import org.slf4j.LoggerFactory
 import java.net.UnknownHostException
-import java.util.function.Consumer
 
 /**
  * An interface to mark all RequestActions.
@@ -15,7 +14,7 @@ import java.util.function.Consumer
  * @param <T> the return type for the fetch method, has to implement [IApiResponse]
  * @author floribe2000
 </T> */
-interface IRequestAction<T : IApiResponse?> {
+interface IRequestAction<T : IApiResponse> {
     /**
      * Executes the request.
      *
@@ -33,7 +32,7 @@ interface IRequestAction<T : IApiResponse?> {
      *
      * @param result a consumer for the result of the request
      */
-    fun fetchAsync(result: Consumer<T>)
+    fun fetchAsync(result: (T) -> Unit)
 
     /**
      * Creates a url connection to the provided api and returns a object containing the received data.
@@ -42,12 +41,13 @@ interface IRequestAction<T : IApiResponse?> {
      *
      * @param url    the url for the request
      * @param tClass the class of the api return object
+     * @param limiter the [SimpleRateLimiter] instance used to manage api access
      * @return an object of the given type containing the received data.
      */
     fun connect(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T {
         var result: T? = null
         var attempts = 0
-        var lastException: Exception
+        var lastException: Exception? = null
 
         //Retry failed request up to 5 times if request failed because of network issues
         while (result == null && attempts < 5) {
@@ -71,6 +71,7 @@ interface IRequestAction<T : IApiResponse?> {
                 result = null
                 lastException = ie
             } catch (e: Exception) {
+                lastException = e
                 e.printStackTrace()
                 LOG.error("An error occurred", e)
                 break
@@ -81,7 +82,7 @@ interface IRequestAction<T : IApiResponse?> {
         return result ?: try {
             tClass.getDeclaredConstructor().newInstance()
         } catch (e1: Exception) {
-            throw IllegalStateException("Unable to initialize a default instance")
+            throw IllegalStateException("Unable to initialize a default instance. Last exception while trying to connect to the api:", lastException)
         }
     }
 
