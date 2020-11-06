@@ -10,44 +10,45 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
  *
  * @author floribe2000
  */
-class Players : IApiResponse {
-    /**
-     * The response status from the api
-     */
-    var status = Status.ERROR
+class Players(
+        /**
+         * The response status from the api
+         */
+        var status: Status = Status.ERROR,
 
-    /**
-     * Details about errors in case of a failed request.
-     *
-     * Field is null if no errors occurred during the request!
-     */
-    override val error: ErrorContainer? = null
+        /**
+         * Details about errors in case of a failed request.
+         *
+         * Field is null if no errors occurred during the request!
+         */
+        override val error: ErrorContainer? = null,
 
-    /**
-     * The meta object of the api response
-     */
-    var meta: Meta? = null
+        /**
+         * The meta object of the api response
+         */
+        val meta: Meta? = null,
 
-    /**
-     * A list that contains all player details the api returned
-     */
-    var data: List<PlayerElement>? = null
+        /**
+         * A list that contains all player details the api returned
+         */
+        var data: List<PlayerElement>? = null,
+) : IApiResponse {
 
     /**
      * A class that represents a single player element from the api response.
      */
-    class PlayerElement {
-        /**
-         * The nickname of the player
-         */
-        var nickname: String? = null
+    class PlayerElement(
+            /**
+             * The nickname of the player
+             */
+            val nickname: String? = null,
 
-        /**
-         * The account id of the player
-         */
-        @SerializedName("account_id")
-        var accountId: Long = 0
-    }
+            /**
+             * The account id of the player
+             */
+            @SerializedName("account_id")
+            val accountId: Long = 0,
+    )
 
     override fun toString(): String {
         return IRequestAction.GSON.toJson(this)

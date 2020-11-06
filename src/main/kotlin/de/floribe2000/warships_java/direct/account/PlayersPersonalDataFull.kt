@@ -13,24 +13,26 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
  * A representation of a full data set from the api. Contains all available fields for player and
  * player pvp stats.
  */
-class PlayersPersonalDataFull : IApiResponse {
-    /**
-     * The response status from the api
-     */
-    val status = Status.ERROR
+class PlayersPersonalDataFull(
+        /**
+         * The response status from the api
+         */
+        val status: Status = Status.ERROR,
 
-    /**
-     * Details about errors in case of a failed request.
-     *
-     * Field is null if no errors occurred during the request!
-     */
-    override val error: ErrorContainer? = null
+        /**
+         * Details about errors in case of a failed request.
+         *
+         * Field is null if no errors occurred during the request!
+         */
+        override val error: ErrorContainer? = null,
 
-    /**
-     * The meta object of the api response
-     */
-    val meta: Meta? = null
-    val data: Map<String, PlayerDetails>? = null
+        /**
+         * The meta object of the api response
+         */
+        val meta: Meta? = null,
+
+        val data: Map<String, PlayerDetails>? = null,
+) : IApiResponse {
 
     /**
      * A representation of individual player statistics.

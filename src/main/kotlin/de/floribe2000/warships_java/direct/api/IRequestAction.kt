@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import de.floribe2000.warships_java.direct.api.exceptions.ApiException
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -58,8 +59,10 @@ interface IRequestAction<T : IApiResponse> {
                 limiter.connectToApi(url).bufferedReader().use { reader ->
                     result = GSON.fromJson(reader, tClass)
                     val response: IApiResponse? = result
-                    if (response?.error?.code == 407 || response?.error?.code == 504) {
+                    if (response?.error?.code == 407) {
                         throw IllegalStateException(response.error?.message ?: "Cannot read error message")
+                    } else if (response?.error?.code == 504) {
+                        throw ApiException(response.error?.message.toString(), response.error?.code ?: 504)
                     }
                 }
             } catch (ue: UnknownHostException) {
@@ -70,8 +73,12 @@ interface IRequestAction<T : IApiResponse> {
             } catch (ie: IllegalStateException) {
                 LOG.warn(ie.message)
                 ie.printStackTrace()
-                result = null
                 lastException = ie
+                attempts += 5
+            } catch (ea: ApiException) {
+                LOG.warn("Encountered an api exception", ea)
+                lastException = ea
+                result = null
             } catch (e: Exception) {
                 lastException = e
                 e.printStackTrace()

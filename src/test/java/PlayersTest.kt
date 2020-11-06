@@ -11,6 +11,7 @@ import java.io.FileInputStream
 class PlayersTest {
     private val apiKey: String
     private val instanceName = "TEST"
+    private val invalidInstanceName = "TEST-INVALID"
 
     @Test
     fun testPlayersRequest() {
@@ -18,6 +19,16 @@ class PlayersTest {
         val request = PlayersRequest.createRequest().region(Region.EU).searchText("floribe")
         val result = request.fetch()
         assert(result.status.get()) { result }
+    }
+
+    @Test
+    fun testFailedPlayersRequest() {
+        ApiBuilder.createInstance("apiKey", invalidInstanceName)
+        val request = PlayersRequest.createRequest().apiBuilder(invalidInstanceName).region(Region.EU).searchText("florible")
+        val result = request.fetch()
+        println(result)
+        println(result.data)
+        assert(!result.status.get()) { result }
     }
 
     @Test
