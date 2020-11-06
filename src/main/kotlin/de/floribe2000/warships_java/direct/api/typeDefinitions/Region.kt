@@ -5,22 +5,30 @@ package de.floribe2000.warships_java.direct.api.typeDefinitions
  */
 enum class Region(
         /**
-         * The base url for this region
+         * The base url for this region.
          */
         val baseURL: String,
         /**
-         * The domain for this region
+         * The domain for this region.
          */
         val code: String,
         /**
-         * The start of the id range of the region
+         * The start of the id range of the region.
          */
-        val start: Int) {
+        val start: Long,
 
-    RU("https://api.worldofwarships.ru", "ru", 1),
-    EU("https://api.worldofwarships.eu", "eu", 500000000),
-    NA("https://api.worldofwarships.com", "com", 1000000000),
-    ASIA("https://api.worldofwarships.asia", "asia", 2000000000);
+        /**
+         * The end of the id range of the region.
+         */
+        val end: Long) {
+
+    RU("https://api.worldofwarships.ru", "ru", 1, 499999999),
+    EU("https://api.worldofwarships.eu", "eu", 500000000, 999999999),
+    NA("https://api.worldofwarships.com", "com", 1000000000, 1999999999),
+    ASIA("https://api.worldofwarships.asia", "asia", 2000000000, 2999999999);
+
+    val range: LongRange
+        get() = start..end
 
     companion object {
         /**
@@ -40,20 +48,14 @@ enum class Region(
          * @return the region for the provided id
          */
         fun fromRange(id: Long): Region {
-            return when (id) {
-                in 0..499999999 -> {
-                    RU
-                }
-                in 500000000..999999999 -> {
-                    EU
-                }
-                in 1000000000..1999999999 -> {
-                    NA
-                }
-                else -> {
-                    ASIA
+            var result: Region = ASIA
+            for (region in values()) {
+                if (id in region.start..region.end) {
+                    result = region
+                    break
                 }
             }
+            return result
         }
     }
 }
