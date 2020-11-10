@@ -51,7 +51,7 @@ class PlayersPersonalDataFull(
         val createdAt = 0
 
         @SerializedName("hidden_profile")
-        val idHiddenProfile = false
+        val isHiddenProfile = false
 
         @SerializedName("logout_at")
         val logoutAt = 0
