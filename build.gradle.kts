@@ -7,7 +7,7 @@ description = "A java/kotlin library to make it easier to interact with the Warg
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
     id("org.jetbrains.dokka") version "1.4.10.2"
     idea
 }
