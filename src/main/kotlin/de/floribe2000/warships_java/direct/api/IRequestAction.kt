@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import de.floribe2000.warships_java.direct.api.exceptions.ApiException
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.UnknownHostException
@@ -91,7 +93,10 @@ interface IRequestAction<T : IApiResponse> {
         return result ?: try {
             tClass.getDeclaredConstructor().newInstance()
         } catch (e1: Exception) {
-            throw IllegalStateException("Unable to initialize a default instance. Last exception while trying to connect to the api:", lastException)
+            throw IllegalStateException(
+                "Unable to initialize a default instance. Last exception while trying to connect to the api:",
+                lastException
+            )
         }
     }
 
@@ -110,5 +115,56 @@ interface IRequestAction<T : IApiResponse> {
          * A logger instance for the methods of this interface.
          */
         val LOG: Logger = LoggerFactory.getLogger("RequestAction")
+    }
+}
+
+inline fun <reified T : IApiResponse> IRequestAction<T>.connectKotlinx(url: String, limiter: SimpleRateLimiter): T {
+    var result: T? = null
+    var attempts = 0
+    var lastException: Exception? = null
+
+    //Retry failed request up to 5 times if request failed because of network issues
+    while (result == null && attempts < 5) {
+        //SimpleRateLimiter.waitForPermit(limiter);
+        try {
+            limiter.connectToApi(url).bufferedReader().use { reader ->
+                result = Json.decodeFromString(reader.readText())
+                val response: IApiResponse? = result
+                if (response?.error?.code == 407) {
+                    throw IllegalStateException(response.error?.message ?: "Cannot read error message")
+                } else if (response?.error?.code == 504) {
+                    throw ApiException(response.error?.message.toString(), response.error?.code ?: 504)
+                }
+            }
+        } catch (ue: UnknownHostException) {
+            IRequestAction.LOG.error("An error occurred", ue)
+            ue.printStackTrace()
+            result = null
+            lastException = ue
+        } catch (ie: IllegalStateException) {
+            IRequestAction.LOG.warn(ie.message)
+            ie.printStackTrace()
+            lastException = ie
+            attempts += 5
+        } catch (ea: ApiException) {
+            IRequestAction.LOG.warn("Encountered an api exception", ea)
+            lastException = ea
+            result = null
+        } catch (e: Exception) {
+            lastException = e
+            e.printStackTrace()
+            IRequestAction.LOG.error("An error occurred", e)
+            break
+        }
+        attempts++
+    }
+
+    return result ?: try {
+        T::class.java.getDeclaredConstructor().newInstance()
+    } catch (e1: Exception) {
+        throw IllegalStateException(
+            "Unable to initialize a default instance. Last exception while trying to connect to the api:",
+            lastException
+        )
     }
 }

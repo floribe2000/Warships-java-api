@@ -5,10 +5,12 @@ import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayerStatistics
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesSeasonsRequest
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesShipsStatisticsRequest.Companion.createRequest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 import java.util.*
 
+@Disabled("Disabled until WG allows to access ranked statistics again.")
 class SeasonsTest {
     private val apiKey: String
     private val accountId: Long = 540241530
@@ -18,7 +20,7 @@ class SeasonsTest {
     fun testSeasonsRequest() {
         ApiBuilder.createInstance(apiKey, instanceName)
         val request = RankedBattlesSeasonsRequest.createRequest()
-                .region(Region.EU).addSeason(15)
+            .region(Region.EU).addSeason(15)
         val result = request.fetch()
         println(result)
         assertEquals(Status.OK, result.status)
@@ -28,7 +30,7 @@ class SeasonsTest {
     fun testSeasonsPlayerStats() {
         ApiBuilder.createInstance(apiKey, instanceName)
         val request = RankedBattlesPlayerStatisticsRequest
-                .createRequest().region(Region.EU).addSeason(15).addAccountId(accountId)
+            .createRequest().region(Region.EU).addSeason(15).addAccountId(accountId)
         val result = request.fetch()
         println(result)
         assertEquals(Status.OK, result.status)
@@ -38,9 +40,9 @@ class SeasonsTest {
     fun testSeasonsShipStats() {
         ApiBuilder.createInstance(apiKey, instanceName)
         val request = createRequest()
-                .region(Region.EU)
-                .addSeason(15)
-                .addAccountId(accountId)
+            .region(Region.EU)
+            .addSeason(15)
+            .addAccountId(accountId)
         val result = request.fetch()
         println(result)
         assertEquals(Status.OK, result.status)
