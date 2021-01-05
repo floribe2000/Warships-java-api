@@ -1,12 +1,13 @@
 import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullRequest
-import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getApiKeyAsParam
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getInstanceSize
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.shutdown
+import de.floribe2000.warships_java.direct.api.fetchAsyncWithGson
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.general.ServerStatusRequest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertTimeout
+import utilities.ITestClass
 import java.io.FileInputStream
 import java.time.Duration
 import java.util.*
@@ -14,14 +15,14 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
-class GeneralTest {
-    private val apiKey: String
-    private val instanceName = "TEST"
+class GeneralTest : ITestClass {
+    override val apiKey: String
+    override val instanceName = "TEST"
 
     @Test
     fun testRateLimiter() {
         val accountId = 537376379
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val instanceSize = getInstanceSize()
         val request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId.toLong())
         val service = Executors.newCachedThreadPool()
@@ -53,22 +54,22 @@ class GeneralTest {
 
     @Test
     fun testShutdown() {
-        ApiBuilder.createInstance(apiKey)
+        setupApi()
         assert(getApiKeyAsParam(null) != null) { "Api key is null" }
         shutdown()
         assert(getInstanceSize() == 0) { "Instance list not cleared after shutdown" }
-        ApiBuilder.createInstance(apiKey, "NEWAPP")
+        setupApi(instanceName = "NEWAPP")
         assert(getApiKeyAsParam(null) != null) { "Api key is null" }
         shutdown()
     }
 
     @Test
     fun testServerStatus() {
-        ApiBuilder.createInstanceIfNoneExists(apiKey)
+        setupApi()
         val request = ServerStatusRequest.createRequest().region(Region.EU)
         val response = request.fetch()
         assert(response.status.get()) {
-            "Invalid response state:\n ${response.error.toString()}".trimIndent()
+            "Invalid response state:\n ${response.error.toString()}"
         }
     }
 

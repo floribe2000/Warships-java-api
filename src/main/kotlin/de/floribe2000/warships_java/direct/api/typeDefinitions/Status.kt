@@ -1,6 +1,8 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * An enum to indicate the response status of an api request.
@@ -8,6 +10,7 @@ import com.google.gson.annotations.SerializedName
  * @author floribe2000
  * @since 0.2.9
  */
+@Serializable
 enum class Status(
         /**
          * The boolean value associated with the status
@@ -18,12 +21,14 @@ enum class Status(
      * Indicates a successful api request. The corresponding boolean value is true.
      */
     @SerializedName("ok")
+    @SerialName("ok")
     OK(true),
 
     /**
      * Indicates a failed api request. The corresponding boolean value is false.
      */
     @SerializedName("error")
+    @SerialName("error")
     ERROR(false);
 
     /**

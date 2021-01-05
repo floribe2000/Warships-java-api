@@ -20,8 +20,8 @@ enum class Region(
         /**
          * The end of the id range of the region.
          */
-        val end: Long) {
-
+        val end: Long,
+) {
     RU("https://api.worldofwarships.ru", "ru", 1, 499999999),
     EU("https://api.worldofwarships.eu", "eu", 500000000, 999999999),
     NA("https://api.worldofwarships.com", "com", 1000000000, 1999999999),

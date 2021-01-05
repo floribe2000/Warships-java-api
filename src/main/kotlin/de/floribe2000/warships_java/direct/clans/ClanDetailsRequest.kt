@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.clans
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -117,7 +118,7 @@ class ClanDetailsRequest private constructor() : AbstractRequest<ClanDetailsRequ
      *
      */
     override fun fetch(url: String): ClanDetails {
-        return connect(url, ClanDetails::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun buildUrl(): String {
@@ -140,10 +141,6 @@ class ClanDetailsRequest private constructor() : AbstractRequest<ClanDetailsRequ
          * If selected includes a list of all clan members with their [ClanRole], join date and account id.
          */
         MEMBERS("members");
-
-        override fun retrieveKey(): String {
-            return key
-        }
     }
 
     companion object {

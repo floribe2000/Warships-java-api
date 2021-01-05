@@ -8,6 +8,7 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier
 /**
  * A reduced view of a [ShipEntry][de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry].
  */
+@Suppress("UNUSED")
 class ShipEntryReduced(fullDetails: Warships.ShipEntry) {
 
     val shipId: Long = fullDetails.shipId

@@ -48,7 +48,7 @@ interface IRequest<R : Any> {
         val builder = StringBuilder()
         if (fields.isNotEmpty()) {
             builder.append(type)
-            builder.append(fields.joinToString(separator = ",") { entry -> entry.retrieveKey() })
+            builder.append(fields.joinToString(separator = ",") { entry -> entry.key })
         }
         return builder.toString()
     }

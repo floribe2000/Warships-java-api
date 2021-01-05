@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.api.stats
 
+import kotlinx.serialization.Serializable
 import java.util.*
 
 /**
@@ -7,6 +8,14 @@ import java.util.*
  *
  * @author SirLefti
  */
-class OperationStatsContainer : BaseStatsContainer() {
-    val wins_by_tasks: Map<Int, Int> = HashMap()
-}
+@Serializable
+class OperationStatsContainer(
+    override val wins: Int,
+    override val losses: Int,
+    override val battles: Int,
+    override val survived_wins: Int,
+    override val survived_battles: Int,
+    override val xp: Long,
+
+    val wins_by_tasks: Map<Int, Int> = mapOf(),
+) : BaseStatsContainer

@@ -5,13 +5,13 @@ package de.floribe2000.warships_java.direct.api.stats
  *
  * @author SirLefti
  */
-abstract class GeneralStatsContainer : BaseStatsContainer() {
-    open val draws = 0
-    open val max_xp = 0
-    open val max_damage_dealt = 0
-    open val damage_dealt: Long = 0
-    open val max_planes_killed = 0
-    open val planes_killed = 0
-    open val max_frags_battle = 0
-    open val frags = 0
+interface GeneralStatsContainer : BaseStatsContainer {
+    val draws: Int
+    val max_xp: Int
+    val max_damage_dealt: Int
+    val damage_dealt: Long
+    val max_planes_killed: Int
+    val planes_killed: Int
+    val max_frags_battle: Int
+    val frags: Int
 }

@@ -34,7 +34,7 @@ object EncyclopediaRequestService : AbstractRequestService() {
         check(result.status.get()) { "Invalid result state!" }
 
         var page = 1
-        while (page < result.meta?.page_total ?: -1) {
+        while (page < result.meta.page_total) {
             page++
             val tmp = request.pageNo(page).fetch()
             if (tmp.status.get()) {

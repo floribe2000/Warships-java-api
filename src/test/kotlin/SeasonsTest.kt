@@ -18,7 +18,7 @@ class SeasonsTest {
 
     @Test
     fun testSeasonsRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
         val request = RankedBattlesSeasonsRequest.createRequest()
             .region(Region.EU).addSeason(15)
         val result = request.fetch()
@@ -28,7 +28,7 @@ class SeasonsTest {
 
     @Test
     fun testSeasonsPlayerStats() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
         val request = RankedBattlesPlayerStatisticsRequest
             .createRequest().region(Region.EU).addSeason(15).addAccountId(accountId)
         val result = request.fetch()
@@ -38,7 +38,7 @@ class SeasonsTest {
 
     @Test
     fun testSeasonsShipStats() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
         val request = createRequest()
             .region(Region.EU)
             .addSeason(15)

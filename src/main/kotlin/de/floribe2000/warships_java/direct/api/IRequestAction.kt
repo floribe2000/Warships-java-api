@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import de.floribe2000.warships_java.direct.api.exceptions.ApiException
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.UnknownHostException
@@ -26,6 +25,7 @@ interface IRequestAction<T : IApiResponse> {
      * @return am instance of type [T]
      */
     fun fetch(): T
+
     fun buildUrl(): String
 
     /**
@@ -49,7 +49,7 @@ interface IRequestAction<T : IApiResponse> {
      * @param limiter the [SimpleRateLimiter] instance used to manage api access
      * @return an object of the given type containing the received data.
      */
-    fun connect(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T {
+    fun connectWithGson(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T {
         var result: T? = null
         var attempts = 0
         var lastException: Exception? = null
@@ -69,12 +69,10 @@ interface IRequestAction<T : IApiResponse> {
                 }
             } catch (ue: UnknownHostException) {
                 LOG.error("An error occurred", ue)
-                ue.printStackTrace()
                 result = null
                 lastException = ue
             } catch (ie: IllegalStateException) {
                 LOG.warn(ie.message)
-                ie.printStackTrace()
                 lastException = ie
                 attempts += 5
             } catch (ea: ApiException) {
@@ -83,7 +81,6 @@ interface IRequestAction<T : IApiResponse> {
                 result = null
             } catch (e: Exception) {
                 lastException = e
-                e.printStackTrace()
                 LOG.error("An error occurred", e)
                 break
             }
@@ -118,7 +115,16 @@ interface IRequestAction<T : IApiResponse> {
     }
 }
 
-inline fun <reified T : IApiResponse> IRequestAction<T>.connectKotlinx(url: String, limiter: SimpleRateLimiter): T {
+/**
+ * Creates a url connection to the provided api and returns a object containing the received data.
+ *
+ * This method uses rate limiting but does not override the rate limit settings defined by [ApiBuilder.createInstance]!
+ *
+ * @param url    the url for the request
+ * @param limiter the [SimpleRateLimiter] instance used to manage api access
+ * @return an object of the given type containing the received data.
+ */
+inline fun <reified T : IApiResponse> IRequestAction<T>.connect(url: String, limiter: SimpleRateLimiter): T {
     var result: T? = null
     var attempts = 0
     var lastException: Exception? = null
@@ -128,7 +134,7 @@ inline fun <reified T : IApiResponse> IRequestAction<T>.connectKotlinx(url: Stri
         //SimpleRateLimiter.waitForPermit(limiter);
         try {
             limiter.connectToApi(url).bufferedReader().use { reader ->
-                result = Json.decodeFromString(reader.readText())
+                result = limiter.jsonFormatter.decodeFromString(reader.readText())
                 val response: IApiResponse? = result
                 if (response?.error?.code == 407) {
                     throw IllegalStateException(response.error?.message ?: "Cannot read error message")

@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -149,24 +150,7 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
      *
      */
     override fun fetch(url: String): PlayersPersonalDataFull {
-//        if (region == null || accountIds.size() == 0) {
-//            throw new IllegalArgumentException("The region has to be set and accountIds must not be empty");
-//        }
-//        String path = "/wows/account/info/";
-//        String accounts = accountIds.stream().sequential().map(Object::toString).collect(Collectors.joining(","));
-//        PlayersPersonalDataFull result;
-//        String url = baseUrl(region, path, language, getInstanceName()) + FieldType.ACCOUNT_ID + accounts + buildFieldString(FieldType.EXTRA, extraFields);
-//        SimpleRateLimiter.waitForPermit();
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-//            result = GSON.fromJson(reader, PlayersPersonalDataFull.class);
-//        } catch (IOException e) {
-//            LOG.error("An IOException occurred", e);
-//            result = new PlayersPersonalDataFull();
-//        } catch (Exception e2) {
-//            LOG.error("Unexpected exception detected.", e2);
-//            throw new IllegalStateException("Error while processing request");
-//        }
-        return connect(url, PlayersPersonalDataFull::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun apiBuilder(instanceName: String): PlayersPersonalDataFullRequest {
@@ -258,15 +242,6 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
          * Only division games in the operations mode with difficulty level hard.
          */
         OPER_DIV_HARD("statistics.oper_div_hard");
-
-        /**
-         * A method to get the key of an entry.
-         *
-         * @return the key associated with the entry
-         */
-        override fun retrieveKey(): String {
-            return key
-        }
     }
 
     companion object {

@@ -26,7 +26,7 @@ class StatsContainerTest {
         baseWithShipId.add(extendedWeaponStats)
         val extended: MutableCollection<ExtendedWeaponStats> = HashSet()
         extended.add(shipExtendedWeaponStats)
-        extended.add(extendedWeaponStats)
+//        extended.add(extendedWeaponStats)
         val full: MutableCollection<ExtendedWeaponStatsWithShip> = HashSet()
         full.add(extendedWeaponStats)
     }

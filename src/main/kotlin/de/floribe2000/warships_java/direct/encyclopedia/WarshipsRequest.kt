@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.encyclopedia
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import org.slf4j.LoggerFactory
 
@@ -15,11 +16,12 @@ import org.slf4j.LoggerFactory
  *
  * @author floribe2000
  */
+@Suppress("UNUSED")
 class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val LOG = LoggerFactory.getLogger(javaClass.simpleName)
+    private val log = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The server region for this request
@@ -256,7 +258,7 @@ class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     override fun fetch(url: String): Warships {
-        val response = connect(url, Warships::class.java, limiter)
+        val response = connect(url, limiter)
 
         if (shipTiers.isNotEmpty()) {
             val tmpMap = response.data?.filter { entry -> entry.value.tier in shipTiers } ?: mutableMapOf()
@@ -296,10 +298,18 @@ class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
     override fun buildUrl(): String {
         require(this::selectedRegion.isInitialized) { "Region must not be null." }
         val path = "/wows/encyclopedia/ships/"
-        val nations = if (nations.isEmpty()) "" else FieldType.NATION.toString() + nations.joinToString(",") { obj: Nation -> obj.toString() }
-        val types = if (shipTypes.isEmpty()) "" else FieldType.SHIP_CLASS.toString() + shipTypes.joinToString(",") { obj: ShipType -> obj.toString() }
-        val ships = if (shipIds.isEmpty()) "" else FieldType.SHIP_ID.toString() + shipIds.joinToString(",") { o: Long -> o.toString() }
-        return baseUrl(selectedRegion, path, language, instanceName) + ships + nations + types + FieldType.PAGE + pageNo + FieldType.LIMIT + limit
+        val nations =
+            if (nations.isEmpty()) "" else FieldType.NATION.toString() + nations.joinToString(",") { obj: Nation -> obj.toString() }
+        val types =
+            if (shipTypes.isEmpty()) "" else FieldType.SHIP_CLASS.toString() + shipTypes.joinToString(",") { obj: ShipType -> obj.toString() }
+        val ships =
+            if (shipIds.isEmpty()) "" else FieldType.SHIP_ID.toString() + shipIds.joinToString(",") { o: Long -> o.toString() }
+        return baseUrl(
+            selectedRegion,
+            path,
+            language,
+            instanceName
+        ) + ships + nations + types + FieldType.PAGE + pageNo + FieldType.LIMIT + limit
     }
 
     companion object {

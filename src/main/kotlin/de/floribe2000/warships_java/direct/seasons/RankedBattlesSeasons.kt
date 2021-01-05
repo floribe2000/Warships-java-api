@@ -16,7 +16,7 @@ class RankedBattlesSeasons : IApiResponse {
     /**
      * Response status
      */
-    val status: Status = Status.ERROR
+    override val status: Status = Status.ERROR
 
     /**
      * Details about errors in case of a failed request.
@@ -28,7 +28,7 @@ class RankedBattlesSeasons : IApiResponse {
     /**
      * Response meta data
      */
-    val meta: Meta? = null
+    override val meta: Meta = Meta()
 
     /**
      * Map containing request objects

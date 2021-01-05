@@ -29,7 +29,7 @@ abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IReques
      *
      * @return the RateLimiter instance for this request
      */
-    protected val limiter: SimpleRateLimiter
+    val limiter: SimpleRateLimiter
         get() = instance?.rateLimiter ?: ApiBuilder.getInstanceWithName(null).rateLimiter
 
     /**

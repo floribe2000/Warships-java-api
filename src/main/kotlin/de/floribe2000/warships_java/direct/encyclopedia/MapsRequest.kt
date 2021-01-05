@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.encyclopedia
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 
@@ -39,7 +40,7 @@ class MapsRequest : AbstractRequest<MapsRequest, Maps>() {
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     override fun fetch(url: String): Maps {
-        return connect(url, Maps::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun buildUrl(): String {

@@ -6,35 +6,41 @@ import de.floribe2000.warships_java.direct.api.IApiResponse
 import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
+import kotlinx.serialization.SerialName
 
-class Clans : IApiResponse {
-    val status = Status.ERROR
+data class Clans(
+    override val status: Status = Status.ERROR,
 
     /**
      * Details about errors in case of a failed request.
      *
      * Field is null if no errors occurred during the request!
      */
-    override val error: ErrorContainer? = null
+    override val error: ErrorContainer? = null,
 
-    val meta: Meta? = null
+    override val meta: Meta = Meta(),
 
-    val data: List<ClanDetails>? = null
+    val data: List<ClanDetails> = listOf(),
+) : IApiResponse {
 
-    class ClanDetails {
+
+    data class ClanDetails(
         @SerializedName("members_count")
-        val membersCount = 0
+        @SerialName("members_count")
+        val membersCount: Int,
 
         @SerializedName("created_at")
-        val createdAt: Long = 0
+        @SerialName("created_at")
+        val createdAt: Long,
 
         @SerializedName("clan_id")
-        val clanId: Long = 0
+        @SerialName("clan_id")
+        val clanId: Long,
 
-        val tag: String? = null
+        val tag: String,
 
-        val name: String? = null
-    }
+        val name: String,
+    )
 
     override fun toString(): String {
         return GSON.toJson(this)

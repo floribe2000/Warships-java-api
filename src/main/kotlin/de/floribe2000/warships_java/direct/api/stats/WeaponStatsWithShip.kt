@@ -5,8 +5,6 @@ package de.floribe2000.warships_java.direct.api.stats
  *
  * @author SirLefti
  */
-interface WeaponStatsWithShip {
-    val frags: Int
-    val max_frags_battle: Int
-    val max_frags_ship_id: Long
+interface WeaponStatsWithShip : WeaponStats {
+    val max_frags_ship_id: Long?
 }

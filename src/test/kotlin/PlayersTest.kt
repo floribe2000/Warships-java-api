@@ -4,18 +4,19 @@ import de.floribe2000.warships_java.direct.account.PlayersRequest
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
 import org.junit.jupiter.api.Test
+import utilities.ITestClass
 import java.lang.InterruptedException
 import java.util.Properties
 import java.io.FileInputStream
 
-class PlayersTest {
-    private val apiKey: String
-    private val instanceName = "TEST"
+class PlayersTest : ITestClass {
+    override val apiKey: String
+    override val instanceName = "TEST"
     private val invalidInstanceName = "TEST-INVALID"
 
     @Test
     fun testPlayersRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val request = PlayersRequest.createRequest().region(Region.EU).searchText("floribe")
         val result = request.fetch()
         assert(result.status.get()) { result }
@@ -23,7 +24,7 @@ class PlayersTest {
 
     @Test
     fun testFailedPlayersRequest() {
-        ApiBuilder.createInstance("apiKey", invalidInstanceName)
+        setupApi("apiKey", instanceName = invalidInstanceName)
         val request = PlayersRequest.createRequest().apiBuilder(invalidInstanceName).region(Region.EU).searchText("florible")
         val result = request.fetch()
         println(result)
@@ -34,7 +35,7 @@ class PlayersTest {
     @Test
     fun testPlayerPersonalDataRequest() {
         //TODO
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val result = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(537376379)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.PVE)
                 .addExtraField(PlayersPersonalDataFullRequest.ExtraField.RANK_SOLO).fetch()
@@ -43,14 +44,14 @@ class PlayersTest {
 
     @Test
     fun testPlayersAchievements() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val result = PlayersAchievmentsRequest.createRequest().region(Region.EU).addAccountId(537376379).fetch()
         assert(result.status.get()) { result }
     }
 
     @Test
     fun testPlayersStatisticsByDate() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val result1 = PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200318").fetch()
         assert(result1.status.get()) { result1 }
         val result = PlayerStatisticsByDateRequest.createRequest().region(Region.EU).accountId(537376379).addDate("20200228").addDate("20200118")
@@ -60,14 +61,14 @@ class PlayersTest {
 
     @Test
     fun testPlayersWarshipsStatistics() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val result = StatisticsRequest.createRequest().region(Region.EU).accountId(537376379).addExtraField(StatisticsRequest.ExtraField.PVE).fetch()
         assert(result.status.get()) { result }
     }
 
     @Test
     fun testAsyncPlayersRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val name = "floribe2000"
         PlayersRequest.createRequest().region(Region.EU).searchText(name).fetchAsync { result: Players ->
             assert(result.status.get()) { result }
@@ -82,7 +83,7 @@ class PlayersTest {
 
     @Test
     fun testAsyncPlayersRequestModified() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
         val name = "floribe2000"
         val name2 = "MrDios"
         val request = PlayersRequest.createRequest().region(Region.EU).searchText(name)

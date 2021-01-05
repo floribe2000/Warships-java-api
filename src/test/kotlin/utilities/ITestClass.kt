@@ -1,0 +1,24 @@
+package utilities
+
+import de.floribe2000.warships_java.direct.api.ApiBuilder
+
+/**
+ * An interface used to define constraints for all test classes.
+ * Also provides utilities to setup the test api builder instance.
+ *
+ * @author floribe2000
+ */
+interface ITestClass {
+
+    val apiKey: String
+
+    val instanceName: String
+
+    fun setupApi(apiKey: String = this.apiKey, instanceName: String = this.instanceName) {
+        ApiBuilder.createInstance(apiKey, instanceName = instanceName, ignoreUnknownKeys = allowUnknownKeys)
+    }
+
+    companion object {
+        const val allowUnknownKeys: Boolean = true
+    }
+}

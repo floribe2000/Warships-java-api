@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -100,7 +101,7 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
      *
      */
     override fun fetch(url: String): PlayersAchievements {
-        return connect(url, PlayersAchievements::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun apiBuilder(instanceName: String): PlayersAchievmentsRequest {

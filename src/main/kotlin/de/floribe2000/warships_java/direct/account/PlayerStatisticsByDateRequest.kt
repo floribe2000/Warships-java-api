@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -53,7 +54,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
         require(this::selectedRegion.isInitialized && accountId > 0) { "Region must not be null and accountId has to be defined." }
         val path = "/wows/account/statsbydate/"
         val dates = dates.joinToString { "," }
-        val extra = if (extra != ExtraField.NONE) FieldType.EXTRA.toString() + extra.retrieveKey() else ""
+        val extra = if (extra != ExtraField.NONE) FieldType.EXTRA.toString() + extra.key else ""
         return baseUrl(selectedRegion, path, language, instanceName) + FieldType.ACCOUNT_ID + accountId + FieldType.DATES + dates + extra
     }
 
@@ -166,7 +167,7 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
      *
      */
     override fun fetch(url: String): PlayersStatisticsByDate {
-        return connect(url, PlayersStatisticsByDate::class.java, limiter)
+        return connect(url, limiter)
     }
 
     /**
@@ -180,10 +181,6 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
          */
         PVE("pve"),
         NONE("none");
-
-        override fun retrieveKey(): String {
-            return key
-        }
     }
 
     companion object {

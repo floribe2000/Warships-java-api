@@ -6,81 +6,104 @@ import de.floribe2000.warships_java.direct.api.IApiResponse
 import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-class ClanDetails : IApiResponse {
-    val status = Status.ERROR
+@Serializable
+data class ClanDetails(
+    override val status: Status = Status.ERROR,
 
     /**
      * Details about errors in case of a failed request.
      *
      * Field is null if no errors occurred during the request!
      */
-    override val error: ErrorContainer? = null
+    override val error: ErrorContainer? = null,
 
-    val meta: Meta? = null
+    override val meta: Meta = Meta(),
 
-    val data: Map<String, ClanEntry>? = null
+    val data: Map<String, ClanEntry> = mapOf(),
 
-    class ClanEntry {
+    ) : IApiResponse {
+
+    @Serializable
+    data class ClanEntry(
         @SerializedName("members_count")
-        val membersCount = 0
+        @SerialName("members_count")
+        val membersCount: Int,
 
-        val name: String? = null
+        val name: String,
 
         @SerializedName("creator_name")
-        val creatorName: String? = null
+        @SerialName("creator_name")
+        val creatorName: String? = null,
 
         @SerializedName("created_at")
-        val createdAt: Long = 0
+        @SerialName("created_at")
+        val createdAt: Long = 0,
 
-        val tag: String? = null
+        val tag: String,
 
         @SerializedName("updated_at")
-        val updatedAt: Long = 0
+        @SerialName("updated_at")
+        val updatedAt: Long = 0,
 
         @SerializedName("leader_name")
-        val leaderName: String? = null
+        @SerialName("leader_name")
+        val leaderName: String? = null,
 
         @SerializedName("members_ids")
-        val membersIds: List<Long>? = null
+        @SerialName("members_ids")
+        val membersIds: List<Long> = listOf(),
 
         @SerializedName("creator_id")
-        val creatorId: Long = 0
+        @SerialName("creator_id")
+        val creatorId: Long = 0,
 
         @SerializedName("clan_id")
-        val clanId: Long = 0
+        @SerialName("clan_id")
+        val clanId: Long = 0,
 
-        val members: Map<String, ClanMember> = HashMap()
+        val members: Map<String, ClanMember> = mapOf(),
 
         @SerializedName("is_clan_disbanded")
-        val isClanDisbanded: Boolean = false
+        @SerialName("is_clan_disbanded")
+        val isClanDisbanded: Boolean = false,
 
         @SerializedName("old_name")
-        val oldName: String? = null
+        @SerialName("old_name")
+        val oldName: String? = null,
 
         @SerializedName("renamed_at")
-        val renamedAt: Long = 0
+        @SerialName("renamed_at")
+        val renamedAt: Long = 0,
 
         @SerializedName("old_tag")
-        val oldTag: String? = null
+        @SerialName("old_tag")
+        val oldTag: String? = null,
 
         @SerializedName("leader_id")
-        val leaderId: Long = 0
+        @SerialName("leader_id")
+        val leaderId: Long = 0,
 
-        val description: String? = null
-
-        class ClanMember {
-            val role: ClanRole = ClanRole.LINE_OFFICER
+        val description: String? = null,
+    ) {
+        @Serializable
+        data class ClanMember(
+            val role: ClanRole = ClanRole.LINE_OFFICER,
 
             @SerializedName("joined_at")
-            val joinedAt: Long = 0
+            @SerialName("joined_at")
+            val joinedAt: Long = 0,
 
             @SerializedName("account_id")
-            val accountId: Long = 0
+            @SerialName("account_id")
+            val accountId: Long = 0,
 
             @SerializedName("account_name")
-            val accountName: String = ""
-        }
+            @SerialName("account_name")
+            val accountName: String = "",
+        )
     }
 
     override fun toString(): String {

@@ -6,11 +6,11 @@ package de.floribe2000.warships_java.direct.api.stats
  *
  * @author SirLefti
  */
-abstract class BaseStatsContainer {
-    open val wins: Int = 0
-    open val losses: Int = 0
-    open val battles: Int = 0
-    open val survived_wins: Int = 0
-    open val survived_battles: Int = 0
-    open val xp: Long = 0
+interface BaseStatsContainer {
+    val wins: Int
+    val losses: Int
+    val battles: Int
+    val survived_wins: Int
+    val survived_battles: Int
+    val xp: Long
 }

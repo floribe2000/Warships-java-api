@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.encyclopedia
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ConsumableType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -13,6 +14,7 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
  * @author floribe2000
  * @since 0.2.12
  */
+@Suppress("UNUSED")
 class ConsumablesRequest private constructor() : AbstractRequest<ConsumablesRequest, Consumables>() {
     /**
      * The server region for this request
@@ -68,7 +70,7 @@ class ConsumablesRequest private constructor() : AbstractRequest<ConsumablesRequ
     /**
      * Defines the page of the request.
      *
-     * @param page_no the page of the request, has to be 1 or more
+     * @param pageNo the page of the request, has to be 1 or more
      * @return the instance of this request
      * @throws IllegalArgumentException If the provided page number is less than 1.
      */
@@ -128,7 +130,7 @@ class ConsumablesRequest private constructor() : AbstractRequest<ConsumablesRequ
      * @throws IllegalArgumentException If this method is called and region is null.
      */
     override fun fetch(url: String): Consumables {
-        return connect(url, Consumables::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun buildUrl(): String {

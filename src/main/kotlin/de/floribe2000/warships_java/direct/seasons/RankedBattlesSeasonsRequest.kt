@@ -7,6 +7,7 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import org.slf4j.LoggerFactory
 import java.util.*
 
+@Deprecated("Ranked Battle statistics have been changed by wargaming.")
 class RankedBattlesSeasonsRequest : AbstractRequest<RankedBattlesSeasonsRequest, RankedBattlesSeasons>() {
     /**
      * A Logger instance used to log events of this class
@@ -61,7 +62,7 @@ class RankedBattlesSeasonsRequest : AbstractRequest<RankedBattlesSeasonsRequest,
      *
      */
     override fun fetch(url: String): RankedBattlesSeasons {
-        return connect(url, RankedBattlesSeasons::class.java, limiter)
+        return connectWithGson(url, RankedBattlesSeasons::class.java, limiter)
     }
 
     override fun apiBuilder(instanceName: String): RankedBattlesSeasonsRequest {

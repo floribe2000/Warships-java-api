@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.warships
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import de.floribe2000.warships_java.direct.encyclopedia.Warships
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest
@@ -14,12 +15,13 @@ import org.slf4j.LoggerFactory
  *
  * @author floribe2000, SirLefti
  */
+@Suppress("UNUSED")
 //TODO allow use of all parameters
 class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val LOG = LoggerFactory.getLogger(javaClass.simpleName)
+    private val log = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The server region for this request
@@ -444,7 +446,7 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
      *
      * Does not change existing values!
      *
-     * @param types the colleection of [types][ShipType] to add
+     * @param types the collection of [types][ShipType] to add
      * @return the instance of this request
      */
     fun addShipTypes(types: Collection<ShipType>): StatisticsRequest {
@@ -731,7 +733,7 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
             response = request.pageNo(pageNo).fetch()
             ships.addAll(response.data?.values?.map { shipEntry -> shipEntry.shipId } ?: listOf())
             pageNo++
-        } while (response.meta?.page_total ?: -1 >= pageNo)
+        } while (response.meta.page_total >= pageNo)
         if (baseShipSet.isNotEmpty()) {
             ships.retainAll(baseShipSet)
         }
@@ -751,7 +753,7 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
      *
      */
     override fun fetch(url: String): Statistics {
-        return connect(url, Statistics::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun buildUrl(): String {
@@ -776,10 +778,6 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
         RANK_DIV2("rank_div2"),
         RANK_DIV3("rank_div3"),
         RANK_SOLO("rank_solo");
-
-        override fun retrieveKey(): String {
-            return key
-        }
     }
 
     companion object {

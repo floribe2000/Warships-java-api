@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.encyclopedia
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ModuleIdField
@@ -10,6 +11,7 @@ import java.util.*
 /**
  * A class to create a ShipParameters encyclopedia request
  */
+@Suppress("UNUSED")
 class ShipParametersRequest : AbstractRequest<ShipParametersRequest, ShipParameters>() {
     /**
      * The server region for this request
@@ -99,11 +101,16 @@ class ShipParametersRequest : AbstractRequest<ShipParametersRequest, ShipParamet
         for ((key, value) in additionalParams) {
             stringBuilder.append(key.toString()).append(value)
         }
-        return baseUrl(selectedRegion, path, language, instanceName) + FieldType.SHIP_ID + shipId + stringBuilder.toString()
+        return baseUrl(
+            selectedRegion,
+            path,
+            language,
+            instanceName
+        ) + FieldType.SHIP_ID + shipId + stringBuilder.toString()
     }
 
     override fun fetch(url: String): ShipParameters {
-        return connect(url, ShipParameters::class.java, limiter)
+        return connect(url, limiter)
     }
 
     companion object {

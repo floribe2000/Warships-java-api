@@ -1,27 +1,27 @@
-import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import utilities.ITestClass
 import java.io.FileInputStream
 import java.util.*
 
-class StatisticsTest {
-    private val apiKey: String
-    private val instanceName = "TEST"
+class StatisticsTest : ITestClass {
+    override val apiKey: String
+    override val instanceName = "TEST"
 
     private val wargamingId: Long = 540241530
     private val kii = 3762239184L
 
     @Test
     fun testShipStats() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val request = StatisticsRequest.createRequest()
-                .accountId(wargamingId).region(Region.EU).addShipId(kii)
+            .accountId(wargamingId).region(Region.EU).addShipId(kii)
         val response = request.fetch()
         assertNotNull(response)
         assertEquals(Status.OK, response.status)
-        val ships = response.data?.get(wargamingId)
+        val ships = response.data[wargamingId]
         assertNotNull(ships)
         assertFalse(ships?.isEmpty() ?: false)
         assertEquals(kii, ships?.get(0)?.shipId)
@@ -31,7 +31,7 @@ class StatisticsTest {
 
     @Test
     fun testShipStatsFiltered() {
-        ApiBuilder.createInstance(apiKey, instanceName)
+        setupApi()
         val request = StatisticsRequest.createRequest()
                 .accountId(wargamingId).region(Region.EU)
                 .shipTypes(ShipType.CRUISER)
@@ -42,7 +42,7 @@ class StatisticsTest {
         assertNotNull(response)
         assert(response.status.get()) { response }
         //assertEquals(OK, response.getStatus());
-        val ships = response.data?.get(wargamingId)
+        val ships = response.data[wargamingId]
         assertNotNull(ships)
         assert(ships?.isNotEmpty() ?: false) { ships ?: "Error" }
 

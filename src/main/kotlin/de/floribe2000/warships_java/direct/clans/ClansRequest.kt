@@ -1,6 +1,7 @@
 package de.floribe2000.warships_java.direct.clans
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory
  * A class to create and execute requests to retrieve a list of clans based on their name or tag.
  *
  * Up to 100 clans can be retrieved in one request, if there are more matches you have to execute the request multiple times while increasing the page number.
- * Details about the total amount of hits can be retrieved by analyzing the [Meta] object of the api response
+ * Details about the total amount of hits can be retrieved by analyzing the [Meta][de.floribe2000.warships_java.direct.api.Meta] object of the api response
  * returned by [.fetch].
  *
  * @author floribe2000
@@ -101,7 +102,7 @@ class ClansRequest private constructor() : AbstractRequest<ClansRequest, Clans>(
      *
      */
     override fun fetch(url: String): Clans {
-        return connect(url, Clans::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun buildUrl(): String {

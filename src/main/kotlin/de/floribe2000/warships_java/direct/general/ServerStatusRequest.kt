@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.general
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getApiKeyAsParam
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 
@@ -25,7 +26,7 @@ class ServerStatusRequest : AbstractRequest<ServerStatusRequest, ServerStatus>()
     private var language: Language? = null
 
     override fun fetch(url: String): ServerStatus {
-        return connect(url, ServerStatus::class.java, limiter)
+        return connect(url, limiter)
     }
 
     override fun region(region: Region): ServerStatusRequest {

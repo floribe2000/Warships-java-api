@@ -19,7 +19,7 @@ class UtilityTest {
         assert(warships.status.get()) { "Invalid response status" }
         val fullList = requestFullWarshipsList(Region.EU)
         assert(fullList.status.get()) { "Invalid response status from combined list" }
-        assert(fullList.data!!.size == warships.meta!!.total) { "Size of retrieved list does not match expected size. Expected " + warships.meta!!.total + ", got " + fullList.data!!.size }
+        assert(fullList.data!!.size == warships.meta.total) { "Size of retrieved list does not match expected size. Expected " + warships.meta.total + ", got " + fullList.data!!.size }
     }
 
     @Test
@@ -29,9 +29,9 @@ class UtilityTest {
         assert(warships.status.get()) { "Invalid response status" }
         val germanList = requestFullWarshipsList(Region.EU, Language.ENGLISH)
         assert(germanList.status.get()) { germanList }
-        assert(germanList.data!!.size == warships.meta!!.total) {
+        assert(germanList.data!!.size == warships.meta.total) {
             """
-     Size of retrieved list does not match expected size. Expected ${warships.meta!!.total}, got ${germanList.data!!.size}
+     Size of retrieved list does not match expected size. Expected ${warships.meta.total}, got ${germanList.data!!.size}
      Json Response:
      $germanList
      """.trimIndent()
@@ -44,15 +44,17 @@ class UtilityTest {
         val playerName = "floribe2000"
         val player = requestPlayersPersonalData(playerName, Region.EU)
         assert(player.status.get()) { "Invalid response status" }
-        assert(player.data!!.isNotEmpty()) { "Empty response" }
-        val playerId = player.data!!.keys.iterator().next()
-        assert((player.data!![playerId]
-                ?: error("")).nickname == playerName) { "Result does not match search name. Expected " + playerName + ", got " + player.data!![playerId]!!.nickname }
+        assert(player.data.isNotEmpty()) { "Empty response" }
+        val playerId = player.data.keys.first()
+        assert(
+            (player.data[playerId]
+                ?: error("")).nickname == playerName
+        ) { "Result does not match search name. Expected " + playerName + ", got " + player.data[playerId]!!.nickname }
     }
 
     init {
-        val PROPERTIES = Properties()
-        PROPERTIES.load(FileInputStream("Warships.properties"))
-        apiKey = PROPERTIES.getProperty("APIKEY")
+        val properties = Properties()
+        properties.load(FileInputStream("Warships.properties"))
+        apiKey = properties.getProperty("APIKEY")
     }
 }

@@ -15,19 +15,21 @@ import kotlin.collections.HashMap
  *
  * @author floribe2000
  */
-class ApiBuilder(
-        /**
-         * The rate limiter instance linked to this api builder instance
-         */
-        val rateLimiter: SimpleRateLimiter,
-        /**
-         * The unique identifier of this instance
-         */
-        val instanceName: String,
-        /**
-         * The api key that is used to connect to the wargaming api
-         */
-        private val apiKey: String) {
+@Suppress("UNUSED")
+class ApiBuilder private constructor(
+    /**
+     * The rate limiter instance linked to this api builder instance
+     */
+    val rateLimiter: SimpleRateLimiter,
+    /**
+     * The unique identifier of this instance
+     */
+    val instanceName: String,
+    /**
+     * The api key that is used to connect to the wargaming api
+     */
+    private val apiKey: String,
+) {
 
     /**
      * A method to get the api key of this instance as url parameter that can be used as first parameter of a request url
@@ -74,79 +76,30 @@ class ApiBuilder(
         /**
          * Creates an ApiBuilder instance to be used for api requests.
          *
-         * @param apiKey           the api key to use when connecting to the wargaming api
-         * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
-         */
-        fun createInstance(apiKey: String, apiId: String) {
-            createInstance(apiKey, true, apiId)
-        }
-
-        /**
-         * Creates an ApiBuilder instance to be used for api requests.
-         *
-         * @param apiKey           the api key to use when connecting to the wargaming api
-         * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
-         * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
+         * @param apiKey           The api key to use when connecting to the wargaming api.
+         * @param rateLimitEnabled A boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
+         * @param instanceName     The name of the instance to create.
+         * @param type             The [ApiType][de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType] of the new instance (client or server).
+         * @param ignoreUnknownKeys Specifies whether or not unknown keys from the json response should be ignored.
+         * @throws IllegalStateException If there is already an instance defined and ignoreError is set to false.
          */
         @JvmOverloads
-        fun createInstance(apiKey: String, rateLimitEnabled: Boolean = true) {
-            val apiId = "API_" + lastNum++
-            createInstance(apiKey, rateLimitEnabled, apiId)
-        }
-
-        /**
-         * Creates an ApiBuilder instance to be used for api requests.
-         *
-         * @param apiKey the api key to use when connecting to the wargaming api
-         * @param type   the [ApiType][de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType] of the new instance (client or server)
-         * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
-         */
-        fun createInstance(apiKey: String, type: SimpleRateLimiter.ApiType) {
-            val apiId = "API_" + lastNum++
-            createInstance(apiKey, type, apiId)
-        }
-
-        /**
-         * Creates an ApiBuilder instance to be used for api requests.
-         *
-         * @param apiKey       the api key to use when connecting to the wargaming api
-         * @param type         the [ApiType][de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType] of the new instance (client or server)
-         * @param instanceName the name of the instance to create
-         * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
-         */
-        fun createInstance(apiKey: String, type: SimpleRateLimiter.ApiType, instanceName: String) {
-            createInstance(apiKey, true, instanceName, type)
-        }
-
-        /**
-         * Creates an ApiBuilder instance to be used for api requests.
-         *
-         * @param apiKey           the api key to use when connecting to the wargaming api
-         * @param rateLimitEnabled a boolean to determine if rate limiting should be enabled. It is recommended to set this to true!
-         * @param instanceName     the name of the instance to create
-         * @param type             the [ApiType][de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType] of the new instance (client or server)
-         * @throws IllegalStateException if there is already an instance defined and ignoreError is set to false
-         */
-        @JvmOverloads
-        fun createInstance(apiKey: String, rateLimitEnabled: Boolean, instanceName: String, type: SimpleRateLimiter.ApiType = defaultType) {
-            if (instances[instanceName] != null) {
+        fun createInstance(
+            apiKey: String,
+            rateLimitEnabled: Boolean = true,
+            instanceName: String? = null,
+            type: SimpleRateLimiter.ApiType = defaultType,
+            ignoreUnknownKeys: Boolean = true
+        ) {
+            val checkedInstanceName = instanceName ?: "API_" + lastNum++
+            if (instances[checkedInstanceName] != null) {
                 return
             }
-            val instance = ApiBuilder(SimpleRateLimiter(rateLimitEnabled, type), instanceName, apiKey)
-            instances[instanceName] = instance
+            val instance =
+                ApiBuilder(SimpleRateLimiter(rateLimitEnabled, type, ignoreUnknownKeys), checkedInstanceName, apiKey)
+            instances[checkedInstanceName] = instance
             if (primaryInstance == null) {
-                primaryInstance = instanceName
-            }
-        }
-
-        /**
-         * Creates a new ApiBuilder instance if there is no active existing instance.
-         *
-         * @param apiKey the api key to use when connecting to the wargaming api
-         */
-        fun createInstanceIfNoneExists(apiKey: String) {
-            if (instances.isEmpty()) {
-                createInstance(apiKey)
+                primaryInstance = checkedInstanceName
             }
         }
 
@@ -156,9 +109,16 @@ class ApiBuilder(
          * @param apiKey the api key to use when connecting to the wargaming api
          * @param type   the [ApiType][de.floribe2000.warships_java.requests.SimpleRateLimiter.ApiType] of the new instance (client or server)
          */
-        fun createInstanceIfNoneExists(apiKey: String, type: SimpleRateLimiter.ApiType) {
+        @JvmOverloads
+        fun createInstanceIfNoneExists(
+            apiKey: String,
+            rateLimitEnabled: Boolean = true,
+            instanceName: String? = null,
+            type: SimpleRateLimiter.ApiType = defaultType,
+            ignoreUnknownKeys: Boolean = true,
+        ) {
             if (instances.isEmpty()) {
-                createInstance(apiKey, type)
+                createInstance(apiKey, rateLimitEnabled, instanceName, type, ignoreUnknownKeys)
             }
         }
 
@@ -194,7 +154,7 @@ class ApiBuilder(
                 internalInstanceName = primaryInstance
             }
             return instances[internalInstanceName]
-                    ?: throw IllegalArgumentException("There is no instance for this key")
+                ?: throw IllegalArgumentException("There is no instance for this key")
         }
 
         /**

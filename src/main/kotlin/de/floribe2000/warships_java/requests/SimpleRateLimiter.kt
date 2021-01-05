@@ -1,14 +1,14 @@
 package de.floribe2000.warships_java.requests
 
+import kotlinx.coroutines.*
+import kotlinx.serialization.json.Json
 import java.io.Closeable
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.Semaphore
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A rate limiter to avoid request limit errors while accessing the api.
@@ -20,7 +20,16 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * If disabled, you have to handle the rate limit on your own.
  */
-class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable {
+@Suppress("UNUSED")
+class SimpleRateLimiter(enabled: Boolean, private var type: ApiType, private val ignoreUnknownKeys: Boolean) :
+    Closeable, CoroutineScope {
+
+    override val coroutineContext: CoroutineContext = SupervisorJob()
+
+    val jsonFormatter: Json = Json {
+        isLenient = true
+        ignoreUnknownKeys = this@SimpleRateLimiter.ignoreUnknownKeys
+    }
 
     /**
      * A semaphore used to manage the rate limit
@@ -31,11 +40,6 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
      * Indicates whether or not this rate limiter is enabled.
      */
     private val enabled = AtomicBoolean(false)
-
-    /**
-     * An executor service that is used to reset the number of used requests after a second.
-     */
-    private val timer: ScheduledExecutorService
 
     /**
      * Indicates how long a request blocks one slot of the semaphore.
@@ -61,7 +65,11 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
      * Schedules the release task for a previous acquire task.
      */
     private fun scheduleDelete() {
-        timer.schedule({ semaphore.release() }, resetDelay, TimeUnit.MILLISECONDS)
+        launch {
+            delay(resetDelay)
+            semaphore.release()
+        }
+//        timer.schedule({ semaphore.release() }, resetDelay, TimeUnit.MILLISECONDS)
     }
 
     /**
@@ -130,16 +138,11 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
     }
 
     /**
-     * Stops the [timer] and marks this instance as disabled.
+     * Stops all coroutines and marks this instance as disabled.
      */
     override fun close() {
         enabled.set(false)
-        try {
-            semaphore.acquire()
-        } catch (e: Exception) {
-            //
-        }
-        timer.shutdownNow()
+        cancel("Application shutdown requested.")
     }
 
     /**
@@ -176,7 +179,6 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType) : Closeable
 
     init {
         semaphore = Semaphore(type.rateLimit)
-        timer = Executors.newScheduledThreadPool(type.rateLimit)
         this.enabled.set(enabled)
     }
 }

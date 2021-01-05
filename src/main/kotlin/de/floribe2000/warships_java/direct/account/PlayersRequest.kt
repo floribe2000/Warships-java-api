@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.IResponseFields
+import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
@@ -124,7 +125,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      *
      */
     override fun fetch(url: String): Players {
-        return connect(url, Players::class.java, limiter)
+        return connect(url, limiter)
     }
 
     /**
@@ -135,10 +136,6 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     enum class ResponseField(override val key: String) : IResponseFields {
         ACCOUNT_ID("account_id"),
         NICKNAME("nickname");
-
-        override fun retrieveKey(): String {
-            return key
-        }
     }
 
     companion object {

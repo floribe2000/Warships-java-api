@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.direct.api.IApiResponse
 import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
+import kotlinx.serialization.Serializable
 
 /**
  * A representation of the data retrieved from the api.
@@ -13,61 +14,66 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
  *
  * @author floribe2000
  */
-class PlayersStatisticsByDate : IApiResponse {
+@Serializable
+data class PlayersStatisticsByDate(
     /**
      * The api response status
      */
-    val status = Status.ERROR
+    override val status: Status = Status.ERROR,
 
     /**
      * Details about errors in case of a failed request.
      *
      * Field is null if no errors occurred during the request!
      */
-    override val error: ErrorContainer? = null
+    override val error: ErrorContainer? = null,
 
     /**
      * The meta object of this api response
      */
-    val meta: Meta? = null
+    override val meta: Meta = Meta(),
 
     /**
      * A map containing details for the player
      */
-    val data: Map<String, PlayerEntry>? = null
+    val data: Map<String, PlayerEntry> = mapOf(),
+
+    ) : IApiResponse {
 
     /**
      * A representation of a single player entry
      */
-    class PlayerEntry {
+    @Serializable
+    data class PlayerEntry(
         /**
          * A Day object containing stats for the random battles mode
          */
-        val pvp: Map<String, Day>? = null
+        val pvp: Map<String, Day> = mapOf(),
 
         /**
          * A Day object containing stats for the coop battles mode
          */
-        val pve: Map<String, Day>? = null
-
+        val pve: Map<String, Day>? = null,
+    ) {
         /**
          * A representation of the stats for a requested day
          */
-        class Day {
-            val capture_points = 0
-            val account_id: Long = 0
-            val max_xp = 0
-            val wins = 0
-            val planes_killed = 0
-            val battles = 0
-            val damage_dealt = 0
-            val battle_type: String? = null
-            val date: String? = null
-            val xp = 0
-            val frags = 0
-            val survived_battles = 0
-            val dropped_capture_points = 0
-
+        @Serializable
+        data class Day(
+            val capture_points: Int = 0,
+            val account_id: Long = 0,
+            val max_xp: Int = 0,
+            val wins: Int = 0,
+            val planes_killed: Int = 0,
+            val battles: Int = 0,
+            val damage_dealt: Long = 0,
+            val battle_type: String? = null,
+            val date: String? = null,
+            val xp: Long = 0,
+            val frags: Int = 0,
+            val survived_battles: Int = 0,
+            val dropped_capture_points: Int = 0,
+        ) {
             override fun toString(): String {
                 return GSON.toJson(this)
             }

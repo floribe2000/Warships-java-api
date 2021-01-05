@@ -1,11 +1,11 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions
 
 enum class ModuleIdField(
-        /**
-         * The key that is used in urls
-         */
-        private val key: String) {
-
+    /**
+     * The key that is used in urls
+     */
+    private val key: String,
+) {
     ARTILLERY_ID("artillery_id"),
     DIVE_BOMBER_ID("dive_bomber_id"),
     ENGINE_ID("engine_id"),
