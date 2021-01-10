@@ -76,7 +76,7 @@ data class ClanDetails(
 
         @SerializedName("renamed_at")
         @SerialName("renamed_at")
-        val renamedAt: Long = 0,
+        val renamedAt: Long? = null,
 
         @SerializedName("old_tag")
         @SerialName("old_tag")
