@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.floribe2000"
-version = "1.0.0-beta9"
+version = "1.0.0-beta10"
 description = "A java/kotlin library to make it easier to interact with the Wargaming API."
 
 plugins {
@@ -38,7 +38,7 @@ dependencies {
 
 tasks {
     wrapper {
-        gradleVersion = "6.7.1"
+        gradleVersion = "6.8"
     }
 
     withType<KotlinCompile> {

@@ -1,6 +1,9 @@
 package utilities
 
 import de.floribe2000.warships_java.direct.api.ApiBuilder
+import de.floribe2000.warships_java.direct.api.IApiResponse
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 /**
  * An interface used to define constraints for all test classes.
@@ -20,5 +23,14 @@ interface ITestClass {
 
     companion object {
         const val allowUnknownKeys: Boolean = true
+
+        inline fun <reified T : IApiResponse> printApiResponse(apiResponse: T) {
+            val json = Json {
+                prettyPrint = true
+                isLenient = true
+            }
+
+            println(json.encodeToString(apiResponse))
+        }
     }
 }

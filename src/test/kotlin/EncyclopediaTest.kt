@@ -1,4 +1,3 @@
-import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import de.floribe2000.warships_java.direct.encyclopedia.ConsumablesRequest
 import de.floribe2000.warships_java.direct.encyclopedia.ShipParametersRequest
