@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
  * An enum that represents all available tiers in the game.
  */
 @Serializable
-enum class Tier(val asInt: Int) : Comparator<Tier> {
+@Suppress("UNUSED")
+enum class Tier(val intValue: Int) {
     @SerializedName("1")
     @SerialName("1")
     I(1),
@@ -49,9 +50,7 @@ enum class Tier(val asInt: Int) : Comparator<Tier> {
     @SerialName("10")
     X(10);
 
-    override fun compare(o1: Tier, o2: Tier): Int {
-        return o1.asInt.compareTo(o2.asInt)
-    }
+    operator fun rangeTo(other: Tier) = TierRange(this, other)
 
     companion object {
         fun fromInt(tier: Int): Tier {
@@ -59,4 +58,33 @@ enum class Tier(val asInt: Int) : Comparator<Tier> {
             return values()[tier - 1]
         }
     }
+}
+
+/**
+ * Utility class to allow using tiers in ranges.
+ */
+class TierRange(override val start: Tier, override val endInclusive: Tier) : ClosedRange<Tier>, Iterable<Tier> {
+    override fun iterator(): Iterator<Tier> {
+        return TierIterator(start, endInclusive)
+    }
+}
+
+/**
+ * An iterator for the [TierRange] class.
+ */
+class TierIterator(start: Tier, private val endInclusive: Tier) : Iterator<Tier> {
+
+    /**
+     * An integer used as backing field to allow iterating through the tiers.
+     */
+    private var currentValue: Int = start.intValue
+
+    override fun hasNext(): Boolean {
+        return currentValue <= endInclusive.intValue
+    }
+
+    override fun next(): Tier {
+        return Tier.fromInt(currentValue++)
+    }
+
 }
