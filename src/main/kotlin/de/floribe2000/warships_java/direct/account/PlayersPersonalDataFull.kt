@@ -53,7 +53,7 @@ data class PlayersPersonalDataFull(
 
         @SerializedName("leveling_tier")
         @SerialName("leveling_tier")
-        val levelingTier: Int = 0,
+        val levelingTier: Int? = 0,
 
         @SerializedName("created_at")
         @SerialName("created_at")
@@ -68,7 +68,7 @@ data class PlayersPersonalDataFull(
         val logoutAt: Long = 0,
 
         @SerialName("leveling_points")
-        val serviceRecordLevel: Int = 0,
+        val serviceRecordLevel: Int? = 0,
 
         val statistics: Statistics? = null,
 

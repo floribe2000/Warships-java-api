@@ -33,16 +33,6 @@ class PlayersTest : ITestClass {
     }
 
     @Test
-    fun testPlayerPersonalDataRequest() {
-        //TODO
-        setupApi()
-        val result = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(537376379)
-                .addExtraField(PlayersPersonalDataFullRequest.ExtraField.PVE)
-                .addExtraField(PlayersPersonalDataFullRequest.ExtraField.RANK_SOLO).fetch()
-        assert(result.status.get()) { result }
-    }
-
-    @Test
     fun testPlayersAchievements() {
         setupApi()
         val result = PlayersAchievmentsRequest.createRequest().region(Region.EU).addAccountId(537376379).fetch()
