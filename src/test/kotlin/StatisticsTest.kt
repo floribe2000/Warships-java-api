@@ -21,7 +21,7 @@ class StatisticsTest : ITestClass {
         val response = request.fetch()
         assertNotNull(response)
         assertEquals(Status.OK, response.status)
-        val ships = response.data[wargamingId]
+        val ships = response.data?.get(wargamingId)
         assertNotNull(ships)
         assertFalse(ships?.isEmpty() ?: false)
         assertEquals(kii, ships?.get(0)?.shipId)
@@ -42,7 +42,7 @@ class StatisticsTest : ITestClass {
         assertNotNull(response)
         assert(response.status.get()) { response }
         //assertEquals(OK, response.getStatus());
-        val ships = response.data[wargamingId]
+        val ships = response.data?.get(wargamingId)
         assertNotNull(ships)
         assert(ships?.isNotEmpty() ?: false) { ships ?: "Error" }
 
