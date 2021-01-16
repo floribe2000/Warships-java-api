@@ -30,6 +30,16 @@ class TierTest : ITestClass {
         assert(range.contains(Tier.IX))
     }
 
+    @Test
+    fun tierRange_StartEndEqual() {
+        val range = Tier.IX..Tier.IX
+
+        assert(range.count() == 1)
+        assert(Tier.IX in range)
+        assert(Tier.X !in range)
+        assert(Tier.VIII !in range)
+    }
+
     init {
         val properties = Properties()
         properties.load(FileInputStream("Warships.properties"))
