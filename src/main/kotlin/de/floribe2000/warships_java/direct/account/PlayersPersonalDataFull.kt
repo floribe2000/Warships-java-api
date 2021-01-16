@@ -34,7 +34,7 @@ data class PlayersPersonalDataFull(
      */
     override val meta: Meta = Meta(),
 
-    val data: Map<String, PlayerDetails> = mapOf(),
+    val data: Map<String, PlayerDetails?> = mapOf(),
 
     ) : IApiResponse {
 

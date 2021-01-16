@@ -25,6 +25,23 @@ class PlayersPersonalDataFullTest : ITestClass {
     }
 
     @Test
+    fun playersFetchFullListWithHiddenAccounts() {
+        setupApi()
+
+        val playerList: List<Long> = DataGenerator.retrievePlayerListWithHiddenAccounts()
+        val request = PlayersPersonalDataFullRequest().region(Region.EU).accountIds(playerList)
+
+        val response = try {
+            request.fetch()
+        } catch (e: Exception) {
+            println(e.stackTrace)
+            throw AssertionError(e.message)
+        }
+
+        assert(response.status.get()) { response }
+    }
+
+    @Test
     fun testPlayerPersonalDataRequest() {
         setupApi()
 

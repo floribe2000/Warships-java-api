@@ -36,7 +36,7 @@ data class PlayersStatisticsByDate(
     /**
      * A map containing details for the player
      */
-    val data: Map<String, PlayerEntry> = mapOf(),
+    val data: Map<String, PlayerEntry?> = mapOf(),
 
     ) : IApiResponse {
 

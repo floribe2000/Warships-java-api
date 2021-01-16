@@ -37,7 +37,7 @@ data class PlayersAchievements(
     /**
      * A map holding data separated by player ids as string
      */
-    val data: Map<String, Details> = mapOf(),
+    val data: Map<String, Details?> = mapOf(),
 
     ) : IApiResponse {
     /**

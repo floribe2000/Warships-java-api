@@ -22,7 +22,7 @@ data class Statistics(
      */
     override val error: ErrorContainer? = null,
     override val meta: Meta = Meta(),
-    val data: Map<Long, List<ShipEntry>> = mapOf(),
+    val data: Map<Long, List<ShipEntry>>? = mapOf(),
 ) : IApiResponse {
 
     @Serializable
