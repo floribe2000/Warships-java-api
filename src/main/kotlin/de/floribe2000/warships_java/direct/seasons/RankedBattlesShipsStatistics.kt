@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
  *
  * @author SirLefti
  */
-@Deprecated("Ranked Battle statistics have been changed by wargaming.")
+@Serializable
 data class RankedBattlesShipsStatistics(
     /**
      * Response status
@@ -39,6 +39,7 @@ data class RankedBattlesShipsStatistics(
     val data: Map<Long, List<ShipElement>> = mapOf(),
 ) : IApiResponse {
 
+    @Serializable
     data class ShipElement(
         /**
          * players accountId
@@ -58,6 +59,7 @@ data class RankedBattlesShipsStatistics(
         val seasons: Map<Int, StatsContainer> = mapOf(),
     ) {
 
+        @Serializable
         data class StatsContainer(
             /**
              * Info about season results
@@ -75,6 +77,7 @@ data class RankedBattlesShipsStatistics(
             val rankedDiv2: RankedStatsContainer? = null,
         )
 
+        @Serializable
         data class SeasonInfo(
             /**
              * max reached rank

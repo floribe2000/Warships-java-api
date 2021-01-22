@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 
+@Suppress("unused")
 class MapsRequest : AbstractRequest<MapsRequest, Maps>() {
     /**
      * The server region for this request

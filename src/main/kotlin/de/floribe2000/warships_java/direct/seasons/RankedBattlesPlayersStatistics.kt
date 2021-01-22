@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
  *
  * @author SirLefti
  */
-@Deprecated("Ranked Battle statistics have been changed by wargaming.")
+@Serializable
 data class RankedBattlesPlayersStatistics(
     /**
      * Response status
@@ -39,7 +39,7 @@ data class RankedBattlesPlayersStatistics(
     val data: Map<Int, PlayersElement> = mapOf(),
 ) : IApiResponse {
 
-    // TODO remove duplicate elements, see RankedBattlesShipsStatistics.kt
+    @Serializable
     data class PlayersElement(
         /**
          * players accountId

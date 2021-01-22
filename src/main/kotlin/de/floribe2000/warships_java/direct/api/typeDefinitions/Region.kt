@@ -3,6 +3,7 @@ package de.floribe2000.warships_java.direct.api.typeDefinitions
 /**
  * Enum representation of all current API regions (RU, EU, NA, ASIA) containing the base URLs for API requests
  */
+@Suppress("unused")
 enum class Region(
         /**
          * The base url for this region.

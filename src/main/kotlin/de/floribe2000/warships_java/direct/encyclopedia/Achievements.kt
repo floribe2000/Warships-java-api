@@ -6,6 +6,7 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Suppress("unused")
 data class Achievements(
     val status: Status = Status.ERROR,
 

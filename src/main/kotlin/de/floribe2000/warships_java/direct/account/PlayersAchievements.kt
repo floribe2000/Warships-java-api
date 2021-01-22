@@ -2,19 +2,19 @@ package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.ErrorContainer
 import de.floribe2000.warships_java.direct.api.IApiResponse
-import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 import kotlinx.serialization.Serializable
 
 /**
  *
- * A representation of the api results for player achievments.
- * Contains a list of all currently available achievments and the amount of times a player has achieved them.
+ * A representation of the api results for player achievements.
+ * Contains a list of all currently available achievements and the amount of times a player has achieved them.
  *
  *
  * **Important: Field names can be different that display names ingame!** For details see the javadoc for each field.
  */
+@Suppress("SpellCheckingInspection")
 @Serializable
 data class PlayersAchievements(
     /**
@@ -41,17 +41,17 @@ data class PlayersAchievements(
 
     ) : IApiResponse {
     /**
-     * Achievment details for a single player
+     * Achievement details for a single player
      */
     @Serializable
     data class Details(
         /**
-         * A list of all battle achievments
+         * A list of all battle achievements
          */
         val battle: Battle,
 
         /**
-         * A list of all progress achievments
+         * A list of all progress achievements
          */
         val progress: Progress,
     ) {
@@ -697,13 +697,7 @@ data class PlayersAchievements(
             val FILLALBUM_CAPT_COMPLETED: Int = 0,
 
             val FILLALBUM_USABB_0910_COMPLETED: Int = 0,
-        ) {
-
-
-            override fun toString(): String {
-                return GSON.toJson(this)
-            }
-        }
+        )
 
         @Serializable
         data class Progress(
@@ -732,18 +726,6 @@ data class PlayersAchievements(
             val NO_DAY_WITHOUT_ADVENTURE_L: Int = 0,
             val PVE_HON_PR_DONE_1: Int = 0,
             val AMAUTEUR: Int = 0,
-        ) {
-            override fun toString(): String {
-                return GSON.toJson(this)
-            }
-        }
-
-        override fun toString(): String {
-            return GSON.toJson(this)
-        }
-    }
-
-    override fun toString(): String {
-        return GSON.toJson(this)
+        )
     }
 }

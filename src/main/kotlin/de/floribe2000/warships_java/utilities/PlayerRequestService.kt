@@ -13,7 +13,7 @@ object PlayerRequestService : AbstractRequestService() {
         check(players.data?.isNotEmpty() ?: false) { "Empty api response for this request. No data found." }
 
         val id = players.data?.get(0)?.accountId
-        val request = PlayersPersonalDataFullRequest.createRequest().region(region).addAccountId(id ?: 0)
+        val request = PlayersPersonalDataFullRequest().region(region).addAccountId(id ?: 0)
         val playerData = request.fetch()
         check(playerData.status.get()) { "Invalid response status!" }
         return playerData

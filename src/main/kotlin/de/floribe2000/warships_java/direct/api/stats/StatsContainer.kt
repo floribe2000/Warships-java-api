@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.api.stats
 
+@Deprecated("No longer used. Use one of the specific implementations", level = DeprecationLevel.ERROR)
 data class StatsContainer(
     override val wins: Int,
     override val losses: Int,

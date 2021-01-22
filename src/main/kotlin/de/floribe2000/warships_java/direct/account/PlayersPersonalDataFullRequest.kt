@@ -6,6 +6,7 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.collections.HashSet
 
@@ -20,11 +21,12 @@ import kotlin.collections.HashSet
  *
  * @author floribe2000
  */
+@Suppress("MemberVisibilityCanBePrivate")
 class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRequest, PlayersPersonalDataFull>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val log = LoggerFactory.getLogger(javaClass.simpleName)
+    override val log: Logger = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The region for the request. Must not be null when fetch ist called.
@@ -37,7 +39,7 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
     private var language: Language? = null
 
     /**
-     * A set of accound ids for the request.
+     * A set of account ids for the request.
      */
     private var accountIds: MutableSet<Long> = HashSet()
 
@@ -167,13 +169,14 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
      *
      * Currently, the default pvp field cannot be removed from the api response.
      */
+    @Suppress("unused")
     enum class ExtraField(
             /**
              * The field name for the api.
              */
             override val key: String) : IResponseFields {
         /**
-         * The default random battle mode, including divison games.
+         * The default random battle mode, including division games.
          * Always a part of the api response unless it's manually disabled.
          */
         PVP("statistics.pvp"),  // as standard in each stats related request, unless you exclude it via "&fields=-statistics.pvp"
@@ -242,16 +245,5 @@ class PlayersPersonalDataFullRequest : AbstractRequest<PlayersPersonalDataFullRe
          * Only division games in the operations mode with difficulty level hard.
          */
         OPER_DIV_HARD("statistics.oper_div_hard");
-    }
-
-    companion object {
-        /**
-         * Creates a new empty request instance of this class.
-         *
-         * @return a new instance of this class
-         */
-        fun createRequest(): PlayersPersonalDataFullRequest {
-            return PlayersPersonalDataFullRequest()
-        }
     }
 }

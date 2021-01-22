@@ -1,5 +1,6 @@
 package de.floribe2000.warships_java.direct.api.typeDefinitions
 
+@Suppress("unused")
 enum class ModuleIdField(
     /**
      * The key that is used in urls

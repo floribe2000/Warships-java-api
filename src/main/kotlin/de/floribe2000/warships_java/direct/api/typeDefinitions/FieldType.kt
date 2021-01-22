@@ -5,6 +5,7 @@ package de.floribe2000.warships_java.direct.api.typeDefinitions
  *
  * Please note that not all field types are available for every request! For details see the documentation of the specific request.
  */
+@Suppress("unused")
 enum class FieldType(
         /**
          * The key that is used in urls

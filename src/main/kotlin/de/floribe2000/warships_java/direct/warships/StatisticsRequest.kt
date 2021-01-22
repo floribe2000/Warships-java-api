@@ -6,7 +6,6 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
 import de.floribe2000.warships_java.direct.encyclopedia.Warships
 import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest
-import org.slf4j.LoggerFactory
 
 /**
  * A class to create and execute requests to get details about the stats of single ships for a player.
@@ -18,11 +17,6 @@ import org.slf4j.LoggerFactory
 @Suppress("UNUSED")
 //TODO allow use of all parameters
 class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
-    /**
-     * A Logger instance used to log events of this class
-     */
-    private val log = LoggerFactory.getLogger(javaClass.simpleName)
-
     /**
      * The server region for this request
      */

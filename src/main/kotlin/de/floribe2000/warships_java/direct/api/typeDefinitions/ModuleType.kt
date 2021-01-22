@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 /**
  * An enum that contains the different module types of ships.
  */
+@Suppress("unused")
 @Serializable
 enum class ModuleType {
     @SerializedName("Hull")

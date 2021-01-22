@@ -46,6 +46,7 @@ enum class Status(
      * @param value the boolean value of the status
      * @return the status for the boolean value
      */
+    @Suppress("unused")
     fun parse(value: Boolean): Status {
         return if (value) {
             OK

@@ -3,7 +3,6 @@ package de.floribe2000.warships_java.direct.account
 import com.google.gson.annotations.SerializedName
 import de.floribe2000.warships_java.direct.api.ErrorContainer
 import de.floribe2000.warships_java.direct.api.IApiResponse
-import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.stats.OperationStatsContainer
 import de.floribe2000.warships_java.direct.api.stats.PlayerStatsContainer
@@ -34,6 +33,9 @@ data class PlayersPersonalDataFull(
      */
     override val meta: Meta = Meta(),
 
+    /**
+     * A map containing the data returned by the api.
+     */
     val data: Map<String, PlayerDetails?> = mapOf(),
 
     ) : IApiResponse {
@@ -67,6 +69,7 @@ data class PlayersPersonalDataFull(
         @SerialName("logout_at")
         val logoutAt: Long = 0,
 
+        @SerializedName("leveling_points")
         @SerialName("leveling_points")
         val serviceRecordLevel: Int? = 0,
 
@@ -78,6 +81,7 @@ data class PlayersPersonalDataFull(
         @SerialName("stats_updated_at")
         val statsUpdatedAt: Long = 0,
 
+        @SerializedName("updated_at")
         @SerialName("updated_at")
         val updatedAt: Long = 0,
 
@@ -108,9 +112,5 @@ data class PlayersPersonalDataFull(
             val oper_div: OperationStatsContainer? = null,
             val oper_div_hard: OperationStatsContainer? = null,
         )
-    }
-
-    override fun toString(): String {
-        return GSON.toJson(this)
     }
 }

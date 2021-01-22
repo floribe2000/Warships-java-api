@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Suppress("unused")
 enum class ShellType {
     @SerializedName("HE")
     @SerialName("HE")

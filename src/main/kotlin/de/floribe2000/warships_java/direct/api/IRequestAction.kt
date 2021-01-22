@@ -26,6 +26,9 @@ interface IRequestAction<T : IApiResponse> {
      */
     fun fetch(): T
 
+    /**
+     * Generates the url for this instance of the request.
+     */
     fun buildUrl(): String
 
     /**
@@ -38,64 +41,6 @@ interface IRequestAction<T : IApiResponse> {
      * @param result a consumer for the result of the request
      */
     fun fetchAsync(result: (T) -> Unit)
-
-    /**
-     * Creates a url connection to the provided api and returns a object containing the received data.
-     *
-     * This method uses rate limiting but does not override the rate limit settings defined by [ApiBuilder.createInstance]!
-     *
-     * @param url    the url for the request
-     * @param tClass the class of the api return object
-     * @param limiter the [SimpleRateLimiter] instance used to manage api access
-     * @return an object of the given type containing the received data.
-     */
-    fun connectWithGson(url: String, tClass: Class<T>, limiter: SimpleRateLimiter): T {
-        var result: T? = null
-        var attempts = 0
-        var lastException: Exception? = null
-
-        //Retry failed request up to 5 times if request failed because of network issues
-        while (result == null && attempts < 5) {
-            //SimpleRateLimiter.waitForPermit(limiter);
-            try {
-                limiter.connectToApi(url).bufferedReader().use { reader ->
-                    result = GSON.fromJson(reader, tClass)
-                    val response: IApiResponse? = result
-                    if (response?.error?.code == 407) {
-                        throw IllegalStateException(response.error?.message ?: "Cannot read error message")
-                    } else if (response?.error?.code == 504) {
-                        throw ApiException(response.error?.message.toString(), response.error?.code ?: 504)
-                    }
-                }
-            } catch (ue: UnknownHostException) {
-                LOG.error("An error occurred", ue)
-                result = null
-                lastException = ue
-            } catch (ie: IllegalStateException) {
-                LOG.warn(ie.message)
-                lastException = ie
-                attempts += 5
-            } catch (ea: ApiException) {
-                LOG.warn("Encountered an api exception", ea)
-                lastException = ea
-                result = null
-            } catch (e: Exception) {
-                lastException = e
-                LOG.error("An error occurred", e)
-                break
-            }
-            attempts++
-        }
-
-        return result ?: try {
-            tClass.getDeclaredConstructor().newInstance()
-        } catch (e1: Exception) {
-            throw IllegalStateException(
-                "Unable to initialize a default instance. Last exception while trying to connect to the api:",
-                lastException
-            )
-        }
-    }
 
     /**
      * A companion object that provides some constant variables that are usable outside of this class as well.
@@ -112,6 +57,15 @@ interface IRequestAction<T : IApiResponse> {
          * A logger instance for the methods of this interface.
          */
         val LOG: Logger = LoggerFactory.getLogger("RequestAction")
+
+        fun <T : IApiResponse?> validateResponse(result: T) {
+            val response: IApiResponse? = result
+            if (response?.error?.code == 407) {
+                throw IllegalStateException(response.error?.message ?: "Cannot read error message")
+            } else if (response?.error?.code == 504) {
+                throw ApiException(response.error?.message.toString(), response.error?.code ?: 504)
+            }
+        }
     }
 }
 
@@ -124,6 +78,7 @@ interface IRequestAction<T : IApiResponse> {
  * @param limiter the [SimpleRateLimiter] instance used to manage api access
  * @return an object of the given type containing the received data.
  */
+@Suppress("unused")
 inline fun <reified T : IApiResponse> IRequestAction<T>.connect(url: String, limiter: SimpleRateLimiter): T {
     var result: T? = null
     var attempts = 0
@@ -135,12 +90,7 @@ inline fun <reified T : IApiResponse> IRequestAction<T>.connect(url: String, lim
         try {
             limiter.connectToApi(url).bufferedReader().use { reader ->
                 result = limiter.jsonFormatter.decodeFromString(reader.readText())
-                val response: IApiResponse? = result
-                if (response?.error?.code == 407) {
-                    throw IllegalStateException(response.error?.message ?: "Cannot read error message")
-                } else if (response?.error?.code == 504) {
-                    throw ApiException(response.error?.message.toString(), response.error?.code ?: 504)
-                }
+                IRequestAction.validateResponse(result)
             }
         } catch (ue: UnknownHostException) {
             IRequestAction.LOG.error("An error occurred", ue)

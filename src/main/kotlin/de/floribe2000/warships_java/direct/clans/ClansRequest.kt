@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -16,11 +17,12 @@ import org.slf4j.LoggerFactory
  *
  * @author floribe2000
  */
+@Suppress("unused")
 class ClansRequest private constructor() : AbstractRequest<ClansRequest, Clans>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val log = LoggerFactory.getLogger(javaClass.simpleName)
+    override val log: Logger = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The server region for this request

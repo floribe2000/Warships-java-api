@@ -54,8 +54,4 @@ data class Players(
         @SerialName("account_id")
             val accountId: Long = 0,
     )
-
-    override fun toString(): String {
-        return IRequestAction.GSON.toJson(this)
-    }
 }

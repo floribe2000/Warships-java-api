@@ -45,11 +45,22 @@ class PlayersPersonalDataFullTest : ITestClass {
     fun testPlayerPersonalDataRequest() {
         setupApi()
 
-        val result = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(537376379)
+        val result = PlayersPersonalDataFullRequest().region(Region.EU).addAccountId(537376379)
             .addExtraField(PlayersPersonalDataFullRequest.ExtraField.PVE)
             .addExtraField(PlayersPersonalDataFullRequest.ExtraField.RANK_SOLO).fetch()
 
         assert(result.status.get()) { result }
+    }
+
+    @Test
+    fun testExtraFields() {
+        setupApi()
+        val result = PlayersPersonalDataFullRequest().region(Region.EU).addAccountId(537376379).extraFields(
+            PlayersPersonalDataFullRequest.ExtraField.PVE, PlayersPersonalDataFullRequest.ExtraField.PVP_DIV2).fetch()
+
+        assert(result.status.get()) { result }
+        assert(result.data.values.first()?.statistics?.pve != null)
+        assert(result.data.values.first()?.statistics?.pvp_div2 != null)
     }
 
     init {

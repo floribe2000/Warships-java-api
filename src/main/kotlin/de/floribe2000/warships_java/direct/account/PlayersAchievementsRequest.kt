@@ -5,6 +5,7 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.stream.Collectors
@@ -16,11 +17,12 @@ import java.util.stream.Collectors
  *
  * @author floribe2000
  */
-class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, PlayersAchievements>() {
+@Suppress("unused")
+class PlayersAchievementsRequest : AbstractRequest<PlayersAchievementsRequest, PlayersAchievements>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val log = LoggerFactory.getLogger(javaClass.simpleName)
+    override val log: Logger = LoggerFactory.getLogger(javaClass.simpleName)
 
     /**
      * The server region for this request
@@ -37,12 +39,12 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
      */
     private var accountIds: MutableSet<Long> = HashSet()
 
-    override fun region(region: Region): PlayersAchievmentsRequest {
+    override fun region(region: Region): PlayersAchievementsRequest {
         this.selectedRegion = region
         return this
     }
 
-    override fun language(language: Language): PlayersAchievmentsRequest {
+    override fun language(language: Language): PlayersAchievementsRequest {
         this.language = language
         return this
     }
@@ -65,7 +67,7 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
      * @return the instance of this request
      * @throws IllegalArgumentException If the size of the set exceeds the limit of 100 ids
      */
-    fun accountIds(accountIds: Collection<Long>): PlayersAchievmentsRequest {
+    fun accountIds(accountIds: Collection<Long>): PlayersAchievementsRequest {
         require(accountIds.size <= 100) { "The size of the provided collection of ids exceeds the limit of 100 ids" }
         this.accountIds = HashSet(accountIds)
         return this
@@ -80,7 +82,7 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
      * @param id the id to add
      * @return the instance of this request
      */
-    fun addAccountId(id: Long): PlayersAchievmentsRequest {
+    fun addAccountId(id: Long): PlayersAchievementsRequest {
         if (accountIds.size < 100) {
             accountIds.add(id)
         } else {
@@ -104,19 +106,8 @@ class PlayersAchievmentsRequest : AbstractRequest<PlayersAchievmentsRequest, Pla
         return connect(url, limiter)
     }
 
-    override fun apiBuilder(instanceName: String): PlayersAchievmentsRequest {
+    override fun apiBuilder(instanceName: String): PlayersAchievementsRequest {
         setInstance(instanceName)
         return this
-    }
-
-    companion object {
-        /**
-         * Creates a new empty request of this class.
-         *
-         * @return an instance of this class
-         */
-        fun createRequest(): PlayersAchievmentsRequest {
-            return PlayersAchievmentsRequest()
-        }
     }
 }

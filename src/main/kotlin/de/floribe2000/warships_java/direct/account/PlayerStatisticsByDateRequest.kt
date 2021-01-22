@@ -6,9 +6,6 @@ import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
-import org.slf4j.LoggerFactory
-import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -171,6 +168,22 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
     }
 
     /**
+     * A utility method to check the format of a date string.
+     *
+     * @param date the string to check
+     * @return true of valid, false if not
+     */
+    private fun checkStringFormatting(date: String): Boolean {
+        return try {
+            df.parse(date)
+            true
+        } catch (e: DateTimeParseException) {
+            log.warn("Parsing error", e)
+            false
+        }
+    }
+
+    /**
      * All possible extra fields for this request.
      *
      * These fields are optional fields, the request will also work without them.
@@ -184,10 +197,6 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
     }
 
     companion object {
-        /**
-         * A Logger instance used to log events of this class
-         */
-        private val LOG = LoggerFactory.getLogger(PlayerStatisticsByDateRequest::class.java.simpleName)
 
         /**
          * The date format pattern used for the date field
@@ -209,26 +218,6 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
         }
 
         /**
-         * A utility method to allow validating a date.
-         *
-         * Parses the given string to a date and returns the result of the check for this date.
-         *
-         * @param date the date as string
-         * @return true if the date is valid, false if the date is invalid or the string doesn't match the required format
-         */
-        @Deprecated("")
-        private fun validateDate(date: String): Boolean {
-            return if (checkStringFormatting(date)) {
-                try {
-                    validateDate(LocalDate.parse(date, df).atStartOfDay(ZoneId.systemDefault()))
-                } catch (e: DateTimeParseException) {
-                    LOG.warn("Parsing error", e)
-                    false
-                }
-            } else false
-        }
-
-        /**
          * A utility method to validate a date.
          *
          * Checks if the date is not longer than 28 days in the past.
@@ -240,22 +229,6 @@ class PlayerStatisticsByDateRequest : AbstractRequest<PlayerStatisticsByDateRequ
             val time = ZonedDateTime.now()
             val diff = time.until(date, ChronoUnit.DAYS)
             return diff <= 28
-        }
-
-        /**
-         * A utility method to check the format of a date string.
-         *
-         * @param date the string to check
-         * @return true of valid, false if not
-         */
-        private fun checkStringFormatting(date: String): Boolean {
-            return try {
-                df.parse(date)
-                true
-            } catch (e: DateTimeParseException) {
-                LOG.warn("Parsing error", e)
-                false
-            }
         }
     }
 }

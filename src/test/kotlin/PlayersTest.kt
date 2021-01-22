@@ -4,7 +4,6 @@ import de.floribe2000.warships_java.direct.account.PlayersRequest
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
 import org.junit.jupiter.api.Test
-import players.DataGenerator
 import utilities.ITestClass
 import java.lang.InterruptedException
 import java.util.Properties
@@ -36,7 +35,7 @@ class PlayersTest : ITestClass {
     @Test
     fun testPlayersAchievements() {
         setupApi()
-        val result = PlayersAchievmentsRequest.createRequest().region(Region.EU).addAccountId(537376379).fetch()
+        val result = PlayersAchievementsRequest().region(Region.EU).addAccountId(537376379).fetch()
         assert(result.status.get()) { result }
     }
 

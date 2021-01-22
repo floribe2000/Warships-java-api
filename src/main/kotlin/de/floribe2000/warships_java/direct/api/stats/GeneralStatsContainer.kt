@@ -5,6 +5,7 @@ package de.floribe2000.warships_java.direct.api.stats
  *
  * @author SirLefti
  */
+@Suppress("PropertyName", "PropertyName")
 interface GeneralStatsContainer : BaseStatsContainer {
     val draws: Int
     val max_xp: Int

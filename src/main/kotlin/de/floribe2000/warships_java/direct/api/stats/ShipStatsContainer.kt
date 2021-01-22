@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package de.floribe2000.warships_java.direct.api.stats
 
 import de.floribe2000.warships_java.direct.api.stats.implementation.ExtendedWeaponStatsImpl

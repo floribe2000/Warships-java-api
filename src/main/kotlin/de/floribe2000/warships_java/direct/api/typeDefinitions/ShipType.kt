@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 /**
  * All ship types that are available in the game.
  */
+@Suppress("unused")
 @Serializable
 enum class ShipType(
     /**

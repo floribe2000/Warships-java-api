@@ -6,6 +6,7 @@ package de.floribe2000.warships_java.direct.api.stats
  *
  * @author SirLefti
  */
+@Suppress("PropertyName", "PropertyName")
 interface ExtendedStatsContainer : GeneralStatsContainer {
     val max_damage_dealt_to_buildings: Int
     val damage_to_buildings: Long

@@ -1,13 +1,13 @@
 package de.floribe2000.warships_java.direct.api.stats
 
 import kotlinx.serialization.Serializable
-import java.util.*
 
 /**
  * Operation stats container extends the base with wins_by_tasks map.
  *
  * @author SirLefti
  */
+@Suppress("unused")
 @Serializable
 class OperationStatsContainer(
     override val wins: Int,

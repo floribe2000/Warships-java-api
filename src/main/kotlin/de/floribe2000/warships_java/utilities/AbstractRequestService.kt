@@ -3,7 +3,6 @@ package de.floribe2000.warships_java.utilities
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.createInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class AbstractRequestService {

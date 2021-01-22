@@ -154,15 +154,12 @@ data class Warships(
             val moduleIdStr: String? = null,
         )
 
+        @Suppress("unused")
         val reducedView: ShipEntryReduced
             get() = ShipEntryReduced(this)
 
         override fun toString(): String {
             return GSON.toJson(this)
         }
-    }
-
-    override fun toString(): String {
-        return GSON.toJson(this)
     }
 }

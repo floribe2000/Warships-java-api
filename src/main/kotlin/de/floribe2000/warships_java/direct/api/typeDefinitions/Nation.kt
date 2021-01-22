@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 /**
  * An enum containing all available nations of the game.
  */
+@Suppress("unused")
 @Serializable
 enum class Nation {
     @SerializedName("usa")

@@ -2,6 +2,7 @@ package de.floribe2000.warships_java.direct.api.stats
 
 import de.floribe2000.warships_java.direct.api.stats.implementation.ExtendedWeaponStatsImpl
 import de.floribe2000.warships_java.direct.api.stats.implementation.WeaponStatsImpl
+import kotlinx.serialization.Serializable
 
 /**
  * Ranked stats container extends the general stats container with weapon stats. This container will
@@ -9,6 +10,7 @@ import de.floribe2000.warships_java.direct.api.stats.implementation.WeaponStatsI
  *
  * @author SirLefti
  */
+@Serializable
 data class RankedStatsContainer(
     override val wins: Int,
     override val losses: Int,

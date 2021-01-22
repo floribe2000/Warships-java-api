@@ -2,6 +2,8 @@ package de.floribe2000.warships_java.direct.api
 
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.requests.SimpleRateLimiter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -14,6 +16,8 @@ import java.util.concurrent.CompletableFuture
 abstract class AbstractRequest<R : Any, T : IApiResponse> : IRequest<R>, IRequestAction<T> {
 
     private var instance: ApiBuilder? = null
+
+    protected open val log: Logger = LoggerFactory.getLogger(this::class.simpleName)
 
     /**
      * Defines the api builder instance for this request.

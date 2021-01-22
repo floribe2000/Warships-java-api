@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 /**
  * A list of entry types for the consumable encyclopedia request and response.
  */
+@Suppress("unused")
 @Serializable
 enum class ConsumableType(private val key: String) {
     @SerializedName("Camouflage")

@@ -3,7 +3,6 @@ package de.floribe2000.warships_java.direct.encyclopedia
 import de.floribe2000.warships_java.direct.api.AbstractRequest
 import de.floribe2000.warships_java.direct.api.connect
 import de.floribe2000.warships_java.direct.api.typeDefinitions.*
-import org.slf4j.LoggerFactory
 
 /**
  * A class to create requests to get information about ships.
@@ -18,11 +17,6 @@ import org.slf4j.LoggerFactory
  */
 @Suppress("UNUSED")
 class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
-    /**
-     * A Logger instance used to log events of this class
-     */
-    private val log = LoggerFactory.getLogger(javaClass.simpleName)
-
     /**
      * The server region for this request
      */

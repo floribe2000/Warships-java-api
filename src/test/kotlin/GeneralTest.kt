@@ -2,7 +2,6 @@ import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullReques
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getApiKeyAsParam
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.getInstanceSize
 import de.floribe2000.warships_java.direct.api.ApiBuilder.Companion.shutdown
-import de.floribe2000.warships_java.direct.api.fetchAsyncWithGson
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.general.ServerStatusRequest
 import org.junit.jupiter.api.Test
@@ -24,7 +23,7 @@ class GeneralTest : ITestClass {
         val accountId = 537376379
         setupApi()
         val instanceSize = getInstanceSize()
-        val request = PlayersPersonalDataFullRequest.createRequest().region(Region.EU).addAccountId(accountId.toLong())
+        val request = PlayersPersonalDataFullRequest().region(Region.EU).addAccountId(accountId.toLong())
         val service = Executors.newCachedThreadPool()
         val requests = 100
         val errorCount = AtomicInteger(0)

@@ -1,19 +1,15 @@
 package de.floribe2000.warships_java.direct.seasons
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
+import de.floribe2000.warships_java.direct.api.connectWithGson
 import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
-import org.slf4j.LoggerFactory
 import java.util.*
 
+@Suppress("unused")
 @Deprecated("Ranked Battle statistics have been changed by wargaming.")
 class RankedBattlesSeasonsRequest : AbstractRequest<RankedBattlesSeasonsRequest, RankedBattlesSeasons>() {
-    /**
-     * A Logger instance used to log events of this class
-     */
-    private val LOG = LoggerFactory.getLogger(javaClass.simpleName)
-
     /**
      * The server region for this request
      */
@@ -62,7 +58,7 @@ class RankedBattlesSeasonsRequest : AbstractRequest<RankedBattlesSeasonsRequest,
      *
      */
     override fun fetch(url: String): RankedBattlesSeasons {
-        return connectWithGson(url, RankedBattlesSeasons::class.java, limiter)
+        return connectWithGson(url, limiter)
     }
 
     override fun apiBuilder(instanceName: String): RankedBattlesSeasonsRequest {

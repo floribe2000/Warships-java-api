@@ -1,11 +1,10 @@
 package de.floribe2000.warships_java.direct.account
 
 import de.floribe2000.warships_java.direct.api.AbstractRequest
-import de.floribe2000.warships_java.direct.api.IResponseFields
 import de.floribe2000.warships_java.direct.api.connect
-import de.floribe2000.warships_java.direct.api.typeDefinitions.FieldType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Language
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -22,7 +21,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     /**
      * A Logger instance used to log events of this class
      */
-    private val LOG = LoggerFactory.getLogger(this::class.simpleName)
+    override val log: Logger = LoggerFactory.getLogger(this::class.simpleName)
 
     /**
      * The server region for this request
@@ -39,11 +38,6 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      */
     private lateinit var selectedSearchText: String
 
-    /**
-     * The response fields for this request
-     */
-    private var fields: MutableSet<ResponseField> = HashSet()
-
     override fun region(region: Region): PlayersRequest {
         this.selectedRegion = region
         return this
@@ -59,7 +53,7 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
             "You can't use this method before setting all parameters"
         }
         val path = "/wows/account/list/"
-        return baseUrl(selectedRegion, path, language, instanceName) + "&search=" + selectedSearchText + buildFieldString(FieldType.FIELDS, fields)
+        return baseUrl(selectedRegion, path, language, instanceName) + "&search=" + selectedSearchText
     }
 
     override fun apiBuilder(instanceName: String): PlayersRequest {
@@ -81,39 +75,6 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
     }
 
     /**
-     * Adds a field to the request while keeping all existing fields.
-     *
-     * @param fields the fields to add
-     * @return this instance
-     */
-    fun addFields(vararg fields: ResponseField): PlayersRequest {
-        this.fields.addAll(fields.asList())
-        return this
-    }
-
-    /**
-     * Replaces all currently set fields with a new list of fields.
-     *
-     * @param fields the new fields
-     * @return this instance
-     * @see .fields
-     */
-    fun fields(vararg fields: ResponseField): PlayersRequest {
-        return fields(fields.asList())
-    }
-
-    /**
-     * Replaces all currently set fields with a new list of fields.
-     *
-     * @param fields the new fields
-     * @return this instance
-     */
-    fun fields(fields: Collection<ResponseField>): PlayersRequest {
-        this.fields = HashSet(fields)
-        return this
-    }
-
-    /**
      * Executes a request and returns the result of the request.
      *
      * All requests are executed synchronous on this thread. Don't use the same request in multiple threads. Use [.fetchAsync] instead.
@@ -126,16 +87,6 @@ class PlayersRequest : AbstractRequest<PlayersRequest, Players>() {
      */
     override fun fetch(url: String): Players {
         return connect(url, limiter)
-    }
-
-    /**
-     * All response fields of the api response.
-     *
-     * By default, both fields are shown. Only use them if you need only one of them.
-     */
-    enum class ResponseField(override val key: String) : IResponseFields {
-        ACCOUNT_ID("account_id"),
-        NICKNAME("nickname");
     }
 
     companion object {

@@ -2,7 +2,6 @@ package de.floribe2000.warships_java.direct.seasons
 
 import de.floribe2000.warships_java.direct.api.ErrorContainer
 import de.floribe2000.warships_java.direct.api.IApiResponse
-import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
 import de.floribe2000.warships_java.direct.api.Meta
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 
@@ -12,6 +11,8 @@ import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
  *
  * @author SirLefti
  */
+@Deprecated("Data source no longer available")
+@Suppress("PropertyName", "PropertyName", "unused")
 class RankedBattlesSeasons : IApiResponse {
     /**
      * Response status
@@ -105,9 +106,5 @@ class RankedBattlesSeasons : IApiResponse {
              */
             val background: String? = null
         }
-    }
-
-    override fun toString(): String {
-        return GSON.toJson(this)
     }
 }
