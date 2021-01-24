@@ -28,6 +28,7 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType, private val
 
     val jsonFormatter: Json = Json {
         isLenient = true
+        coerceInputValues = this@SimpleRateLimiter.ignoreUnknownKeys
         ignoreUnknownKeys = this@SimpleRateLimiter.ignoreUnknownKeys
     }
 
