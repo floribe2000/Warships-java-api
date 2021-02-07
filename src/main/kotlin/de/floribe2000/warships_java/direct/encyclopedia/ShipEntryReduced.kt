@@ -1,28 +1,43 @@
 package de.floribe2000.warships_java.direct.encyclopedia
 
-import de.floribe2000.warships_java.direct.api.IRequestAction.Companion.GSON
+import de.floribe2000.warships_java.direct.api.defaultJsonFormatter
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Nation
 import de.floribe2000.warships_java.direct.api.typeDefinitions.ShipType
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 
 /**
  * A reduced view of a [ShipEntry][de.floribe2000.warships_java.direct.encyclopedia.Warships.ShipEntry].
  */
 @Suppress("UNUSED")
-class ShipEntryReduced(fullDetails: Warships.ShipEntry) {
+@Serializable
+data class ShipEntryReduced(
+    val shipId: Long,
+    val name: String?,
+    val tier: Tier?,
+    val nation: Nation?,
+    val type: ShipType?,
+    val isDemoProfile: Boolean,
+    val isPremium: Boolean,
+    val isSpecial: Boolean,
+    val shipIdStr: String?,
+) {
 
-    val shipId: Long = fullDetails.shipId
-    val name: String? = fullDetails.name
-    val tier: Tier? = fullDetails.tier
-    val nation: Nation? = fullDetails.nation
-    val type: ShipType? = fullDetails.type
-    val isDemoProfile: Boolean = fullDetails.hasDemoProfile
-    val isPremium: Boolean = fullDetails.isPremium
-    val isSpecial: Boolean = fullDetails.isSpecial
-    val shipIdStr: String? = fullDetails.shipIdStr
+    constructor(fullDetails: Warships.ShipEntry) : this(
+        fullDetails.shipId,
+        fullDetails.name,
+        fullDetails.tier,
+        fullDetails.nation,
+        fullDetails.type,
+        fullDetails.hasDemoProfile,
+        fullDetails.isPremium,
+        fullDetails.isSpecial,
+        fullDetails.shipIdStr,
+    )
 
     override fun toString(): String {
-        return GSON.toJson(this)
+        return defaultJsonFormatter.encodeToString(this)
     }
 
 }

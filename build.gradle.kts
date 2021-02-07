@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.floribe2000"
-version = "1.0.0-RC2"
+version = "1.0.0-RC3"
 description = "A java/kotlin library to make it easier to interact with the Wargaming API."
 
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "1.4.21"
-    kotlin("plugin.serialization") version "1.4.21"
+    kotlin("jvm") version "1.4.30"
+    kotlin("plugin.serialization") version "1.4.30"
     id("org.jetbrains.dokka") version "1.4.20"
     idea
 }
@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
     api("com.google.code.gson:gson:2.8.6")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0-RC")
     api("org.slf4j:slf4j-api:1.7.30")
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
@@ -38,7 +38,7 @@ dependencies {
 
 tasks {
     wrapper {
-        gradleVersion = "6.8"
+        gradleVersion = "6.8.1"
     }
 
     withType<KotlinCompile> {
