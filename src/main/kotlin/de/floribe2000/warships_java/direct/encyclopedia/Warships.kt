@@ -19,7 +19,7 @@ data class Warships(
      */
     override val error: ErrorContainer? = null,
     override val meta: Meta = Meta(),
-    val data: MutableMap<Long, ShipEntry>? = null,
+    val data: MutableMap<Long, ShipEntry> = mutableMapOf(),
 ) : IApiResponse {
 
     @Serializable

@@ -28,7 +28,7 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType, private val
 
     val jsonFormatter: Json = Json {
         isLenient = true
-        coerceInputValues = this@SimpleRateLimiter.ignoreUnknownKeys
+        coerceInputValues = true
         ignoreUnknownKeys = this@SimpleRateLimiter.ignoreUnknownKeys
     }
 
@@ -66,7 +66,7 @@ class SimpleRateLimiter(enabled: Boolean, private var type: ApiType, private val
      * Schedules the release task for a previous acquire task.
      */
     private fun scheduleDelete() {
-        launch {
+        launch(Dispatchers.IO) {
             delay(resetDelay)
             semaphore.release()
         }
