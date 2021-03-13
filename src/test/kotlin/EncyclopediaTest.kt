@@ -6,12 +6,9 @@ import de.floribe2000.warships_java.direct.encyclopedia.WarshipsRequest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utilities.ITestClass
-import java.io.FileInputStream
-import java.util.*
 import java.util.function.Consumer
 
 class EncyclopediaTest : ITestClass {
-    override val apiKey: String
     override val instanceName = "TEST"
 
     @Test
@@ -22,10 +19,9 @@ class EncyclopediaTest : ITestClass {
         val warships = WarshipsRequest.createRequest().region(Region.EU).limit(limit)
             .pageNo(page).fetch()
         assert(warships.status.get()) { warships }
-        assert(warships.data != null) { warships }
         assert(
-            warships.data!!.size == warships.meta.count
-                    && warships.data!!.size <= limit
+            warships.data.size == warships.meta.count
+                    && warships.data.size <= limit
         ) { warships }
     }
 
@@ -38,7 +34,7 @@ class EncyclopediaTest : ITestClass {
         do {
             response = request.pageNo(pageNo).fetch()
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry ->
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry ->
                 assertEquals(
                     ShipType.CRUISER,
                     entry.type
@@ -58,7 +54,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.type == ShipType.CRUISER || entry.type == ShipType.BATTLESHIP) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.type == ShipType.CRUISER || entry.type == ShipType.BATTLESHIP) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -73,7 +69,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertEquals(Tier.X, entry.tier) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertEquals(Tier.X, entry.tier) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -88,7 +84,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.tier == Tier.I || entry.tier == Tier.II) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.tier == Tier.I || entry.tier == Tier.II) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -103,7 +99,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry ->
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry ->
                 assertEquals(
                     Nation.EUROPE,
                     entry.nation
@@ -123,7 +119,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.nation == Nation.EUROPE || entry.nation == Nation.PAN_ASIA) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.nation == Nation.EUROPE || entry.nation == Nation.PAN_ASIA) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -138,7 +134,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(!entry.isPremium && !entry.isSpecial) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(!entry.isPremium && !entry.isSpecial) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -153,7 +149,7 @@ class EncyclopediaTest : ITestClass {
             response = request.pageNo(pageNo).fetch()
             assertNotNull(response)
             assertEquals(Status.OK, response.status)
-            response.data!!.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.isPremium || entry.isSpecial) })
+            response.data.values.forEach(Consumer { entry: Warships.ShipEntry -> assertTrue(entry.isPremium || entry.isSpecial) })
             pageNo++
         } while (response.meta.page_total >= pageNo)
     }
@@ -186,11 +182,5 @@ class EncyclopediaTest : ITestClass {
         val response = request.fetch()
         assert(response.status.get()) { response }
         assert(response.data[shipId.toString()] != null) { response }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

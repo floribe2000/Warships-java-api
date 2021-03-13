@@ -5,12 +5,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import utilities.ITestClass
-import java.io.FileInputStream
 import java.time.ZonedDateTime
-import java.util.*
 
 class PlayerStatisticsByDateTest : ITestClass {
-    override val apiKey: String
     override val instanceName: String = "TEST"
 
     @Test
@@ -56,11 +53,5 @@ class PlayerStatisticsByDateTest : ITestClass {
         assertThrows<IllegalStateException> {
             request.addDate(date)
         }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

@@ -9,7 +9,6 @@ import java.io.FileInputStream
 import java.util.*
 
 class GsonTests : ITestClass {
-    override val apiKey: String
     override val instanceName: String = "TEST"
 
     @Test
@@ -25,11 +24,5 @@ class GsonTests : ITestClass {
         val request = PlayersRequest.createRequest().region(Region.EU).searchText("floribe")
         val result = request.fetchWithGson()
         assert(result.status.get()) { result }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

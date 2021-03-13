@@ -6,11 +6,9 @@ import de.floribe2000.warships_java.utilities.EncyclopediaRequestService.request
 import de.floribe2000.warships_java.utilities.PlayerRequestService
 import de.floribe2000.warships_java.utilities.PlayerRequestService.requestPlayersPersonalData
 import org.junit.jupiter.api.Test
-import java.io.FileInputStream
-import java.util.*
 
 class UtilityTest {
-    private val apiKey: String
+    private val apiKey: String = System.getenv("APIKEY")
 
     @Test
     fun testShipRequestService() {
@@ -19,7 +17,7 @@ class UtilityTest {
         assert(warships.status.get()) { "Invalid response status" }
         val fullList = requestFullWarshipsList(Region.EU)
         assert(fullList.status.get()) { "Invalid response status from combined list" }
-        assert(fullList.data!!.size == warships.meta.total) { "Size of retrieved list does not match expected size. Expected " + warships.meta.total + ", got " + fullList.data!!.size }
+        assert(fullList.data.size == warships.meta.total) { "Size of retrieved list does not match expected size. Expected " + warships.meta.total + ", got " + fullList.data.size }
     }
 
     @Test
@@ -29,9 +27,9 @@ class UtilityTest {
         assert(warships.status.get()) { "Invalid response status" }
         val germanList = requestFullWarshipsList(Region.EU, Language.ENGLISH)
         assert(germanList.status.get()) { germanList }
-        assert(germanList.data!!.size == warships.meta.total) {
+        assert(germanList.data.size == warships.meta.total) {
             """
-     Size of retrieved list does not match expected size. Expected ${warships.meta.total}, got ${germanList.data!!.size}
+     Size of retrieved list does not match expected size. Expected ${warships.meta.total}, got ${germanList.data.size}
      Json Response:
      $germanList
      """.trimIndent()
@@ -50,11 +48,5 @@ class UtilityTest {
             (player.data[playerId]
                 ?: error("")).nickname == playerName
         ) { "Result does not match search name. Expected " + playerName + ", got " + player.data[playerId]!!.nickname }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

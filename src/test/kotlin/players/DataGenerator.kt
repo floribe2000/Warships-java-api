@@ -1,7 +1,5 @@
 package players
 
-import org.junit.jupiter.api.Disabled
-
 object DataGenerator {
 
     fun retrieveFullPlayerList(): List<Long> {

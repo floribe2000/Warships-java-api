@@ -3,11 +3,8 @@ import de.floribe2000.warships_java.direct.warships.StatisticsRequest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utilities.ITestClass
-import java.io.FileInputStream
-import java.util.*
 
 class StatisticsTest : ITestClass {
-    override val apiKey: String
     override val instanceName = "TEST"
 
     private val wargamingId: Long = 540241530
@@ -50,11 +47,5 @@ class StatisticsTest : ITestClass {
         // But actually I never player the CA VIII and IX
         assertTrue(ships?.size ?: -1 >= 4)
         assertNotNull(ships?.get(0)?.pvp)
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

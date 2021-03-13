@@ -13,11 +13,9 @@ import kotlinx.serialization.json.Json
  */
 interface ITestClass {
 
-    val apiKey: String
-
     val instanceName: String
 
-    fun setupApi(apiKey: String = this.apiKey, instanceName: String = this.instanceName) {
+    fun setupApi(apiKey: String = System.getenv("APIKEY"), instanceName: String = this.instanceName) {
         ApiBuilder.createInstance(apiKey, instanceName = instanceName, ignoreUnknownKeys = allowUnknownKeys)
     }
 

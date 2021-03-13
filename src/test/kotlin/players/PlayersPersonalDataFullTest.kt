@@ -4,12 +4,8 @@ import de.floribe2000.warships_java.direct.account.PlayersPersonalDataFullReques
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import org.junit.jupiter.api.Test
 import utilities.ITestClass
-import java.io.FileInputStream
-import java.util.*
 
 class PlayersPersonalDataFullTest : ITestClass {
-
-    override val apiKey: String
     override val instanceName: String = "TEST"
 
     @Test
@@ -61,11 +57,5 @@ class PlayersPersonalDataFullTest : ITestClass {
         assert(result.status.get()) { result }
         assert(result.data.values.first()?.statistics?.pve != null)
         assert(result.data.values.first()?.statistics?.pvp_div2 != null)
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

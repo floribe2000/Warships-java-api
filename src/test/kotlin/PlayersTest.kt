@@ -1,16 +1,12 @@
 import de.floribe2000.warships_java.direct.account.*
-import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.account.PlayersRequest
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.warships.StatisticsRequest
 import org.junit.jupiter.api.Test
 import utilities.ITestClass
 import java.lang.InterruptedException
-import java.util.Properties
-import java.io.FileInputStream
 
 class PlayersTest : ITestClass {
-    override val apiKey: String
     override val instanceName = "TEST"
     private val invalidInstanceName = "TEST-INVALID"
 
@@ -73,7 +69,7 @@ class PlayersTest : ITestClass {
 
     @Test
     fun testAsyncPlayersRequestModified() {
-        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
+        setupApi()
         val name = "floribe2000"
         val name2 = "MrDios"
         val request = PlayersRequest.createRequest().region(Region.EU).searchText(name)
@@ -96,11 +92,5 @@ class PlayersTest : ITestClass {
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

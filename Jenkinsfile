@@ -1,18 +1,20 @@
 pipeline {
     agent any
     stages {
+        environment {
+            TEST_WG_API_KEY = credentials("test-wg-api-key")
+        }
         stage('Build') {
             steps {
                 sh 'set +x'
-                sh 'cp /var/tmp/Warships.properties Warships.properties'
-                sh './gradlew clean build'
+                sh "./gradlew clean build -PtestApiKey=$TEST_WG_API_KEY"
                 archiveArtifacts 'build/libs/*.jar'
             }
         }
 
         stage('Deploy local') {
             steps {
-                sh './gradlew publish'
+                sh "./gradlew publish -PtestApiKey=$TEST_WG_API_KEY"
             }
         }
 

@@ -3,11 +3,8 @@ package dataTests
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Tier
 import org.junit.jupiter.api.Test
 import utilities.ITestClass
-import java.io.FileInputStream
-import java.util.*
 
 class TierTest : ITestClass {
-    override val apiKey: String
     override val instanceName: String = "TEST"
 
     @Test
@@ -38,11 +35,5 @@ class TierTest : ITestClass {
         assert(Tier.IX in range)
         assert(Tier.X !in range)
         assert(Tier.VIII !in range)
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }

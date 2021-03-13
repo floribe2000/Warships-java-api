@@ -7,7 +7,6 @@ import java.io.FileInputStream
 import java.util.*
 
 class ClanTest : ITestClass {
-    override val apiKey: String
     override val instanceName: String = "TEST"
 
     @Test
@@ -33,9 +32,4 @@ class ClanTest : ITestClass {
         assert(!cbSeasons.data.containsKey(-1)) { cbSeasons }
     }
 
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
-    }
 }

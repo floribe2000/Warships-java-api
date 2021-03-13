@@ -1,44 +1,37 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.floribe2000"
-version = "1.0.0-RC4"
+version = "1.0.0-RC5"
 description = "A java/kotlin library to make it easier to interact with the Wargaming API."
 
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "1.4.30"
-    kotlin("plugin.serialization") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
+    kotlin("plugin.serialization") version "1.4.31"
     id("org.jetbrains.dokka") version "1.4.20"
     idea
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = uri("https://repo1.maven.org/maven2")
-    }
-    maven {
-        url = uri("https://maven.floribe2000.de/")
-    }
-    jcenter()
+    mavenCentral()
+    maven("https://maven.floribe2000.de/")
 }
 
 dependencies {
     api("com.google.code.gson:gson:2.8.6")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0-RC")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     api("org.slf4j:slf4j-api:1.7.30")
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-    implementation("org.apache.commons:commons-collections4:4.4")
     testRuntimeOnly("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation(platform("org.junit:junit-bom:5.7.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks {
     wrapper {
-        gradleVersion = "6.8.1"
+        gradleVersion = "6.8.3"
     }
 
     withType<KotlinCompile> {
@@ -58,6 +51,8 @@ tasks {
     }
 
     test {
+        val testApiKey: String by project
+        environment("APIKEY", testApiKey)
         useJUnitPlatform()
         testLogging {
             events("passed", "skipped", "failed")

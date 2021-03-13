@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 class GeneralTest : ITestClass {
-    override val apiKey: String
     override val instanceName = "TEST"
 
     @Test
@@ -70,11 +69,5 @@ class GeneralTest : ITestClass {
         assert(response.status.get()) {
             "Invalid response state:\n ${response.error.toString()}"
         }
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }
