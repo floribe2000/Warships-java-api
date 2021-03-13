@@ -1,9 +1,9 @@
 pipeline {
     agent any
+    environment {
+        TEST_WG_API_KEY = credentials("test-wg-api-key")
+    }
     stages {
-        environment {
-            TEST_WG_API_KEY = credentials("test-wg-api-key")
-        }
         stage('Build') {
             steps {
                 sh 'set +x'
