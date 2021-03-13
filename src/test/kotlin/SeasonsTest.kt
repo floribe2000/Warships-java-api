@@ -1,4 +1,3 @@
-import de.floribe2000.warships_java.direct.api.ApiBuilder
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Region
 import de.floribe2000.warships_java.direct.api.typeDefinitions.Status
 import de.floribe2000.warships_java.direct.seasons.RankedBattlesPlayerStatisticsRequest
@@ -7,49 +6,38 @@ import de.floribe2000.warships_java.direct.seasons.RankedBattlesShipsStatisticsR
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import java.io.FileInputStream
-import java.util.*
+import utilities.ITestClass
 
-class SeasonsTest {
-    private val apiKey: String
+class SeasonsTest : ITestClass {
     private val accountId: Long = 540241530
-    private val instanceName = "TEST"
+    override val instanceName = "TEST"
 
     @Test
     @Disabled("Seasons data was disabled by WG.")
     fun testSeasonsRequest() {
-        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
+        setupApi()
         val request = RankedBattlesSeasonsRequest.createRequest()
             .region(Region.EU).addSeason(15)
         val result = request.fetch()
-        println(result)
         assertEquals(Status.OK, result.status)
     }
 
     @Test
     fun testSeasonsPlayerStats() {
-        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
+        setupApi()
         val request = RankedBattlesPlayerStatisticsRequest().region(Region.EU).addSeason(15).addAccountId(accountId)
         val result = request.fetch()
-        println(result)
         assertEquals(Status.OK, result.status)
     }
 
     @Test
     fun testSeasonsShipStats() {
-        ApiBuilder.createInstance(apiKey, instanceName = instanceName)
+        setupApi()
         val request = RankedBattlesShipsStatisticsRequest()
             .region(Region.EU)
             .addSeason(15)
             .addAccountId(accountId)
         val result = request.fetch()
-        println(result)
         assertEquals(Status.OK, result.status)
-    }
-
-    init {
-        val properties = Properties()
-        properties.load(FileInputStream("Warships.properties"))
-        apiKey = properties.getProperty("APIKEY")
     }
 }
