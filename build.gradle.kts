@@ -15,7 +15,7 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven("https://maven.floribe2000.de/")
+    jcenter()
 }
 
 dependencies {

@@ -38,7 +38,7 @@ object EncyclopediaRequestService : AbstractRequestService() {
             page++
             val tmp = request.pageNo(page).fetch()
             if (tmp.status.get()) {
-                result.data?.putAll(tmp.data ?: mutableMapOf())
+                result.data.putAll(tmp.data)
             } else {
                 throw IllegalStateException("Invalid result state!")
             }

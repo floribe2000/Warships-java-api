@@ -725,7 +725,7 @@ class StatisticsRequest : AbstractRequest<StatisticsRequest, Statistics>() {
         var pageNo = 1
         do {
             response = request.pageNo(pageNo).fetch()
-            ships.addAll(response.data?.values?.map { shipEntry -> shipEntry.shipId } ?: listOf())
+            ships.addAll(response.data.values.map { shipEntry -> shipEntry.shipId })
             pageNo++
         } while (response.meta.page_total >= pageNo)
         if (baseShipSet.isNotEmpty()) {

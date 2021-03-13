@@ -255,22 +255,22 @@ class WarshipsRequest : AbstractRequest<WarshipsRequest, Warships>() {
         val response = connect(url, limiter)
 
         if (shipTiers.isNotEmpty()) {
-            val tmpMap = response.data?.filter { entry -> entry.value.tier in shipTiers } ?: mutableMapOf()
-            response.data?.clear()
-            response.data?.putAll(tmpMap)
+            val tmpMap = response.data.filter { entry -> entry.value.tier in shipTiers }
+            response.data.clear()
+            response.data.putAll(tmpMap)
         }
 
         if (shipCategories.isNotEmpty()) {
-            val tmpMap = response.data?.filter { entry ->
+            val tmpMap = response.data.filter { entry ->
                 (ShipCategory.PREMIUM in shipCategories && entry.value.isPremium) ||
                         (ShipCategory.SPECIAL in shipCategories && entry.value.isSpecial) ||
                         (ShipCategory.RESEARCH in shipCategories && !entry.value.isPremium && !entry.value.isSpecial)
-            } ?: mutableMapOf()
-            response.data?.clear()
-            response.data?.putAll(tmpMap)
+            }
+            response.data.clear()
+            response.data.putAll(tmpMap)
         }
 
-        response.data?.values?.forEach {
+        response.data.values.forEach {
             it.name = formattingFixer(it.name ?: "Undefined")
         }
 
